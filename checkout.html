@@ -337,11 +337,11 @@
 
     // Apply discount code
     document.getElementById('apply-discount-btn').addEventListener('click', function() {
-      const code = document.getElementById('discount-code-input').value.trim().toUpperCase();
+      const code = document.getElementById('discount-code-input').value.trim();
       const statusEl = document.getElementById('discount-status');
 
       if (!code) {
-        statusEl.innerHTML = '<span class="text-red-600">❌ Please enter a code</span>';
+        statusEl.innerHTML = '<span class="text-red-600">Please enter a code</span>';
         return;
       }
 
@@ -352,15 +352,15 @@
         const result = applyDiscount(code, cart, subtotal);
         
         if (result.success) {
-          localStorage.setItem('appliedDiscountCode', code);
+          localStorage.setItem('appliedDiscountCode', result.code);
           localStorage.setItem('appliedDiscountAmount', result.discountAmount.toFixed(2));
-          statusEl.innerHTML = `<span class="text-green-600">✅ ${result.message}</span>`;
+          statusEl.innerHTML = `<span class="text-green-600">${result.message}</span>`;
           displayCheckoutCart();
         } else {
-          statusEl.innerHTML = `<span class="text-red-600">❌ ${result.message}</span>`;
+          statusEl.innerHTML = `<span class="text-red-600">${result.message}</span>`;
         }
       } else {
-        statusEl.innerHTML = '<span class="text-red-600">❌ Discount system not loaded</span>';
+        statusEl.innerHTML = '<span class="text-red-600">Discount system not loaded</span>';
       }
     });
 

@@ -123,9 +123,32 @@ function getActiveDiscounts() {
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', initializeDiscounts);
 
+// Wrapper function for checkout compatibility
+function applyDiscount(code, cart, subtotal) {
+  const upperCode = (code || '').toUpperCase().trim();
+  const result = applyDiscountToCart(upperCode, subtotal);
+  
+  if (result.applied) {
+    return {
+      success: true,
+      discountAmount: result.discount,
+      message: `Code "${upperCode}" applied! You saved $${result.discount.toFixed(2)} (${result.description})`,
+      code: upperCode
+    };
+  } else {
+    return {
+      success: false,
+      discountAmount: 0,
+      message: result.error || 'Invalid discount code',
+      code: upperCode
+    };
+  }
+}
+
 // Export globally
 window.validateDiscountCode = validateDiscountCode;
 window.calculateDiscount = calculateDiscount;
 window.applyDiscountToCart = applyDiscountToCart;
+window.applyDiscount = applyDiscount;
 window.getActiveDiscounts = getActiveDiscounts;
 window.getDiscountCodes = getDiscountCodes;
