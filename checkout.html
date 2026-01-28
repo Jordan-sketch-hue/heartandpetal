@@ -23,6 +23,13 @@
   <script src="js/error-handler.js"></script>
   <!-- Responsive Navigation -->
   <script src="js/responsive-nav.js"></script>
+  <!-- EmailJS for real email sending -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function(){
+      emailjs.init('vaGZ6CuU7QPtw8dCI'); // Public key
+    })();
+  </script>
 </head>
 <body class="bg-ivory font-montserrat min-h-screen flex flex-col">
   <!-- Free Delivery Banner -->
@@ -443,7 +450,8 @@
                 }
               });
             </script>
-        <script src="https://www.paypal.com/sdk/js?client-id=AdWIvS7X-9N8DPm8AaykS9bGuO3TVbnQjjwCsdyGjbRCa-h3qh_x-DMKncejUKv6x1FZu6gJ-Ez4shWg&currency=USD&locale=en_GB&components=buttons"></script>
+        <!-- PayPal SDK - LIVE MODE (Replace YOUR_LIVE_CLIENT_ID with your production Client ID) -->
+        <script src="https://www.paypal.com/sdk/js?client-id=YOUR_LIVE_CLIENT_ID&currency=USD&components=buttons"></script>
         <script>
           // Validate form fields
           function validateCheckoutForm() {

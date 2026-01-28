@@ -81,29 +81,73 @@ function createOrder(orderData) {
 
 function simulateEmailConfirmation(order) {
   try {
-    const emailRecord = {
-      id: Math.random().toString(36).substring(2),
-      type: 'order-confirmation',
-      to: order.email,
-      recipientName: order.name,
-      orderId: order.id,
-      subject: `Order Confirmation #${order.id}`,
-      sentAt: new Date().toISOString(),
-      status: 'sent',
-      content: generateEmailContent(order)
+    // Send REAL email using EmailJS
+    const emailParams = {
+      to_email: order.email,
+      to_name: order.name,
+      order_id: order.id,
+      order_date: new Date(order.created).toLocaleDateString(),
+      shipping_method: order.shipping,
+      delivery_date: order.deliveryDate || 'To be confirmed',
+      shipping_address: order.address,
+      items_list: order.items.map(item => 
+        `${item.name} x${item.quantity} - $${(item.price * item.quantity).toFixed(2)}`
+      ).join('\n'),
+      subtotal: order.subtotal,
+      discount_code: order.discountCode || '',
+      discount_amount: order.discountAmount > 0 ? `$${order.discountAmount.toFixed(2)}` : '',
+      total: order.total,
+      gift_note: order.giftNote || '',
+      message: generateEmailContent(order)
     };
     
-    // Save email record
-    const emails = JSON.parse(localStorage.getItem(SENT_EMAILS_KEY) || '[]');
-    emails.push(emailRecord);
-    localStorage.setItem(SENT_EMAILS_KEY, JSON.stringify(emails));
+    // Send via EmailJS (Service ID: service_qw61mye, Template ID: template_xyz123)
+    emailjs.send('service_qw61mye', 'template_xyz123', emailParams)
+      .then(function(response) {
+        console.log('✅ REAL Email sent successfully!', response.status, response.text);
+        
+        // Also save email record locally for admin tracking
+        const emailRecord = {
+          id: Math.random().toString(36).substring(2),
+          type: 'order-confirmation',
+          to: order.email,
+          recipientName: order.name,
+          orderId: order.id,
+          subject: `Order Confirmation #${order.id}`,
+          sentAt: new Date().toISOString(),
+          status: 'sent',
+          content: generateEmailContent(order)
+        };
+        
+        const emails = JSON.parse(localStorage.getItem(SENT_EMAILS_KEY) || '[]');
+        emails.push(emailRecord);
+        localStorage.setItem(SENT_EMAILS_KEY, JSON.stringify(emails));
+      }, function(error) {
+        console.error('❌ EmailJS sending failed:', error);
+        // Still log as attempt
+        const emailRecord = {
+          id: Math.random().toString(36).substring(2),
+          type: 'order-confirmation',
+          to: order.email,
+          recipientName: order.name,
+          orderId: order.id,
+          subject: `Order Confirmation #${order.id}`,
+          sentAt: new Date().toISOString(),
+          status: 'failed',
+          error: error.text,
+          content: generateEmailContent(order)
+        };
+        
+        const emails = JSON.parse(localStorage.getItem(SENT_EMAILS_KEY) || '[]');
+        emails.push(emailRecord);
+        localStorage.setItem(SENT_EMAILS_KEY, JSON.stringify(emails));
+      });
     
-    // Log as if email was sent
-    console.log(`📧 Email confirmation sent to ${order.email}`);
+    console.log(`📧 Email sending initiated to ${order.email}`);
     console.log(`📦 Order ID: ${order.id}`);
     console.log(`💳 Total: $${order.total}`);
     
-    return { success: true, emailRecord: emailRecord };
+    return { success: true };
   } catch (e) {
     console.error('❌ Error sending confirmation email:', e);
     return { success: false, error: 'Failed to send email' };
