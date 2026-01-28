@@ -1,6 +1,6 @@
 // Dynamic Responsive Navigation System
 document.addEventListener('DOMContentLoaded', function() {
-  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn') || document.getElementById('mobile-menu-toggle');
   const mobileMenu = document.getElementById('mobile-menu');
   const logoImg = document.querySelector('header img[alt*="Logo"]');
   
