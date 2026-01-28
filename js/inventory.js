@@ -100,6 +100,35 @@ function isProductLimited(productId) {
   return limited;
 }
 
+// Get urgency messaging for low-stock items
+function getUrgencyMessage(productId) {
+  const { stock, limited } = getProductStock(productId);
+  
+  if (!limited) return null;
+  
+  if (stock <= 2) {
+    return {
+      text: '🚨 Almost Gone!',
+      class: 'urgency-critical',
+      color: '#C21807'
+    };
+  } else if (stock <= 5) {
+    return {
+      text: '⚡ Few Items Left',
+      class: 'urgency-high',
+      color: '#FF5722'
+    };
+  } else if (stock <= 10) {
+    return {
+      text: '⏱️ Limited Stock',
+      class: 'urgency-medium',
+      color: '#FF9800'
+    };
+  }
+  
+  return null;
+}
+
 function getStockStatus(productId) {
   const { stock, limited } = getProductStock(productId);
   
@@ -173,3 +202,4 @@ window.isProductLimited = isProductLimited;
 window.getStockStatus = getStockStatus;
 window.reserveStock = reserveStock;
 window.releaseStock = releaseStock;
+window.getUrgencyMessage = getUrgencyMessage;

@@ -114,6 +114,10 @@
       <!-- Price Display -->
       <p id="product-price" class="text-2xl text-deep-red font-bold mb-4">$49.99</p>
 
+      <!-- Urgency Badge for Low Stock -->
+      <div id="product-urgency-badge" style="display: none;">
+      </div>
+
       <!-- Size/Variant Selector -->
       <div id="variant-selector" class="mb-6 p-4 bg-blush-pink/10 rounded-lg">
         <label class="block font-bold mb-2">Select Size/Option:</label>
@@ -300,6 +304,16 @@
     document.getElementById('product-description').textContent = product.desc;
     document.getElementById('product-price').textContent = `$${product.price.toFixed(2)}`;
     document.title = `${product.name} - Heart & Petal`;
+
+    // Display urgency badge for low-stock items
+    const urgencyContainer = document.getElementById('product-urgency-badge');
+    if (window.getUrgencyMessage) {
+      const urgency = window.getUrgencyMessage(productId);
+      if (urgency) {
+        urgencyContainer.innerHTML = `<div class="urgency-badge ${urgency.class}" style="background-color: ${urgency.color}; color: white; padding: 10px 16px; border-radius: 8px; font-size: 14px; font-weight: bold; text-align: center; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);">${urgency.text}</div>`;
+        urgencyContainer.style.display = 'block';
+      }
+    }
 
     // Set up sizes/variants selector
     const sizeSelect = document.getElementById('size-select');

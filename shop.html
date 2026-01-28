@@ -490,6 +490,10 @@ function renderProducts(list) {
     const isInWishlist = window.isInWishlist ? window.isInWishlist(prod.id) : false;
     const heartIcon = isInWishlist ? '❤️' : '🤍';
     
+    // Get urgency message for low-stock items
+    const urgency = window.getUrgencyMessage ? window.getUrgencyMessage(prod.id) : null;
+    const urgencyBadge = urgency ? `<div class="urgency-badge ${urgency.class}" style="background-color: ${urgency.color}; color: white; padding: 6px 12px; border-radius: 6px; font-size: 13px; font-weight: bold; text-align: center; margin: 8px 0;">${urgency.text}</div>` : '';
+    
     return `
     <div class="product-card" data-category="${prod.category}" data-product-id="${prod.id}">
       <div class="product-image-container relative">
@@ -510,6 +514,8 @@ function renderProducts(list) {
         <p class="product-description">${prod.desc}</p>
         <div class="product-rating">${stars} <span class="text-gray-600">(${reviews.length})</span></div>
         <p class="product-price">$${prod.price.toFixed(2)}</p>
+        
+        ${urgencyBadge}
         
         <div class="product-actions">
           <button class="add-to-cart-btn" data-id="${prod.id}" data-name="${prod.name}" data-price="${prod.price}" data-img="${prod.img}">Add to Cart</button>
