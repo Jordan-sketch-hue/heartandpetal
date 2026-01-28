@@ -430,11 +430,11 @@
                     discountSpan.innerHTML = `-$${discountAmount.toFixed(2)} <span class='text-xs'>(${appliedDiscount.code})</span>`;
                   }
                 } else {
-                  if (discountSpan) discountSpan.textContent = '-$0.00';
+                  if (discountSpan) discountSpan.textContent = '$0.00';
                 }
                 
                 const finalAmount = Math.max(0, finalTotal).toFixed(2);
-                totalSpan.textContent = finalAmount;
+                if (totalSpan) totalSpan.textContent = finalAmount;
                 if (totalDisplaySpan) totalDisplaySpan.textContent = finalAmount;
               }
               
