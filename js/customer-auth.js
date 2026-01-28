@@ -48,9 +48,16 @@ if (loginForm) {
       loginError.classList.add('hidden');
       localStorage.setItem('hp_last_login', email); // Set session for profile
       localStorage.setItem('hp_customer_name', user.name); // Store customer name
-      alert('Welcome, ' + user.name + '! You are now logged in.');
-      // Redirect to profile page
-      window.location.href = 'profile.html';
+      
+      // Show success message and redirect
+      const loginBtn = loginForm.querySelector('button[type="submit"]');
+      loginBtn.textContent = 'Logging in...';
+      loginBtn.disabled = true;
+      
+      // Redirect after brief delay
+      setTimeout(() => {
+        window.location.href = 'profile.html';
+      }, 500);
     } else {
       loginError.classList.remove('hidden');
     }
