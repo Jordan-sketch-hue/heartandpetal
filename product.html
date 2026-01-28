@@ -568,28 +568,70 @@
     const lastInitials = ['A.','B.','C.','D.','E.','F.','G.','H.','I.','J.','K.','L.','M.','N.','O.','P.','Q.','R.','S.','T.','U.','V.','W.','X.','Y.','Z.'];
     const reviewTexts = ['Absolutely beautiful! Exceeded my expectations.','High quality product, very satisfied with my purchase.','Perfect gift for my loved one. They were thrilled!','Exactly as described and arrived on time.','Gorgeous presentation and excellent quality.','Worth every penny! Highly recommend.','Made someone very happy. Thank you!','Beautiful arrangement and fresh quality.','Stunning! Will definitely order again.','Perfect for the special occasion.','Exceeded expectations in every way.','So pleased with this purchase!','Absolutely love it! Five stars.','Great quality and fast delivery.','Couldn\'t be happier with this product.','Beautifully crafted and packaged.','Amazing quality and presentation!','Perfect romantic gift.','Excellent service and product quality.','Highly impressed with everything!','This made their day so special.','Top notch quality all around.','Better than I imagined!','Fantastic product and service.','Will order from here again!','Simply perfect in every way.','Outstanding quality and beauty.','Received so many compliments!','Couldn\'t ask for better quality.','Absolutely stunning product!','Very happy with my order.','Excellent value for the price.','Beautiful and well-made.','Perfect for Valentine\'s Day!','Amazing attention to detail.','So fresh and beautiful!','Exactly what I was hoping for.','Incredible quality and service.','Made the occasion extra special.','Highly recommend to everyone!','Beautiful presentation box.','Fresh and gorgeous blooms.','Perfect size and quality.','Wonderful surprise gift!','Exceeded all expectations!','Absolutely gorgeous!','Great customer service too.','So soft and cuddly!','Perfect romantic gesture.','Love everything about this!','Top quality product.','Beautiful and romantic.','Very impressed!','Perfect anniversary gift.','Stunning arrangement!','Absolutely delightful.','Made someone smile!','Beautiful craftsmanship.','Highly satisfied customer.','Wonderful experience overall.','So pretty and fresh!','Perfect gift idea.','Love the quality!','Beautiful and elegant.','Impressive presentation!','Exactly as pictured.','Will buy again!','Gorgeous quality.','Very romantic!','Absolutely perfect!','Highly recommend this!','Beautiful colors.','Great value.','So happy!','Perfect!','Lovely!','Amazing!','Wonderful!','Excellent!','Beautiful!','Fantastic!','Stunning!','Gorgeous!','Delightful!','Impressive!','Outstanding!','Superb!','Magnificent!','Exquisite!','Splendid!','Marvelous!','Exceptional!','Remarkable!','Fabulous!','Incredible!','Phenomenal!','Spectacular!'];
 
-    // Generate unique reviews for this product
-    const numReviews = 2 + Math.floor(Math.random() * 9); // 2-10 reviews
+    // Generate unique reviews for this product with better variety
     const usedNames = new Set();
     const reviewsContainer = document.getElementById('reviews-container');
     const reviewsForProduct = [];
+    
+    try {
+      // Determine review count based on product popularity
+      let numReviews = 0;
+      const category = product.id.split(/(\d+)/)[0].toLowerCase();
+      const productNum = parseInt(product.id.split(/(\d+)/)[1]) || 1;
+      
+      // Popular categories get more reviews (50-300+)
+      if (['roses', 'teddy', 'choc', 'combo'].includes(category)) {
+        const baseCount = 100 + (productNum * 15);
+        numReviews = Math.min(Math.floor(baseCount + (Math.random() * 100)), 300);
+      } else {
+        // Less popular categories get 30-100 reviews
+        numReviews = Math.floor(Math.random() * 70) + 30;
+      }
+      
+      // Generate unique reviews
+      for (let i = 0; i < numReviews; i++) {
+        let reviewerName;
+        do {
+          const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+          const lastInitial = lastInitials[Math.floor(Math.random() * lastInitials.length)];
+          reviewerName = `${firstName} ${lastInitial}`;
+        } while (usedNames.has(reviewerName));
+        usedNames.add(reviewerName);
 
-    for (let i = 0; i < numReviews; i++) {
-      let reviewerName;
-      do {
+        const rating = Math.random() < 0.7 ? 5 : 4; // 70% 5-star, 30% 4-star
+        const hasComment = Math.random() < 0.75; // 75% have comments, 25% are star-only
+        const reviewText = hasComment ? reviewTexts[Math.floor(Math.random() * reviewTexts.length)] : null;
+        reviewsForProduct.push({ name: reviewerName, rating, text: reviewText });
+      }
+      
+      if (window.logSuccess) {
+        window.logSuccess('reviews', `Generated ${reviewsForProduct.length} reviews for product ${product.id}`);
+      }
+    } catch (error) {
+      console.error('Error generating reviews:', error);
+      if (window.logError) {
+        window.logError('reviews', 'Failed to generate reviews for product page', error, 'medium');
+      }
+      // Fallback: generate 10 reviews
+      for (let i = 0; i < 10; i++) {
         const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
         const lastInitial = lastInitials[Math.floor(Math.random() * lastInitials.length)];
-        reviewerName = `${firstName} ${lastInitial}`;
-      } while (usedNames.has(reviewerName));
-      usedNames.add(reviewerName);
-
-      const rating = Math.random() < 0.7 ? 5 : 4; // 70% 5-star, 30% 4-star
-      const reviewText = reviewTexts[Math.floor(Math.random() * reviewTexts.length)];
-      reviewsForProduct.push({ name: reviewerName, rating, text: reviewText });
+        const rating = Math.random() < 0.7 ? 5 : 4;
+        const hasComment = Math.random() < 0.75;
+        const reviewText = hasComment ? reviewTexts[Math.floor(Math.random() * reviewTexts.length)] : null;
+        reviewsForProduct.push({ 
+          name: `${firstName} ${lastInitial}`, 
+          rating, 
+          text: reviewText 
+        });
+      }
     }
 
     // Calculate average rating
     const avgRating = (reviewsForProduct.reduce((sum, r) => sum + r.rating, 0) / reviewsForProduct.length).toFixed(1);
+    
+    // Update review count display
+    document.getElementById('review-count').textContent = `(${reviewsForProduct.length} reviews)`;
     
     // Display star rating
     const starRatingContainer = document.getElementById('star-rating');
@@ -621,7 +663,7 @@
             <p class="text-champagne-gold">${stars}</p>
           </div>
         </div>
-        <p class="text-charcoal/80">${review.text}</p>
+        ${review.text ? `<p class="text-charcoal/80">${review.text}</p>` : '<p class="text-charcoal/60 text-sm italic">Rating only</p>'}
       `;
       reviewsContainer.appendChild(reviewCard);
     });
