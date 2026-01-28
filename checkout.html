@@ -1,843 +1,485 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/jpeg" href="https://res.cloudinary.com/dij2fdtw4/image/upload/v1769602073/give_a_rosebud_favicon_in_red_please_xqnp4v.jpg">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4986542893990493"
-     crossorigin="anonymous"></script>
+  <link rel="icon" type="image/jpeg" href="https://res.cloudinary.com/dij2fdtw4/image/upload/v1769602073/give_a_rosebud_favicon_in_red_please_xqnp4v.jpg">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4986542893990493" crossorigin="anonymous"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Secure checkout for Heart & Petal gifts. Complete your order for flowers, chocolates, and teddy bears with fast, safe delivery.">
-  <meta name="keywords" content="checkout, order flowers, payment, delivery, flower gift order, secure payment">
-  <meta name="author" content="Heart & Petal">
-  <meta name="robots" content="noindex, nofollow">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Secure Checkout - Heart & Petal">
-  <meta property="og:description" content="Complete your order for premium gifts with secure payment.">
-  <meta name="twitter:card" content="summary">
-  <link rel="canonical" href="https://heartandpetal.com/checkout.html">
-  <title>Secure Checkout - Heart & Petal Gifts</title>
-  <!-- Google Fonts -->
+  <title>Secure Checkout - Heart & Petal</title>
+  
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
-  <!-- Tailwind CSS CDN -->
+  
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/styles.css">
-  <!-- Global Error Handler (must load first) -->
+  
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>emailjs.init('vaGZ6CuU7QPtw8dCI');</script>
+  
+  <!-- Core JavaScript Files (load before PayPal) -->
   <script src="js/error-handler.js"></script>
-  <!-- Responsive Navigation -->
   <script src="js/responsive-nav.js"></script>
-  <!-- EmailJS for real email sending -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-  <script type="text/javascript">
-    (function(){
-      emailjs.init('vaGZ6CuU7QPtw8dCI'); // Public key
-    })();
-  </script>
-</head>
-<body class="bg-ivory font-montserrat min-h-screen flex flex-col">
-  <!-- Free Delivery Banner -->
-  <div class="bg-deep-red text-ivory text-center py-2 text-sm font-bold">
-    FREE DELIVERY ON ALL ORDERS ACROSS THE USA!
-  </div>
-  <!-- Header -->
-  <header class="bg-white/90 shadow sticky top-0 z-50">
-    <div class="container mx-auto flex items-center justify-between py-3 px-4 md:px-6">
-      <a href="index.html" class="flex items-center gap-1 md:gap-2 flex-shrink-0">
-        <img src="assets/logofile.png" alt="Heart & Petal Logo" class="h-8 md:h-10 w-8 md:w-10 object-contain">
-        <span class="font-playfair text-xl md:text-2xl text-deep-red tracking-wide hidden sm:inline">Heart & Petal</span>
-      </a>
-      <!-- Desktop Nav - Hidden on mobile -->
-      <nav class="hidden lg:flex space-x-3 xl:space-x-6 text-sm md:text-lg items-center">
-        <a href="index.html" class="hover:text-deep-red transition">Home</a>
-        <a href="shop.html" class="hover:text-deep-red transition">Shop</a>
-        <a href="about.html" class="hover:text-deep-red transition">About</a>
-        <a href="faq.html" class="hover:text-deep-red transition">FAQ</a>
-        <a href="checkout.html" class="hover:text-deep-red transition font-bold text-deep-red">Checkout</a>
-        <a href="legal.html" class="hover:text-deep-red transition">Legal</a>
-        <div class="relative group">
-          <button class="hover:text-champagne-gold transition focus:outline-none text-sm md:text-base">Login | Register</button>
-          <div class="absolute right-0 mt-2 w-48 bg-white border border-charcoal rounded shadow-lg opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition z-50">
-            <a href="admin.html" class="block px-4 py-2 hover:bg-blush-pink/40 text-sm">Admin</a>
-            <a href="customer-login.html" class="block px-4 py-2 hover:bg-blush-pink/40 text-sm">Customer</a>
-          </div>
-        </div>
-      </nav>
-      <!-- Mobile Menu Button -->
-      <button id="mobile-menu-btn" class="lg:hidden text-deep-red focus:outline-none">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
-      <!-- Cart Button -->
-      <a href="checkout.html" class="ml-1 md:ml-2 lg:ml-4 bg-deep-red text-ivory px-1.5 md:px-4 py-1.5 md:py-2 rounded-lg font-great-vibes text-sm md:text-xl shadow hover:bg-red-700 transition flex items-center gap-0.5 md:gap-2 flex-shrink-0">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-        </svg>
-        <span class="hidden sm:inline">Cart</span>
-      </a>
-    </div>
-    <!-- Mobile Menu - Hidden on desktop -->
-    <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-charcoal max-h-96 overflow-y-auto">
-      <a href="index.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Home</a>
-      <a href="shop.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Shop</a>
-      <a href="about.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">About</a>
-      <a href="faq.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">FAQ</a>
-      <a href="checkout.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40 font-bold text-deep-red">Checkout</a>
-      <a href="legal.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Legal</a>
-      <a href="admin.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Admin</a>
-      <a href="customer-login.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Customer</a>
-    </div>
-  </header>
-
-
-  <!-- Checkout Main Section -->
-  <main class="container mx-auto px-4 md:px-6 py-8 md:py-12 max-w-4xl">
-    <h1 class="text-4xl font-playfair font-bold mb-2 text-center text-deep-red">Secure Checkout</h1>
-    <p class="text-center text-gray-600 mb-8">Complete your order safely and securely</p>
-    
-    <!-- Cart Summary -->
-    <section id="cart-summary" class="mb-8 bg-gradient-to-br from-white to-blush-pink/10 rounded-xl shadow-lg border-2 border-champagne-gold p-6">
-      <h2 class="text-2xl font-playfair font-bold mb-4 text-deep-red flex items-center">
-        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-        </svg>
-        Your Cart
-      </h2>
-      <div id="cart-items"></div>
-      <div class="mt-6 pt-4 border-t-2 border-champagne-gold text-right">
-        <span class="text-gray-600 text-lg mr-2">Cart Total:</span>
-        <span class="font-bold text-2xl text-deep-red">$<span id="cart-total">0.00</span></span>
-      </div>
-    </section>
-    <form class="space-y-8" id="checkout-form">
-      <div id="form-errors" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"></div>
-      <div id="form-success" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4"></div>
-      
-      <!-- Customer Info -->
-      <section class="bg-white rounded-xl shadow-md p-6 border border-gray-200">
-        <h2 class="text-2xl font-playfair font-bold mb-6 text-deep-red flex items-center">
-          <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-          </svg>
-          Customer Information
-        </h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-1">Full Name *</label>
-            <input type="text" id="checkout-name" placeholder="John Doe" class="border-2 border-gray-300 focus:border-deep-red rounded-lg px-4 py-3 w-full transition" required>
-            <span class="text-xs text-red-600 hidden" id="name-error"></span>
-          </div>
-          <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-1">Email Address *</label>
-            <input type="email" id="checkout-email" placeholder="your.email@example.com" class="border-2 border-gray-300 focus:border-deep-red rounded-lg px-4 py-3 w-full transition" required>
-            <span class="text-xs text-red-600 hidden" id="email-error"></span>
-          </div>
-          <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-1">Phone Number *</label>
-            <input type="tel" id="checkout-phone" placeholder="(555) 123-4567" class="border-2 border-gray-300 focus:border-deep-red rounded-lg px-4 py-3 w-full transition" required>
-            <span class="text-xs text-red-600 hidden" id="phone-error"></span>
-          </div>
-          <div class="md:col-span-2">
-            <label class="block text-sm font-semibold text-gray-700 mb-1">Shipping Address *</label>
-            <input type="text" id="checkout-address" placeholder="123 Main St, City, State, ZIP" class="border-2 border-gray-300 focus:border-deep-red rounded-lg px-4 py-3 w-full transition" required>
-            <span class="text-xs text-red-600 hidden" id="address-error"></span>
-          </div>
-        </div>
-      </section>
-
-      <!-- Shipping Options -->
-      <section class="bg-white rounded-xl shadow-md p-6 border border-gray-200">
-        <h2 class="text-2xl font-playfair font-bold mb-6 text-deep-red flex items-center">
-          <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
-          </svg>
-          Shipping & Delivery
-        </h2>
-        <div class="bg-green-50 border-2 border-green-300 rounded-lg p-4 mb-4">
-          <p class="text-sm font-bold text-green-800 flex items-center">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-            </svg>
-            ✓ FREE Standard Delivery on all orders across the USA!
-          </p>
-          <p class="text-xs text-gray-700 mt-1 ml-7">Standard delivery takes 3-5 business days. Express options available.</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-1">Delivery Speed</label>
-            <select id="checkout-shipping" class="border-2 border-gray-300 focus:border-deep-red rounded-lg px-4 py-3 w-full transition bg-white">
-            <option value="Standard Delivery (3-5 days)">Standard Delivery (3-5 days) - FREE ✓</option>
-            <option value="Express Delivery (1-2 days)">Express Delivery (1-2 days) - FREE ✓</option>
-            <option value="Valentine's Day Guaranteed">Valentine's Day Guaranteed - FREE ✓</option>
-          </select>
-          <input type="date" id="checkout-delivery-date" class="border border-charcoal rounded px-4 py-2 w-full md:w-auto" placeholder="Select delivery date">
-        </div>
-      </section>
-
-      <!-- Gift Note -->
-      <section class="bg-white rounded-xl shadow-md p-6 border border-gray-200">
-        <h2 class="text-2xl font-playfair font-bold mb-4 text-deep-red flex items-center">
-          <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-          </svg>
-          Gift Note (Optional)
-        </h2>
-        <textarea rows="3" id="checkout-gift-note" class="w-full border-2 border-gray-300 focus:border-deep-red rounded-lg px-4 py-3 transition" placeholder="Write a personal message for your recipient..."></textarea>
-      </section>
-
-      <!-- Discount Code -->
-      <section class="bg-champagne-gold/10 rounded-xl shadow-md p-6 border-2 border-champagne-gold">
-        <h2 class="text-2xl font-playfair font-bold mb-4 text-deep-red flex items-center">
-          <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
-          </svg>
-          Discount Code
-        </h2>
-        <div class="flex gap-2">
-          <input type="text" id="discount-code-input" placeholder="Enter promo code" class="border-2 border-gray-300 focus:border-deep-red rounded-lg px-4 py-3 flex-1 transition" />
-          <button type="button" id="apply-discount-btn" class="bg-deep-red text-ivory px-6 py-3 rounded-lg hover:bg-red-700 transition font-bold shadow-md">Apply</button>
-        </div>
-        <div id="discount-status" class="text-sm mt-2 font-semibold"></div>
-        <p class="text-xs text-gray-600 mt-2">🎁 Try: <span class="font-mono bg-white px-2 py-1 rounded">LOVE20</span>, <span class="font-mono bg-white px-2 py-1 rounded">HEART10</span>, <span class="font-mono bg-white px-2 py-1 rounded">SAVE15</span>, <span class="font-mono bg-white px-2 py-1 rounded">CUPID5</span></p>
-      </section>
-      
-      <!-- Order Summary & Pricing -->
-      <section class="bg-champagne-gold/20 rounded p-6 border-2 border-champagne-gold">
-        <h3 class="font-bold text-lg mb-4 text-deep-red">Order Summary & Pricing</h3>
-        
-        <!-- Subtotal and Calculations -->
-        <div class="space-y-2 mb-4 pb-4 border-b border-champagne-gold">
-          <div class="flex justify-between text-sm">
-            <span class="text-gray-700">Subtotal:</span>
-            <span class="font-semibold">$<span id="checkout-subtotal">0.00</span></span>
-          </div>
-          <div class="flex justify-between text-sm">
-            <span class="text-gray-700">Shipping:</span>
-            <span class="font-semibold text-green-700">FREE ✓</span>
-          </div>
-          <div class="flex justify-between text-sm">
-            <span class="text-gray-700">Discount Applied:</span>
-            <span class="font-semibold text-deep-red" id="checkout-discount">$0.00</span>
-          </div>
-        </div>
-        
-        <!-- Final Total -->
-        <div class="flex justify-between items-center mb-4 p-3 bg-white rounded">
-          <span class="text-lg font-bold text-deep-red">Total Due:</span>
-          <span class="text-2xl font-bold text-deep-red">$<span id="checkout-total-display">0.00</span></span>
-        </div>
-        
-        <!-- Order Info -->
-        <div class="text-xs text-gray-600 space-y-1">
-          <p>✓ All orders include FREE shipping to the USA</p>
-          <p>✓ Secure PayPal payment processing</p>
-          <p>✓ 7-day freshness guarantee on flowers</p>
-        </div>
-      </section>
-
-      <!-- Payment Section (PayPal Integration) -->
-      <section class="bg-gradient-to-br from-deep-red to-red-700 rounded-xl shadow-xl p-8 text-white">
-        <h2 class="text-3xl font-playfair font-bold mb-2 text-center flex items-center justify-center">
-          <svg class="w-8 h-8 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
-          </svg>
-          Payment
-        </h2>
-        <p class="text-center text-white/90 mb-6">Complete Your Secure Payment</p>
-        
-        <div class="bg-white rounded-lg p-6 text-center">
-          <div class="bg-blue-50 border-2 border-blue-300 rounded-lg p-4 mb-6 text-left">
-            <p class="font-bold mb-2 text-gray-800 flex items-center">
-              <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-              </svg>
-              🔒 Secure PayPal Checkout
-            </p>
-            <p class="text-gray-700 text-sm">Your payment is processed securely through PayPal. No credit card information is stored on our servers. All transactions are encrypted and protected.</p>
-          </div>
-          <div id="paypal-button-container" class="flex justify-center mb-4 min-h-[50px]">
-            <p class="text-gray-400 text-sm">Loading payment options...</p>
-          </div>
-          <div class="flex items-center justify-center gap-4 text-xs text-gray-500 mt-4 pt-4 border-t border-gray-200">
-            <span class="flex items-center">
-              <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
-              SSL Secure
-            </span>
-            <span>•</span>
-            <span>Powered by PayPal</span>
-            <span>•</span>
-            <span>256-bit Encryption</span>
-          </div>
-      </section>
-    </form>
-
-    <!-- Important Note -->
-    <div class="bg-blue-50 border-2 border-blue-300 rounded-lg p-4 mt-6 text-center">
-      <p class="text-sm font-semibold text-gray-700">👆 Complete your order using the PayPal button above</p>
-      <p class="text-xs text-gray-600 mt-1">Your order will be processed securely after payment is confirmed</p>
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="bg-white text-black py-6 w-full mt-auto shadow-lg border-t border-gray-200">
-    <div class="container mx-auto px-6">
-      <div class="flex flex-wrap items-center justify-center gap-4 text-sm">
-        <span class="font-playfair text-lg font-bold">Heart & Petal</span>
-        <span class="text-gray-400">|</span>
-        <a href="mailto:contact@heartandpetal.com" class="hover:text-deep-red transition">contact@heartandpetal.com</a>
-        <span class="text-gray-400">|</span>
-        <a href="mailto:legal@heartandpetal.com" class="hover:text-deep-red transition">Legal Inquiries</a>
-        <span class="text-gray-400">|</span>
-        <a href="legal.html" class="hover:text-deep-red transition">Privacy & Terms</a>
-        <span class="text-gray-400">|</span>
-        <a href="about.html" class="hover:text-deep-red transition">About</a>
-        <span class="text-gray-400">|</span>
-        <a href="faq.html" class="hover:text-deep-red transition">FAQ</a>
-        <span class="text-gray-400">|</span>
-        <span class="text-xs">&copy; 2026 Heart & Petal</span>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Load Required Scripts FIRST -->
   <script src="js/auth.js"></script>
   <script src="js/inventory.js"></script>
   <script src="js/discounts.js"></script>
   <script src="js/orders.js"></script>
   <script src="js/cart.js"></script>
+</head>
+
+<body class="bg-gray-50 font-montserrat">
   
-  <!-- PayPal SDK - LIVE PRODUCTION MODE with proper async loading -->
+  <!-- Free Delivery Banner -->
+  <div class="bg-deep-red text-white text-center py-2 text-sm font-bold">
+    🎁 FREE DELIVERY ON ALL ORDERS ACROSS THE USA!
+  </div>
+
+  <!-- Header -->
+  <header class="bg-white shadow-md sticky top-0 z-50">
+    <div class="container mx-auto flex items-center justify-between py-4 px-6">
+      <a href="index.html" class="flex items-center gap-2">
+        <img src="assets/logofile.png" alt="Heart & Petal" class="h-10 w-10">
+        <span class="font-playfair text-2xl text-deep-red hidden sm:inline">Heart & Petal</span>
+      </a>
+      
+      <nav class="hidden lg:flex space-x-6 text-lg">
+        <a href="index.html" class="hover:text-deep-red transition">Home</a>
+        <a href="shop.html" class="hover:text-deep-red transition">Shop</a>
+        <a href="about.html" class="hover:text-deep-red transition">About</a>
+        <a href="faq.html" class="hover:text-deep-red transition">FAQ</a>
+        <a href="profile.html" class="hover:text-deep-red transition">Profile</a>
+      </nav>
+
+      <div class="flex items-center gap-4">
+        <a href="cart.html" class="relative hover:text-deep-red transition">
+          <span class="text-2xl">🛒</span>
+          <span id="cart-count" class="absolute -top-2 -right-2 bg-deep-red text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">0</span>
+        </a>
+        <button id="mobile-menu-toggle" class="lg:hidden text-2xl">☰</button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-t">
+      <nav class="flex flex-col p-4 space-y-3">
+        <a href="index.html" class="hover:text-deep-red">Home</a>
+        <a href="shop.html" class="hover:text-deep-red">Shop</a>
+        <a href="about.html" class="hover:text-deep-red">About</a>
+        <a href="faq.html" class="hover:text-deep-red">FAQ</a>
+        <a href="profile.html" class="hover:text-deep-red">Profile</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 py-8 max-w-6xl">
+    
+    <h1 class="text-4xl font-playfair text-deep-red text-center mb-8">Secure Checkout</h1>
+
+    <div class="grid lg:grid-cols-3 gap-8">
+      
+      <!-- Left Column: Customer Info & Shipping -->
+      <div class="lg:col-span-2 space-y-6">
+        
+        <!-- Customer Information Card -->
+        <div class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <span class="text-2xl">📋</span> Customer Information
+          </h2>
+          
+          <form id="checkout-form" class="space-y-4">
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1">Full Name *</label>
+              <input type="text" id="checkout-name" required 
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deep-red focus:border-transparent"
+                placeholder="John Doe">
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1">Email Address *</label>
+              <input type="email" id="checkout-email" required 
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deep-red focus:border-transparent"
+                placeholder="john@example.com">
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1">Phone Number *</label>
+              <input type="tel" id="checkout-phone" required 
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deep-red focus:border-transparent"
+                placeholder="(555) 123-4567">
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1">Shipping Address *</label>
+              <textarea id="checkout-address" required rows="3"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deep-red focus:border-transparent"
+                placeholder="123 Main St, Apt 4, City, State 12345"></textarea>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1">Special Instructions (Optional)</label>
+              <textarea id="checkout-notes" rows="2"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deep-red focus:border-transparent"
+                placeholder="Any special delivery instructions..."></textarea>
+            </div>
+          </form>
+        </div>
+
+        <!-- Payment Section -->
+        <div class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <span class="text-2xl">💳</span> Payment Method
+          </h2>
+          
+          <div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mb-4">
+            <div class="flex items-start gap-3">
+              <span class="text-2xl">🔒</span>
+              <div>
+                <h3 class="font-bold text-blue-900">Secure PayPal Checkout</h3>
+                <p class="text-sm text-blue-800">Your payment is processed securely through PayPal. No credit card information is stored on our servers.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- PayPal Button Container -->
+          <div id="paypal-button-container" class="mt-6"></div>
+          <div id="paypal-error" class="hidden mt-4 p-4 bg-red-50 border-2 border-red-300 rounded-lg text-center">
+            <p class="text-red-600 font-bold">❌ Payment System Error</p>
+            <p class="text-gray-700 text-sm mt-2">PayPal failed to load. Please refresh the page.</p>
+            <button onclick="location.reload()" class="mt-3 bg-deep-red text-white px-6 py-2 rounded-lg hover:bg-red-700 transition">
+              Refresh Page
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Order Summary -->
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-xl shadow-md p-6 sticky top-24">
+          <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <span class="text-2xl">📦</span> Order Summary
+          </h2>
+
+          <!-- Cart Items -->
+          <div id="checkout-cart-items" class="space-y-3 mb-4 max-h-64 overflow-y-auto">
+            <!-- Cart items will be populated here -->
+          </div>
+
+          <!-- Discount Code Section -->
+          <div class="border-t pt-4 mb-4">
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Discount Code</label>
+            <div class="flex gap-2">
+              <input type="text" id="discount-code-input" 
+                class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-deep-red"
+                placeholder="Enter code">
+              <button id="apply-discount-btn" 
+                class="bg-deep-red text-white px-4 py-2 rounded-lg text-sm hover:bg-red-700 transition whitespace-nowrap">
+                Apply
+              </button>
+            </div>
+            <div id="discount-status" class="text-sm mt-2"></div>
+          </div>
+
+          <!-- Totals -->
+          <div class="border-t pt-4 space-y-2">
+            <div class="flex justify-between text-gray-700">
+              <span>Subtotal:</span>
+              <span id="cart-subtotal">$0.00</span>
+            </div>
+            <div class="flex justify-between text-gray-700">
+              <span>Delivery:</span>
+              <span class="text-green-600 font-semibold">FREE</span>
+            </div>
+            <div id="discount-row" class="flex justify-between text-green-600 hidden">
+              <span>Discount:</span>
+              <span id="cart-discount">-$0.00</span>
+            </div>
+            <div class="flex justify-between text-xl font-bold text-gray-900 pt-2 border-t">
+              <span>Total:</span>
+              <span id="cart-total">$0.00</span>
+            </div>
+          </div>
+
+          <div class="mt-6 p-3 bg-gray-50 rounded-lg text-xs text-gray-600">
+            <p class="flex items-center gap-2">
+              <span>🔒</span> SSL Secure • Powered by PayPal • 256-bit Encryption
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-deep-red text-white py-8 mt-12">
+    <div class="container mx-auto px-6 text-center">
+      <p class="font-playfair text-xl mb-2">Heart & Petal</p>
+      <p class="text-sm">© 2026 Heart & Petal. All rights reserved.</p>
+      <div class="mt-4 space-x-4">
+        <a href="legal.html" class="hover:underline text-sm">Privacy & Terms</a>
+        <a href="faq.html" class="hover:underline text-sm">FAQ</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- PayPal SDK -->
+  <script src="https://www.paypal.com/sdk/js?client-id=ATV1zuqmwzmcXCuDMfIm9vY4ZhkVn3U9Lj_e8p4fI8rQb7XnEMEN_wapBZHCcpUjXp_IlQjitGWnLMXnDZEy8ILA01u_UTAuYacH4y7YNE6UG_gSkkMQ6hMLQxgt3oHa&currency=USD"></script>
+
+  <!-- Checkout Logic -->
   <script>
-    // Create PayPal script element with error handling
-    (function() {
-      const script = document.createElement('script');
-      script.src = 'https://www.paypal.com/sdk/js?client-id=ATV1zuqmwzmcXCuDMfIm9vY4ZhkVn3U9Lj_e8p4fI8rQb7XnEMEN_wapBZHCcpUjXp_IlQjitGWnLMXnDZEy8ILA01u_UTAuYacH4y7YNE6UG_gSkkMQ6hMLQxgt3oHa&currency=USD&components=buttons';
-      script.async = true;
-      script.onload = function() {
-        console.log('✅ PayPal SDK loaded successfully via script injection');
-        window.paypalSDKLoaded = true;
-      };
-      script.onerror = function() {
-        console.error('❌ Failed to load PayPal SDK from CDN');
+    // Display cart items and totals
+    function displayCheckoutCart() {
+      const cart = getCart();
+      const itemsContainer = document.getElementById('checkout-cart-items');
+      const subtotalEl = document.getElementById('cart-subtotal');
+      const discountEl = document.getElementById('cart-discount');
+      const totalEl = document.getElementById('cart-total');
+      const discountRow = document.getElementById('discount-row');
+
+      if (!cart || cart.length === 0) {
+        itemsContainer.innerHTML = '<p class="text-gray-500 text-center py-4">Your cart is empty</p>';
+        subtotalEl.textContent = '$0.00';
+        totalEl.textContent = '$0.00';
         document.getElementById('paypal-button-container').innerHTML = 
-          '<div class="text-center py-6 bg-red-50 border-2 border-red-300 rounded-lg"><p class="text-red-600 font-bold mb-2">❌ PayPal SDK Failed to Load</p><p class="text-gray-700 text-sm">Unable to connect to PayPal servers. Please check your internet connection.</p><button onclick="location.reload()" class="mt-3 bg-deep-red text-white px-4 py-2 rounded-lg hover:bg-red-700">Refresh Page</button></div>';
-      };
-      document.head.appendChild(script);
-    })();
-  </script>
-  
-  <!-- Checkout Logic (runs after all dependencies loaded) -->
-  <script>
-          // Product data with sizes for checkout size selection
-          const products = [
-  // === ROSES (10 products) ===
-  { id: 'roses1', name: 'Red Roses Bouquet', price: 49.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/red_roses_bouquet_gxs5w7.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/red_roses_bouquet_gxs5w7.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/red_roses_bouquet_1_z4ne0k.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/red_roses_bouquet_product_image_vu5uq2.jpg'], desc: 'Classic, elegant roses hand-selected for freshness and beauty. Each long-stemmed rose is carefully chosen to ensure peak bloom and lasting quality. Perfect for expressing timeless love and romance.', category: 'roses', color: 'Red', type: 'Rose', assortment: 'Flowers', sizes: [{ size: 'Small (6 stems) - Wrapped', price: 39.99 }, { size: 'Small (6 stems) + VASE', price: 44.99 }, { size: 'Medium (12 stems) - Wrapped', price: 49.99 }, { size: 'Medium (12 stems) + VASE', price: 54.99 }, { size: 'Large (18 stems) - Wrapped', price: 64.99 }, { size: 'Large (18 stems) + VASE', price: 69.99 }, { size: 'Deluxe (24 stems) - Wrapped', price: 89.99 }, { size: 'Deluxe (24 stems) + VASE', price: 94.99 }] },
-  { id: 'roses2', name: 'Pink Roses Arrangement', price: 54.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/pink_rose_arrangement_lvk1ve.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/pink_rose_arrangement_lvk1ve.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/pink_rose_arrnagemnt_product_image_qlqvu9.jpg'], desc: 'Soft pink roses for a romantic touch. Delicate and graceful, these premium roses symbolize admiration and appreciation. Beautifully arranged with lush greenery and tied with satin ribbon.', category: 'roses', color: 'Pink', type: 'Rose', assortment: 'Flowers', sizes: [{ size: 'Small (6 stems) - Wrapped', price: 44.99 }, { size: 'Small (6 stems) + VASE', price: 49.99 }, { size: 'Medium (12 stems) - Wrapped', price: 54.99 }, { size: 'Medium (12 stems) + VASE', price: 59.99 }, { size: 'Large (18 stems) - Wrapped', price: 69.99 }, { size: 'Large (18 stems) + VASE', price: 74.99 }, { size: 'Deluxe (24 stems) - Wrapped', price: 94.99 }, { size: 'Deluxe (24 stems) + VASE', price: 99.99 }] },
-  { id: 'roses3', name: 'White Roses Elegance', price: 59.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/white_rose_arrangement_product_image_q6scqc.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/white_rose_arrangement_product_image_q6scqc.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/white_rose_arrangement_product_image_1_bw6eui.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/white_rose_arrangement_product_image_2_itaq5j.jpg'], desc: 'Pure white roses symbolizing eternal love and devotion. Each pristine bloom represents purity and new beginnings. Elegantly arranged for weddings, anniversaries, or heartfelt gestures.', category: 'roses', color: 'White', type: 'Rose', assortment: 'Flowers', sizes: [{ size: 'Small (6 stems) - Wrapped', price: 49.99 }, { size: 'Small (6 stems) + VASE', price: 54.99 }, { size: 'Medium (12 stems) - Wrapped', price: 59.99 }, { size: 'Medium (12 stems) + VASE', price: 64.99 }, { size: 'Large (18 stems) - Wrapped', price: 74.99 }, { size: 'Large (18 stems) + VASE', price: 79.99 }, { size: 'Deluxe (24 stems) - Wrapped', price: 99.99 }, { size: 'Deluxe (24 stems) + VASE', price: 104.99 }] },
-  { id: 'roses4', name: 'Dozen Long-Stemmed Roses', price: 79.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Dozen_Long-Stemmed_Roses_product_image_qjavhn.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Dozen_Long-Stemmed_Roses_product_image_qjavhn.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Dozen_Long-Stemmed_Roses_product_image_1_spfbok.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Dozen_Long-Stemmed_Roses_product_image_2_qtx8af.jpg'], desc: 'Classic dozen long-stemmed red roses - the ultimate symbol of romantic love. Premium quality blooms with extended vase life. Wrapped in elegant paper with ribbon and includes a personalized message card.', category: 'roses', color: 'Red', type: 'Rose', assortment: 'Flowers', sizes: [{ size: 'Half Dozen (6) - Wrapped', price: 54.99 }, { size: 'Half Dozen (6) + VASE', price: 59.99 }, { size: 'Dozen (12) - Wrapped', price: 79.99 }, { size: 'Dozen (12) + VASE', price: 84.99 }, { size: 'Premium Dozen (12, Premium Grade) - Wrapped', price: 99.99 }, { size: 'Premium Dozen (12, Premium Grade) + VASE', price: 104.99 }, { size: 'Two Dozen (24) - Wrapped', price: 139.99 }, { size: 'Two Dozen (24) + VASE', price: 144.99 }] },
-  { id: 'roses5', name: 'Blush Pink Rose Box', price: 69.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/blush_pink_rose_box_umnqup.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/blush_pink_rose_box_umnqup.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/blush_pink_rose_box_1_tsziwj.jpg'], desc: 'Beautiful blush pink roses in luxury presentation box. Perfectly arranged in a keepsake hatbox that doubles as elegant decor. Includes premium roses with baby\'s breath accents for a sophisticated touch.', category: 'roses', color: 'Pink', type: 'Rose', assortment: 'Flowers', sizes: [{ size: 'Small Box (12 stems) + BOX', price: 59.99 }, { size: 'Medium Box (16 stems) + BOX', price: 69.99 }, { size: 'Large Box (20 stems) + BOX', price: 89.99 }, { size: 'Grand Luxury Box (24 stems) + BOX', price: 119.99 }] },
-  { id: 'roses6', name: 'Rainbow Roses Mix', price: 89.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/rainbow_roses_mix_q3mhep.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/rainbow_roses_mix_q3mhep.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/rainbow_roses_mix_1_prd72n.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/rainbow_roses_mix_2_dfxrbm.jpg'], desc: 'Stunning rainbow-colored roses featuring vibrant hues. Each rose is uniquely tinted to create a spectacular multi-color display. Perfect for celebrating diversity, joy, and extraordinary love.', category: 'roses', color: 'Assorted', type: 'Rose', assortment: 'Flowers', sizes: [{ size: 'Small (8 stems) - Wrapped', price: 69.99 }, { size: 'Small (8 stems) + VASE', price: 74.99 }, { size: 'Medium (12 stems) - Wrapped', price: 89.99 }, { size: 'Medium (12 stems) + VASE', price: 94.99 }, { size: 'Large (16 stems) - Wrapped', price: 119.99 }, { size: 'Large (16 stems) + VASE', price: 124.99 }, { size: 'Spectacular (20 stems) - Wrapped', price: 149.99 }, { size: 'Spectacular (20 stems) + VASE', price: 154.99 }] },
-  { id: 'roses7', name: 'Classic Valentine\'s Roses', price: 64.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/classic_valentiens_roses_vfliou.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/classic_valentiens_roses_vfliou.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/classic_valentiens_roses_1_ets36l.jpg'], desc: 'Traditional red roses for Valentine\'s Day romance. Hand-selected for their deep crimson color and intoxicating fragrance. Artfully arranged with seasonal greenery and wrapped in elegant Valentine-themed paper.', category: 'roses', color: 'Red', type: 'Rose', assortment: 'Flowers', sizes: [{ size: 'Small (6 stems) - Wrapped', price: 44.99 }, { size: 'Small (6 stems) + VASE', price: 49.99 }, { size: 'Medium (12 stems) - Wrapped', price: 64.99 }, { size: 'Medium (12 stems) + VASE', price: 69.99 }, { size: 'Large (18 stems) - Wrapped', price: 84.99 }, { size: 'Large (18 stems) + VASE', price: 89.99 }, { size: 'Premium (24 stems) - Wrapped', price: 109.99 }, { size: 'Premium (24 stems) + VASE', price: 114.99 }] },
-  { id: 'roses8', name: 'Luxury Red Rose Hatbox', price: 99.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Luxury_Red_Rose_Hatbox_nupubr.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Luxury_Red_Rose_Hatbox_nupubr.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Luxury_Red_Rose_Hatbox_1_ncigmw.jpg'], desc: 'Premium roses in elegant hatbox presentation. Features the finest grade long-stemmed roses arranged in a sophisticated round box. Includes luxury wrapping and a handwritten gift card for that extra special touch.', category: 'roses', color: 'Red', type: 'Rose', assortment: 'Flowers', sizes: [{ size: 'Classic (16 stems) + HATBOX', price: 89.99 }, { size: 'Deluxe (20 stems) + HATBOX', price: 99.99 }, { size: 'Signature (24 stems) + HATBOX', price: 139.99 }, { size: 'Presidential (30 stems) + HATBOX', price: 179.99 }] },
-  { id: 'roses9', name: 'Petite Rose Posy', price: 39.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Petite_Rose_Posy_yp6flw.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Petite_Rose_Posy_yp6flw.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Petite_Rose_Posy_1_d4l4km.jpg'], desc: 'Small but charming rose bouquet perfect for any occasion. Compact arrangement of fresh pink roses with delicate filler flowers. Ideal for "thinking of you" moments or as a sweet surprise gift.', category: 'roses', color: 'Pink', type: 'Rose', assortment: 'Flowers', sizes: [{ size: 'Tiny (3 stems) - Wrapped', price: 29.99 }, { size: 'Tiny (3 stems) + VASE', price: 34.99 }, { size: 'Petite (6 stems) - Wrapped', price: 39.99 }, { size: 'Petite (6 stems) + VASE', price: 44.99 }, { size: 'Sweet (9 stems) - Wrapped', price: 54.99 }, { size: 'Sweet (9 stems) + VASE', price: 59.99 }, { size: 'Premium Petite (12 stems) - Wrapped', price: 69.99 }, { size: 'Premium Petite (12 stems) + VASE', price: 74.99 }] },
-  { id: 'roses10', name: 'Grand Romance Roses', price: 129.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Grand_Romance_Roses_nsw7uj.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Grand_Romance_Roses_nsw7uj.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Grand_Romance_Roses_1_ojhg34.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Grand_Romance_Roses_2_tuxmtj.jpg'], desc: 'Extravagant arrangement for grand romantic gestures. Features 24 premium long-stemmed red roses in a stunning display. Includes luxury wrapping, satin ribbon, and personalized card for unforgettable moments.', category: 'roses', color: 'Red', type: 'Rose', assortment: 'Flowers', sizes: [{ size: 'Large (20 stems) - Wrapped', price: 99.99 }, { size: 'Large (20 stems) + VASE', price: 104.99 }, { size: 'Grand (24 stems) - Wrapped', price: 129.99 }, { size: 'Grand (24 stems) + VASE', price: 134.99 }, { size: 'Extravagant (30 stems) - Wrapped', price: 169.99 }, { size: 'Extravagant (30 stems) + VASE', price: 174.99 }, { size: 'Royal (36 stems) - Wrapped', price: 219.99 }, { size: 'Royal (36 stems) + VASE', price: 224.99 }] },
+          '<div class="text-center py-6 bg-yellow-50 border-2 border-yellow-300 rounded-lg"><p class="text-yellow-800 font-bold">🛒 Your cart is empty</p><p class="text-gray-700 text-sm mt-2">Add items to your cart before checking out.</p><a href="shop.html" class="inline-block mt-3 bg-deep-red text-white px-6 py-2 rounded-lg hover:bg-red-700 transition">Shop Now</a></div>';
+        return;
+      }
 
-  // === CHOCOLATES (10 products) ===
-  { id: 'choc1', name: 'Valentine\'s Chocolate Box', price: 29.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Valentine__s_Chocolate_Box_i1jipd.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Valentine__s_Chocolate_Box_i1jipd.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Valentine__s_Chocolate_Box_1_n8ua8q.jpg'], desc: 'Assorted heart-shaped chocolates in Valentine-themed box. Features milk, dark, and white chocolate varieties with creamy fillings. Beautifully packaged in red and pink for the perfect romantic gift.', category: 'chocolates', color: 'Assorted', type: 'Other', assortment: 'Chocolate', variants: [{ name: 'Standard Box (8 oz)', price: 29.99 }, { name: 'Deluxe Box (12 oz)', price: 44.99 }, { name: 'Premium Assortment (16 oz)', price: 59.99 }] },
-  { id: 'choc2', name: 'Dark Chocolate Truffles', price: 34.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Dark_Chocolate_Truffles_cxjrgg.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Dark_Chocolate_Truffles_cxjrgg.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Dark_Chocolate_Truffles_1_zzjhdh.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Dark_Chocolate_Truffles_2_jdjfes.jpg'], desc: 'Rich dark chocolate truffles with velvety ganache centers. Made from premium cocoa for intense chocolate flavor. Dusted with cocoa powder and presented in an elegant gift box.', category: 'chocolates', color: 'Other', type: 'Other', assortment: 'Chocolate', variants: [{ name: 'Classic (6 truffles)', price: 34.99 }, { name: 'Premium (9 truffles)', price: 49.99 }, { name: 'Luxury Reserve (12 truffles)', price: 69.99 }] },
-  { id: 'choc3', name: 'Milk Chocolate Hearts', price: 24.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Milk_Chocolate_Hearts_pbacok.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Milk_Chocolate_Hearts_pbacok.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Milk_Chocolate_Hearts_1_azwq2j.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Milk_Chocolate_Hearts_2_tagj3o.jpg'], desc: 'Sweet milk chocolate hearts perfect for Valentine\'s Day. Smooth, creamy chocolate in adorable heart shapes. Individually wrapped in festive foil for sharing or enjoying slowly.', category: 'chocolates', color: 'Other', type: 'Other', assortment: 'Chocolate', variants: [{ name: 'Regular Box (6 oz)', price: 24.99 }, { name: 'Large Box (10 oz)', price: 37.99 }, { name: 'Family Box (1 lb)', price: 49.99 }] },
-  { id: 'choc4', name: 'Assorted Chocolate Pralines', price: 39.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Assorted_Chocolate_Pralines_oet0ra.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Assorted_Chocolate_Pralines_oet0ra.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Assorted_Chocolate_Pralines_1_r6unzs.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Assorted_Chocolate_Pralines_2_rflyv9.jpg'], desc: 'Premium pralines selection with assorted fillings and flavors. Features caramel, hazelnut, raspberry, and champagne centers. Handcrafted by artisan chocolatiers in a luxurious presentation box.', category: 'chocolates', color: 'Assorted', type: 'Other', assortment: 'Chocolate', variants: [{ name: 'Classic Collection (8 pieces)', price: 39.99 }, { name: 'Artisan Collection (12 pieces)', price: 59.99 }, { name: 'Master Collection (16 pieces)', price: 79.99 }] },
-  { id: 'choc5', name: 'Chocolate Dipped Strawberries', price: 44.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Chocolate_Dipped_Strawberries_fsji4f.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Chocolate_Dipped_Strawberries_fsji4f.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Chocolate_Dipped_Strawberries_1_yh0eeq.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Chocolate_Dipped_Strawberries_2_zxtu8h.jpg'], desc: 'Fresh strawberries dipped in premium Belgian chocolate. Half-dozen large berries coated in dark, milk, or white chocolate with decorative drizzle. Delivered fresh for maximum flavor and elegance.', category: 'chocolates', color: 'Red', type: 'Other', assortment: 'Chocolate Dipped Strawberry', variants: [{ name: 'Half Dozen', price: 44.99 }, { name: 'Dozen', price: 79.99 }, { name: 'Deluxe Dozen (Premium Dipped)', price: 99.99 }] },
-  { id: 'choc6', name: 'Gourmet Chocolate Bark', price: 27.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Gourmet_Chocolate_Bark_rdu7gj.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Gourmet_Chocolate_Bark_rdu7gj.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Gourmet_Chocolate_Bark_2_yqljed.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Gourmet_Chocolate_Bark_1_ockaxk.jpg'], desc: 'Handcrafted chocolate bark with nuts, dried fruit, and sea salt. Artisan-made using premium chocolate and quality ingredients. Broken into rustic pieces and beautifully boxed for gift-giving.', category: 'chocolates', color: 'Other', type: 'Other', assortment: 'Chocolate', variants: [{ name: 'Standard Box (7 oz)', price: 27.99 }, { name: 'Premium Box (12 oz)', price: 44.99 }, { name: 'Assorted Flavors (1 lb)', price: 54.99 }] },
-  { id: 'choc7', name: 'White Chocolate Selection', price: 32.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/White_Chocolate_Selection_qqhrsc.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/White_Chocolate_Selection_qqhrsc.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/White_Chocolate_Selection_1_mbhdgb.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/White_Chocolate_Selection_2_rtszgo.jpg'], desc: 'Smooth white chocolate treats with various fillings. Features vanilla cream, raspberry, and lemon centers. Elegant white chocolate pieces with decorative toppings in a sophisticated gift box.', category: 'chocolates', color: 'White', type: 'Other', assortment: 'Chocolate', variants: [{ name: 'Selection (6 pieces)', price: 32.99 }, { name: 'Deluxe (9 pieces)', price: 47.99 }, { name: 'Premium Selection (12 pieces)', price: 64.99 }] },
-  { id: 'choc8', name: 'Hazelnut Chocolate Medley', price: 36.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Hazelnut_Chocolate_Medley_s0uoj0.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Hazelnut_Chocolate_Medley_s0uoj0.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Hazelnut_Chocolate_Medley_1_hxrda8.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Hazelnut_Chocolate_Medley_2_yeilso.jpg'], desc: 'Chocolate with roasted hazelnuts and praline. Features whole roasted hazelnuts in milk and dark chocolate. Includes hazelnut praline truffles for the ultimate nutty chocolate experience.', category: 'chocolates', color: 'Other', type: 'Other', assortment: 'Chocolate', variants: [{ name: 'Classic Box (8 oz)', price: 36.99 }, { name: 'Premium Box (12 oz)', price: 54.99 }, { name: 'Luxury Assortment (1 lb)', price: 74.99 }] },
-  { id: 'choc9', name: 'Chocolate & Caramel Squares', price: 31.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Chocolate_Caramel_Squares_ypetep.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Chocolate_Caramel_Squares_ypetep.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Chocolate_Caramel_Squares_1_csgnvy.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Chocolate_Caramel_Squares_2_nfznqq.jpg'], desc: 'Decadent chocolate caramel squares with sea salt. Layers of buttery caramel enrobed in premium dark chocolate. Finished with flaky sea salt for the perfect sweet-salty combination.', category: 'chocolates', color: 'Other', type: 'Other', assortment: 'Chocolate', variants: [{ name: 'Box (6 oz)', price: 31.99 }, { name: 'Large Box (10 oz)', price: 46.99 }, { name: 'Premium Box (1 lb)', price: 61.99 }] },
-  { id: 'choc10', name: 'Luxury Chocolate Gift Tin', price: 49.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Luxury_Chocolate_Gift_Tin_q1yzt5.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Luxury_Chocolate_Gift_Tin_q1yzt5.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Luxury_Chocolate_Gift_Tin_1_s3cs2l.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Luxury_Chocolate_Gift_Tin_2_y3t7ru.jpg'], desc: 'Premium chocolates in decorative keepsake tin. Assorted gourmet chocolates including truffles, pralines, and caramels. Beautifully presented in a reusable tin perfect for storing memories.', category: 'chocolates', color: 'Assorted', type: 'Other', assortment: 'Chocolate', variants: [{ name: 'Classic Tin (10 oz)', price: 49.99 }, { name: 'Deluxe Tin (14 oz)', price: 69.99 }, { name: 'Premium Luxury Tin (1 lb)', price: 89.99 }] },
+      // Display cart items
+      itemsContainer.innerHTML = cart.map(item => `
+        <div class="flex items-center gap-3 pb-3 border-b">
+          <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded">
+          <div class="flex-1">
+            <p class="font-semibold text-sm">${item.name}</p>
+            ${item.size ? `<p class="text-xs text-gray-500">${item.size}</p>` : ''}
+            <p class="text-xs text-gray-600">Qty: ${item.quantity} × $${item.price.toFixed(2)}</p>
+          </div>
+          <p class="font-bold text-sm">$${(item.price * item.quantity).toFixed(2)}</p>
+        </div>
+      `).join('');
 
-  // === TEDDY BEARS (10 products) ===
-  { id: 'teddy1', name: 'Classic Cuddly Teddy', price: 19.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Classic_Cuddly_Teddy_i70hfe.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Classic_Cuddly_Teddy_i70hfe.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Classic_Cuddly_Teddy_1_vhekjp.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Classic_Cuddly_Teddy_2_ewnrfj.jpg'], desc: 'Soft and huggable teddy bear perfect for all ages. Made from ultra-plush materials with safety-tested construction. Traditional brown teddy with embroidered features and sitting height of 12 inches.', category: 'teddy', color: 'Other', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Standard (12")', price: 19.99 }, { name: 'Large (18")', price: 34.99 }, { name: 'Jumbo (24")', price: 49.99 }] },
-  { id: 'teddy2', name: 'Valentine\'s Plush Bear', price: 24.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Valentine__s_Plush_Bear_g7yv67.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Valentine__s_Plush_Bear_g7yv67.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Valentine__s_Plush_Bear_1_uw5o98.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Valentine__s_Plush_Bear_2_nldn1x.jpg'], desc: 'Teddy with Valentine\'s Day theme holding a plush heart. Features soft red fur with embroidered "Be Mine" message. Includes attached satin heart pillow - perfect keepsake for your special someone.', category: 'teddy', color: 'Red', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Standard (12")', price: 24.99 }, { name: 'Deluxe (16")', price: 39.99 }, { name: 'Premium (20")', price: 54.99 }] },
-  { id: 'teddy3', name: 'Giant Hug Teddy', price: 59.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/teddy_bears_ti8hgb.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/teddy_bears_ti8hgb.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Classic_Cuddly_Teddy_i70hfe.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Classic_Cuddly_Teddy_1_vhekjp.jpg'], desc: 'Extra-large teddy for big hugs and maximum cuddles. Standing 24 inches tall with ultra-soft plush fur. Perfect for making a grand romantic gesture or as a comforting companion.', category: 'teddy', color: 'Other', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Large (24")', price: 59.99 }, { name: 'Gigantic (30")', price: 89.99 }, { name: 'Super Jumbo (36")', price: 129.99 }] },
-  { id: 'teddy4', name: 'Pink Bow Teddy', price: 22.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Pink_Bow_Teddy_dnshnx.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Pink_Bow_Teddy_dnshnx.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Pink_Bow_Teddy_1_x5helk.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Pink_Bow_Teddy_2_m7svzl.jpg'], desc: 'Adorable teddy with pink satin bow and soft cream fur. Features embroidered smile and safety eyes. Sits perfectly on a shelf or bed as a sweet romantic reminder.', category: 'teddy', color: 'Pink', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Standard (12")', price: 22.99 }, { name: 'Large (16")', price: 36.99 }, { name: 'XL (20")', price: 49.99 }] },
-  { id: 'teddy5', name: '"I Love You" Bear', price: 27.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/I_Love_You__Bear_sbkd1f.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/I_Love_You__Bear_sbkd1f.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/I_Love_You__Bear_1_zow2jg.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/I_Love_You__Bear_2_wb3ucb.jpg'], desc: 'Teddy holding "I Love You" heart pillow. Soft beige bear clutching red satin heart with embroidered message. Expresses your feelings perfectly - a timeless keepsake of your love.', category: 'teddy', color: 'Red', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Standard (12")', price: 27.99 }, { name: 'Large (16")', price: 39.99 }, { name: 'Extra Large (20")', price: 54.99 }] },
-  { id: 'teddy6', name: 'Mini Teddy Keychain', price: 9.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Mini_Teddy_Keychain_k9kmds.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Mini_Teddy_Keychain_k9kmds.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Mini_Teddy_Keychain_1_ak65gy.jpg'], desc: 'Cute mini teddy keychain perfect for bags or keys. Adorable 3-inch plush bear with metal clasp attachment. Carries your love wherever they go - sweet and affordable gift option.', category: 'teddy', color: 'Other', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Single (3")', price: 9.99 }, { name: 'Pair (Two 3" Bears)', price: 17.99 }, { name: 'Set of 4', price: 34.99 }] },
-  { id: 'teddy7', name: 'Soft Cream Teddy', price: 29.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Soft_Cream_Teddy_mcpctz.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Soft_Cream_Teddy_mcpctz.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Soft_Cream_Teddy_1_ijzmdy.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Soft_Cream_Teddy_2_ze4xzg.jpg'], desc: 'Soft cream-colored teddy with premium plush fabric. Features embroidered paw pads and nose with ribbon accent. Classic design that complements any decor - 15 inches of pure softness.', category: 'teddy', color: 'White', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Standard (15")', price: 29.99 }, { name: 'Large (18")', price: 44.99 }, { name: 'Deluxe (22")', price: 59.99 }] },
-  { id: 'teddy8', name: 'Blush Pink Teddy', price: 26.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Blush_Pink_Teddy_fffxk1.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Blush_Pink_Teddy_fffxk1.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Blush_Pink_Teddy_1_eqcyql.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Blush_Pink_Teddy_2_tqigbc.jpg'], desc: 'Elegant blush pink plush teddy with delicate features. Soft pastel pink fur with embroidered details and satin bow. Romantic and sophisticated - perfect for Valentine\'s or anniversaries.', category: 'teddy', color: 'Pink', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Standard (14")', price: 26.99 }, { name: 'Premium (18")', price: 41.99 }, { name: 'Deluxe (22")', price: 56.99 }] },
-  { id: 'teddy9', name: 'Heart Patch Teddy', price: 24.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Heart_Patch_Teddy_bfgppe.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Heart_Patch_Teddy_bfgppe.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Heart_Patch_Teddy_1_z7fm3w.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Heart_Patch_Teddy_2_icpa2e.jpg'], desc: 'Teddy with embroidered heart patch detail on chest. Classic brown bear with red heart embroidery symbolizing love. Comes with personalized gift tag for adding your special message.', category: 'teddy', color: 'Red', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Standard (13")', price: 24.99 }, { name: 'Large (17")', price: 39.99 }, { name: 'Premium XL (21")', price: 54.99 }] },
-  { id: 'teddy10', name: 'Deluxe Valentine Bear', price: 39.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Deluxe_Valentine_Bear_zbtxbk.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Deluxe_Valentine_Bear_zbtxbk.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Deluxe_Valentine_Bear_1_ffwla0.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Deluxe_Valentine_Bear_2_k6gqeb.jpg'], desc: 'Premium teddy for your special someone. Luxurious red plush fur with satin bow and holding roses. Extra-soft construction with Valentine message - the ultimate romantic plush gift.', category: 'teddy', color: 'Red', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Premium (16")', price: 39.99 }, { name: 'Luxury (20")', price: 59.99 }, { name: 'Supreme (24")', price: 79.99 }] },
+      // Calculate totals
+      const subtotal = getCartTotal();
+      const discount = parseFloat(localStorage.getItem('appliedDiscountAmount')) || 0;
+      const total = Math.max(0, subtotal - discount);
 
-  // === GIFT COMBOS (10 products) ===
-  { id: 'combo1', name: 'Roses & Chocolates Combo', price: 69.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Roses_Chocolates_Combo_rfdygw.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Roses_Chocolates_Combo_rfdygw.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Roses_Chocolates_Combo_1_v2fmsl.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Roses_Chocolates_Combo_2_dtgbcj.jpg'], desc: 'Beautiful roses with gourmet chocolates in gift box. Includes half-dozen premium roses and assorted chocolate truffles. Elegantly packaged together for the perfect romantic combination.', category: 'combo', color: 'Assorted', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Standard (6 roses + 6 chocolates)', price: 69.99 }, { name: 'Deluxe (12 roses + 12 chocolates)', price: 99.99 }, { name: 'Premium (18 roses + luxury chocolates)', price: 139.99 }] },
-  { id: 'combo2', name: 'Teddy & Roses Gift Set', price: 64.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Teddy_Roses_Gift_Set_kbjbmu.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Teddy_Roses_Gift_Set_kbjbmu.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Teddy_Roses_Gift_Set_1_i8zar0.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Teddy_Roses_Gift_Set_2_e0zpzi.jpg'], desc: 'Cute teddy with fresh roses in coordinated gift set. Features 12-inch plush bear and half-dozen roses beautifully arranged. Complete with gift box and personalized card for maximum impact.', category: 'combo', color: 'Assorted', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Standard (12" bear + 6 roses)', price: 64.99 }, { name: 'Premium (16" bear + 12 roses)', price: 94.99 }, { name: 'Deluxe (20" bear + 18 roses)', price: 129.99 }] },
-  { id: 'combo3', name: 'Chocolate & Teddy Pair', price: 54.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Chocolate_Teddy_Pair_dr7uga.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Chocolate_Teddy_Pair_dr7uga.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Chocolate_Teddy_Pair_1_entd5l.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Chocolate_Teddy_Pair_2_khg3mz.jpg'], desc: 'Chocolates and plush teddy combo in gift basket. Includes premium chocolate assortment and adorable Valentine bear. Wrapped in cellophane with ribbon - sweet treats and lasting keepsake together.', category: 'combo', color: 'Assorted', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Standard (12" bear + 8 oz chocolates)', price: 54.99 }, { name: 'Premium (16" bear + 12 oz gourmet)', price: 79.99 }, { name: 'Luxury (20" bear + 16 oz artisan)', price: 109.99 }] },
-  { id: 'combo4', name: 'Ultimate Valentine\'s Box', price: 129.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Ultimate_Valentine__s_Box_mzdkgg.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Ultimate_Valentine__s_Box_mzdkgg.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Ultimate_Valentine__s_Box_1_ij0hmk.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Ultimate_Valentine__s_Box_2_ixnolx.jpg'], desc: 'All-inclusive Valentine\'s gift box with everything. Features roses, premium chocolates, teddy bear, and champagne. Luxuriously packaged in keepsake box - the complete romantic experience.', category: 'combo', color: 'Assorted', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Deluxe Box', price: 129.99 }, { name: 'Premium Box (Champagne + extras)', price: 169.99 }, { name: 'Luxury Box (Premium everything)', price: 219.99 }] },
-  { id: 'combo5', name: 'Sweetheart Gift Basket', price: 89.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Sweetheart_Gift_Basket_kbckez.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Sweetheart_Gift_Basket_kbckez.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Sweetheart_Gift_Basket_1_iqvmwr.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Sweetheart_Gift_Basket_2_lyl1sx.jpg'], desc: 'Basket with roses, chocolates, and teddy bear. Thoughtfully curated with fresh roses, gourmet treats, and plush companion. Beautifully arranged in wicker basket with decorative wrap.', category: 'combo', color: 'Assorted', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Standard Basket', price: 89.99 }, { name: 'Premium Basket (Larger items)', price: 124.99 }, { name: 'Deluxe Basket (Everything premium)', price: 159.99 }] },
-  { id: 'combo6', name: 'Deluxe Combo (All-in-One)', price: 149.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/valenitnes_goift_combo_utc8dh.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/valenitnes_goift_combo_utc8dh.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Roses_Chocolates_Combo_rfdygw.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Sweetheart_Gift_Basket_kbckez.jpg'], desc: 'Premium combo with everything for ultimate romance. Includes dozen roses, luxury chocolates, premium teddy, and spa items. Presented in elegant gift box - the grand gesture they deserve.', category: 'combo', color: 'Assorted', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Premium Package', price: 149.99 }, { name: 'Luxury Package (Extra spa items)', price: 199.99 }, { name: 'Grand Luxury (Everything deluxe)', price: 259.99 }] },
-  { id: 'combo7', name: 'Petite Combo Set', price: 44.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Teddy_Roses_Gift_Set_kbjbmu.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Teddy_Roses_Gift_Set_kbjbmu.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Chocolate_Teddy_Pair_dr7uga.jpg'], desc: 'Small but sweet combo gift perfect for any occasion. Features three roses, chocolate box, and mini teddy bear. Perfectly sized for expressing love without overwhelming - thoughtful and affordable.', category: 'combo', color: 'Assorted', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Petite (3 items)', price: 44.99 }, { name: 'Small (5 items + extras)', price: 64.99 }, { name: 'Medium (7 items premium)', price: 84.99 }] },
-  { id: 'combo8', name: 'Luxury Gift Hamper', price: 199.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Sweetheart_Gift_Basket_kbckez.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Sweetheart_Gift_Basket_kbckez.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Sweetheart_Gift_Basket_2_lyl1sx.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Roses_Chocolates_Combo_rfdygw.jpg'], desc: 'Extravagant gift hamper with premium selections. Includes two dozen roses, gourmet chocolates, wine, teddy, and spa products. Presented in luxury wicker hamper - ultimate indulgence.', category: 'combo', color: 'Assorted', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Premium Hamper (24 roses)', price: 199.99 }, { name: 'Deluxe Hamper (Premium wine)', price: 249.99 }, { name: 'Royal Hamper (Everything premium)', price: 319.99 }] },
-  { id: 'combo9', name: 'Romantic Night Combo', price: 109.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Ultimate_Valentine__s_Box_mzdkgg.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Ultimate_Valentine__s_Box_mzdkgg.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Roses_Chocolates_Combo_2_dtgbcj.jpg'], desc: 'Perfect combo for romantic evening at home. Features roses, chocolates, champagne, candles, and music playlist card. Everything needed for an unforgettable date night together.', category: 'combo', color: 'Assorted', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Standard Evening', price: 109.99 }, { name: 'Premium Evening (Better wine)', price: 149.99 }, { name: 'Luxury Evening (Premium everything)', price: 199.99 }] },
-  { id: 'combo10', name: 'Classic Valentine\'s Trio', price: 79.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Teddy_Roses_Gift_Set_kbjbmu.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Teddy_Roses_Gift_Set_kbjbmu.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Chocolate_Teddy_Pair_2_khg3mz.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Roses_Chocolates_Combo_rfdygw.jpg'], desc: 'Roses, chocolates, and teddy trio in coordinated gift. Traditional Valentine combination with half-dozen roses, chocolate box, and 12-inch bear. Beautifully packaged together for maximum impact.', category: 'combo', color: 'Assorted', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Standard Trio (6 roses)', price: 79.99 }, { name: 'Premium Trio (12 roses)', price: 109.99 }, { name: 'Deluxe Trio (18 roses + XL bear)', price: 149.99 }] },
+      subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+      totalEl.textContent = `$${total.toFixed(2)}`;
 
-  // === FLOWERS/MIXED BOUQUETS (10 products) ===
-  { id: 'flower1', name: 'Tulip Spring Mix', price: 44.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/roses_and_flowers_ppw1kd.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/roses_and_flowers_ppw1kd.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/pink_rose_arrangement_lvk1ve.jpg'], desc: 'Fresh tulips in spring colors for cheerful gifting. Features assorted pink, yellow, and purple tulips with greenery. Available wrapped only.', category: 'flowers', color: 'Assorted', type: 'Tulip', assortment: 'Flowers', sizes: [{ size: 'Small (8 stems) - Wrapped', price: 34.99 }, { size: 'Small (8 stems) + VASE', price: 39.99 }, { size: 'Medium (12 stems) - Wrapped', price: 44.99 }, { size: 'Medium (12 stems) + VASE', price: 49.99 }, { size: 'Large (16 stems) - Wrapped', price: 59.99 }, { size: 'Large (16 stems) + VASE', price: 64.99 }, { size: 'Deluxe (20 stems) - Wrapped', price: 79.99 }, { size: 'Deluxe (20 stems) + VASE', price: 84.99 }] },
-  { id: 'flower2', name: 'Lily & Rose Bouquet', price: 64.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/white_rose_arrangement_product_image_q6scqc.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/white_rose_arrangement_product_image_q6scqc.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/white_rose_arrangement_product_image_1_bw6eui.jpg'], desc: 'Elegant lilies with roses in sophisticated arrangement. Fragrant white lilies with pink roses & eucalyptus. Available wrapped only.', category: 'flowers', color: 'White', type: 'Lily', assortment: 'Flowers', sizes: [{ size: 'Small (6L+6R) - Wrapped', price: 54.99 }, { size: 'Small (6L+6R) + VASE', price: 59.99 }, { size: 'Medium (8L+10R) - Wrapped', price: 64.99 }, { size: 'Medium (8L+10R) + VASE', price: 69.99 }, { size: 'Large (10L+14R) - Wrapped', price: 84.99 }, { size: 'Large (10L+14R) + VASE', price: 89.99 }, { size: 'Premium (12L+18R) - Wrapped', price: 109.99 }, { size: 'Premium (12L+18R) + VASE', price: 114.99 }] },
-  { id: 'flower3', name: 'Sunflower Smile Bunch', price: 39.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/roses_and_flowers_ppw1kd.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/roses_and_flowers_ppw1kd.jpg'], desc: 'Bright sunflowers to brighten anyone\'s day with seasonal fillers & greenery. Available wrapped only.', category: 'flowers', color: 'Other', type: 'Other', assortment: 'Flowers', sizes: [{ size: 'Small (5) - Wrapped', price: 29.99 }, { size: 'Small (5) + VASE', price: 34.99 }, { size: 'Medium (7) - Wrapped', price: 39.99 }, { size: 'Medium (7) + VASE', price: 44.99 }, { size: 'Large (10) - Wrapped', price: 54.99 }, { size: 'Large (10) + VASE', price: 59.99 }, { size: 'Jumbo (15) - Wrapped', price: 74.99 }, { size: 'Jumbo (15) + VASE', price: 79.99 }] },
-  { id: 'flower4', name: 'Mixed Wildflower Jar', price: 34.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/roses_and_flowers_ppw1kd.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/roses_and_flowers_ppw1kd.jpg'], desc: 'Charming wildflowers in rustic mason jar. Daisies, baby\'s breath, & seasonal wildflowers. INCLUDES vintage-style mason jar as keepsake.', category: 'flowers', color: 'Assorted', type: 'Other', assortment: 'Flowers', sizes: [{ size: 'Small (8) + MASON JAR', price: 24.99 }, { size: 'Medium (12) + MASON JAR', price: 34.99 }, { size: 'Large (16) + MASON JAR', price: 49.99 }, { size: 'Extra Large (20) + MASON JAR', price: 64.99 }] },
-  { id: 'flower5', name: 'Orchid Elegance', price: 54.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/pink_rose_arrangement_lvk1ve.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/pink_rose_arrangement_lvk1ve.jpg'], desc: 'Sophisticated orchid in decorative ceramic pot. Premium phalaenopsis orchid with ceramic pot and potting mix included.', category: 'flowers', color: 'White', type: 'Other', assortment: 'Plants', variants: [{ name: 'Single Stem (3 blooms) + POT', price: 54.99 }, { name: 'Double Stem (6 blooms) + POT', price: 74.99 }, { name: 'Triple Stem (9 blooms) + POT', price: 99.99 }, { name: 'Premium Display (12+ blooms) + POT', price: 129.99 }] },
-  { id: 'flower6', name: 'Peony & Rose Arrangement', price: 74.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/blush_pink_rose_box_umnqup.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/blush_pink_rose_box_umnqup.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/blush_pink_rose_box_1_tsziwj.jpg'], desc: 'Luxurious peonies with roses in premium bouquet. Lush pink peonies with garden roses & greenery. Choose wrapped or in clear glass vase.', category: 'flowers', color: 'Pink', type: 'Lily', assortment: 'Flowers', sizes: [{ size: 'Small (6P+8R) - Wrapped', price: 64.99 }, { size: 'Small (6P+8R) + VASE', price: 69.99 }, { size: 'Medium (8P+12R) - Wrapped', price: 74.99 }, { size: 'Medium (8P+12R) + VASE', price: 79.99 }, { size: 'Large (10P+16R) - Wrapped', price: 99.99 }, { size: 'Large (10P+16R) + VASE', price: 104.99 }, { size: 'Grand (12P+20R) - Wrapped', price: 134.99 }, { size: 'Grand (12P+20R) + VASE', price: 139.99 }] },
-  { id: 'flower7', name: 'Daisies & Roses Basket', price: 49.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/roses_and_flowers_ppw1kd.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/roses_and_flowers_ppw1kd.jpg'], desc: 'Cheerful daisies and roses in wicker basket. Fresh white daisies with pink roses. INCLUDES wicker basket as keepsake.', category: 'flowers', color: 'White', type: 'Other', assortment: 'Flowers', sizes: [{ size: 'Small (8) + WICKER BASKET', price: 39.99 }, { size: 'Medium (12) + WICKER BASKET', price: 49.99 }, { size: 'Large (16) + WICKER BASKET', price: 69.99 }, { size: 'Extra Large (20) + WICKER BASKET', price: 89.99 }] },
-  { id: 'flower8', name: 'Florist\'s Choice Bouquet', price: 59.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/Dozen_Long-Stemmed_Roses_product_image_qjavhn.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/Dozen_Long-Stemmed_Roses_product_image_qjavhn.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/Dozen_Long-Stemmed_Roses_product_image_1_spfbok.jpg'], desc: 'Curated selection by our expert florist using the freshest seasonal blooms. Choose wrapped or in vase.', category: 'flowers', color: 'Assorted', type: 'Florist\'s Choice', assortment: 'Flowers', sizes: [{ size: 'Small (10 stems) - Wrapped', price: 44.99 }, { size: 'Small (10 stems) + VASE', price: 49.99 }, { size: 'Medium (15 stems) - Wrapped', price: 59.99 }, { size: 'Medium (15 stems) + VASE', price: 64.99 }, { size: 'Large (20 stems) - Wrapped', price: 79.99 }, { size: 'Large (20 stems) + VASE', price: 84.99 }, { size: 'Premium (25+ stems) - Wrapped', price: 109.99 }, { size: 'Premium (25+ stems) + VASE', price: 114.99 }] },
-  { id: 'flower9', name: 'Pastel Petals Mix', price: 52.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/pink_rose_arrnagemnt_product_image_qlqvu9.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/pink_rose_arrnagemnt_product_image_qlqvu9.jpg'], desc: 'Soft pastel flower mix in gentle, romantic colors. Pink roses, lavender, & white blooms. INCLUDES clear glass vase as keepsake.', category: 'flowers', color: 'Assorted', type: 'Other', assortment: 'Flowers', sizes: [{ size: 'Small (10 stems) + VASE', price: 42.99 }, { size: 'Medium (14 stems) + VASE', price: 52.99 }, { size: 'Large (18 stems) + VASE', price: 72.99 }, { size: 'Deluxe (24 stems) + VASE', price: 97.99 }] },
-  { id: 'flower10', name: 'Blush Pink Florals', price: 62.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/blush_pink_rose_box_umnqup.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/blush_pink_rose_box_umnqup.jpg'], desc: 'Beautiful blush pink arrangement with premium blooms. Roses, ranunculus, & lisianthus in soft pink tones. Choose vase or wrapped option.', category: 'flowers', color: 'Pink', type: 'Lily', assortment: 'Flowers', sizes: [{ size: 'Small (12 stems) - Wrapped', price: 49.99 }, { size: 'Small (12 stems) + VASE', price: 54.99 }, { size: 'Medium (16 stems) - Wrapped', price: 62.99 }, { size: 'Medium (16 stems) + VASE', price: 67.99 }, { size: 'Large (20 stems) - Wrapped', price: 82.99 }, { size: 'Large (20 stems) + VASE', price: 87.99 }, { size: 'Premium (26 stems) - Wrapped', price: 112.99 }, { size: 'Premium (26 stems) + VASE', price: 117.99 }] }
-];
-        </script>
-            <script>
-              let appliedDiscount = null;
-              
-              // Render cart summary on checkout page
-              function renderCartSummary() {
-                if (typeof getCart !== 'function') return;
-                const cart = getCart();
-                const itemsDiv = document.getElementById('cart-items');
-                const totalSpan = document.getElementById('cart-total');
-                
-                if (!cart.length) {
-                  itemsDiv.innerHTML = '<div class="text-center text-gray-500 py-6">Your cart is empty. <a href="shop.html" class="text-deep-red underline">Continue shopping</a></div>';
-                  totalSpan.textContent = '0.00';
-                  return;
-                }
-                
-                itemsDiv.innerHTML = cart.map(item => {
-                  const imgSrc = item.img || '';
-                  // Find product to get available sizes
-                  const product = typeof products !== 'undefined' ? products.find(p => p.id === item.id) : null;
-                  const availableSizes = product ? (product.sizes || product.variants || []) : [];
-                  
-                  let sizeSelector = '';
-                  let variantDisplay = '';
-                  if (availableSizes.length > 0) {
-                    const sizeOptions = availableSizes.map((s, idx) => {
-                      const sizeLabel = s.size || s.name;
-                      const sizePrice = s.price;
-                      const selected = (idx === 0 || item.price === sizePrice) ? 'selected' : '';
-                      return `<option value="${sizePrice}" ${selected}>${sizeLabel} - $${sizePrice.toFixed(2)}</option>`;
-                    }).join('');
-                    sizeSelector = `
-                      <div class='flex items-center gap-2 mt-2'>
-                        <label class='text-xs font-semibold text-deep-red'>Size & Vase Option:</label>
-                        <select class='size-selector border-2 border-deep-red rounded px-3 py-1 text-sm font-medium' data-id='${item.id}'>
-                          ${sizeOptions}
-                        </select>
-                      </div>
-                    `;
-                  } else if (item.variant) {
-                    variantDisplay = `<div class='text-xs text-charcoal mt-1'><strong>Option:</strong> ${item.variant}</div>`;
-                  }
-                  
-                  return `
-                    <div class='flex items-center justify-between border-b border-champagne-gold py-4'>
-                      <div class='flex items-center gap-4'>
-                        <div class='relative'>
-                          <img src='${imgSrc}' 
-                               alt='${item.name}' 
-                               class='h-16 w-16 object-cover rounded shadow border border-champagne-gold'>
-                        </div>
-                        <div>
-                          <div class='font-bold text-sm'>${item.name}</div>
-                          <div class='text-xs text-gray-500 mt-1'>Unit Price: $${item.price.toFixed(2)}</div>
-                          ${variantDisplay}
-                          ${sizeSelector}
-                          <div class='flex items-center gap-2 mt-2'>
-                            <label class='text-xs font-semibold'>Qty:</label>
-                            <input type='number' min='1' value='${item.quantity}' data-id='${item.id}' class='cart-qty-input border border-charcoal rounded w-12 px-1 py-0.5 text-center text-xs'>
-                            <button type='button' class='cart-remove-btn text-xs text-red-700 font-bold hover:underline ml-2' data-id='${item.id}'>Remove</button>
-                          </div>
-                        </div>
-                      </div>
-                      <div class='font-bold text-right'>
-                        <div class='text-sm'>$${(item.price * item.quantity).toFixed(2)}</div>
-                        <div class='text-xs text-gray-400'>${item.quantity} items</div>
-                      </div>
-                    </div>
-                  `;
-                }).join('');
-                
-                updateCheckoutTotals();
-              }
-              
-              function updateCheckoutTotals() {
-                const cart = getCart();
-                const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-                const subtotalSpan = document.getElementById('checkout-subtotal');
-                const discountSpan = document.getElementById('checkout-discount');
-                const totalSpan = document.getElementById('cart-total');
-                const totalDisplaySpan = document.getElementById('checkout-total-display');
-                
-                if (subtotalSpan) subtotalSpan.textContent = subtotal.toFixed(2);
-                
-                let finalTotal = subtotal;
-                if (appliedDiscount) {
-                  const discountAmount = appliedDiscount.discount;
-                  finalTotal = subtotal - discountAmount;
-                  if (discountSpan) {
-                    discountSpan.innerHTML = `-$${discountAmount.toFixed(2)} <span class='text-xs'>(${appliedDiscount.code})</span>`;
-                  }
-                } else {
-                  if (discountSpan) discountSpan.textContent = '$0.00';
-                }
-                
-                const finalAmount = Math.max(0, finalTotal).toFixed(2);
-                if (totalSpan) totalSpan.textContent = finalAmount;
-                if (totalDisplaySpan) totalDisplaySpan.textContent = finalAmount;
-              }
-              
-              document.addEventListener('DOMContentLoaded', function() {
-                renderCartSummary();
-                
-                // Remove item logic
-                document.getElementById('cart-items').addEventListener('click', function(e) {
-                  if (e.target.classList.contains('cart-remove-btn')) {
-                    const id = e.target.getAttribute('data-id');
-                    if (typeof removeFromCart === 'function') {
-                      if (window.releaseStock) window.releaseStock(id, 1);
-                      removeFromCart(id);
-                      renderCartSummary();
-                      if (window.updateCartDisplay) window.updateCartDisplay();
-                    }
-                  }
-                });
-                
-                // Update quantity logic
-                document.getElementById('cart-items').addEventListener('change', function(e) {
-                  if (e.target.classList.contains('cart-qty-input')) {
-                    const id = e.target.getAttribute('data-id');
-                    let qty = parseInt(e.target.value);
-                    if (isNaN(qty) || qty < 1) qty = 1;
-                    if (typeof updateQuantity === 'function') {
-                      updateQuantity(id, qty);
-                      renderCartSummary();
-                      if (window.updateCartDisplay) window.updateCartDisplay();
-                    }
-                  }
-                  
-                  // Handle size/vase option changes
-                  if (e.target.classList.contains('size-selector')) {
-                    const id = e.target.getAttribute('data-id');
-                    const newPrice = parseFloat(e.target.value);
-                    const selectedOption = e.target.options[e.target.selectedIndex];
-                    const variantLabel = selectedOption.text;
-                    
-                    // Update cart item with new price and variant
-                    const cart = getCart();
-                    const itemIndex = cart.findIndex(item => item.id === id);
-                    if (itemIndex !== -1) {
-                      cart[itemIndex].price = newPrice;
-                      cart[itemIndex].variant = variantLabel;
-                      saveCart(cart);
-                      renderCartSummary();
-                      if (window.updateCartDisplay) window.updateCartDisplay();
-                    }
-                  }
-                });
-                
-                // Discount code application
-                const discountBtn = document.querySelector('button[type="button"]:contains("Apply")');
-                if (discountBtn) {
-                  discountBtn.onclick = function(e) {
-                    e.preventDefault();
-                    const codeInput = document.querySelector('input[placeholder="Enter code"]');
-                    const code = (codeInput.value || '').trim();
-                    
-                    if (!code) {
-                      alert('Please enter a discount code');
-                      return;
-                    }
-                    
-                    const cart = getCart();
-                    const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-                    
-                    if (typeof applyDiscountToCart === 'function') {
-                      const result = applyDiscountToCart(code, subtotal);
-                      if (result.applied) {
-                        appliedDiscount = result;
-                        updateCheckoutTotals();
-                        alert(`✅ Discount applied! You save $${result.discount.toFixed(2)}`);
-                        codeInput.value = '';
-                      } else {
-                        alert(`❌ ${result.error}`);
-                      }
-                    }
-                  };
-                }
-              });
-            </script>
-        <script>
-          // Validate form fields
-          function validateCheckoutForm() {
-            const errors = [];
-            const form = document.getElementById('checkout-form');
-            
-            const name = document.getElementById('checkout-name').value.trim();
-            const email = document.getElementById('checkout-email').value.trim();
-            const phone = document.getElementById('checkout-phone').value.trim();
-            const address = document.getElementById('checkout-address').value.trim();
-            
-            if (!window.validateName || !window.validateName(name)) {
-              errors.push('Invalid name');
-            }
-            
-            if (!window.validateEmail || !window.validateEmail(email)) {
-              errors.push('Invalid email address');
-            }
-            
-            if (!window.validatePhoneNumber || !window.validatePhoneNumber(phone)) {
-              errors.push('Invalid phone number (10+ digits required)');
-            }
-            
-            if (!window.validateAddress || !window.validateAddress(address)) {
-              errors.push('Invalid address');
-            }
-            
-            return errors;
+      if (discount > 0) {
+        discountEl.textContent = `-$${discount.toFixed(2)}`;
+        discountRow.classList.remove('hidden');
+      } else {
+        discountRow.classList.add('hidden');
+      }
+    }
+
+    // Apply discount code
+    document.getElementById('apply-discount-btn').addEventListener('click', function() {
+      const code = document.getElementById('discount-code-input').value.trim().toUpperCase();
+      const statusEl = document.getElementById('discount-status');
+
+      if (!code) {
+        statusEl.innerHTML = '<span class="text-red-600">❌ Please enter a code</span>';
+        return;
+      }
+
+      const cart = getCart();
+      const subtotal = getCartTotal();
+      
+      if (typeof applyDiscount === 'function') {
+        const result = applyDiscount(code, cart, subtotal);
+        
+        if (result.success) {
+          localStorage.setItem('appliedDiscountCode', code);
+          localStorage.setItem('appliedDiscountAmount', result.discountAmount.toFixed(2));
+          statusEl.innerHTML = `<span class="text-green-600">✅ ${result.message}</span>`;
+          displayCheckoutCart();
+        } else {
+          statusEl.innerHTML = `<span class="text-red-600">❌ ${result.message}</span>`;
+        }
+      } else {
+        statusEl.innerHTML = '<span class="text-red-600">❌ Discount system not loaded</span>';
+      }
+    });
+
+    // Validate form before payment
+    function validateCheckoutForm() {
+      const name = document.getElementById('checkout-name').value.trim();
+      const email = document.getElementById('checkout-email').value.trim();
+      const phone = document.getElementById('checkout-phone').value.trim();
+      const address = document.getElementById('checkout-address').value.trim();
+
+      if (!name || name.length < 2) {
+        alert('❌ Please enter a valid name');
+        return false;
+      }
+
+      if (!email || !email.includes('@') || !email.includes('.')) {
+        alert('❌ Please enter a valid email address');
+        return false;
+      }
+
+      if (!phone || phone.length < 10) {
+        alert('❌ Please enter a valid phone number');
+        return false;
+      }
+
+      if (!address || address.length < 10) {
+        alert('❌ Please enter a complete shipping address');
+        return false;
+      }
+
+      return true;
+    }
+
+    // Initialize PayPal Button
+    function initPayPalButton() {
+      if (!window.paypal) {
+        console.error('❌ PayPal SDK not loaded');
+        document.getElementById('paypal-error').classList.remove('hidden');
+        return;
+      }
+
+      const cart = getCart();
+      if (!cart || cart.length === 0) {
+        return; // Empty cart message already shown
+      }
+
+      console.log('✅ Initializing PayPal button');
+
+      paypal.Buttons({
+        style: {
+          layout: 'vertical',
+          color: 'gold',
+          shape: 'rect',
+          label: 'paypal'
+        },
+
+        createOrder: function(data, actions) {
+          // Validate form first
+          if (!validateCheckoutForm()) {
+            return actions.reject();
           }
-          
-          function formatAmount(num) {
-            return (Math.round(num * 100) / 100).toFixed(2);
-          }
-          
-          function getCheckoutTotal() {
-            const totalSpan = document.getElementById('cart-total');
-            return parseFloat(totalSpan.textContent) || 0;
-          }
-          
-          function showError(message) {
-            const errorDiv = document.getElementById('form-errors');
-            errorDiv.textContent = message;
-            errorDiv.classList.remove('hidden');
-            window.scrollTo(0, 0);
-          }
-          
-          function showSuccess(message) {
-            const successDiv = document.getElementById('form-success');
-            successDiv.textContent = message;
-            successDiv.classList.remove('hidden');
-            window.scrollTo(0, 0);
-          }
-          
-          document.addEventListener('DOMContentLoaded', function() {
-            // Prevent form submission (PayPal handles order completion)
-            document.getElementById('checkout-form')?.addEventListener('submit', function(e) {
-              e.preventDefault();
-              alert('⚠️ Please use the PayPal button to complete your order.');
-              return false;
-            });
-            
-            // Discount button handler
-            document.getElementById('apply-discount-btn').onclick = function(e) {
-              e.preventDefault();
-              const codeInput = document.getElementById('discount-code-input');
-              const code = (codeInput.value || '').trim();
-              
-              if (!code) {
-                alert('Please enter a discount code');
-                return;
-              }
-              
-              if (typeof getCart !== 'function') {
-                alert('Error: Cart not loaded');
-                return;
-              }
-              
-              const cart = getCart();
-              const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-              
-              if (typeof applyDiscountToCart === 'function') {
-                const result = applyDiscountToCart(code, subtotal);
-                if (result.applied) {
-                  appliedDiscount = result;
-                  updateCheckoutTotals();
-                  document.getElementById('discount-status').innerHTML = `✅ Discount applied: ${result.description}`;
-                  codeInput.value = '';
-                } else {
-                  document.getElementById('discount-status').innerHTML = `❌ ${result.error}`;
-                }
-              }
-            };
-            
-            // Render PayPal button - wait for SDK to load
-            let paypalRetryCount = 0;
-            const maxRetries = 50; // 5 seconds max wait
-            
-            function initPayPalButton() {
-              console.log('🔄 Attempting to initialize PayPal button... (attempt ' + (paypalRetryCount + 1) + ')');
-              
-              const cart = getCart();
-              console.log('📦 Cart contents:', cart);
-              
-              if (!cart || cart.length === 0) {
-                console.warn('⚠️ Cart is empty, not rendering PayPal button');
-                document.getElementById('paypal-button-container').innerHTML = 
-                  '<div class="text-center py-6"><p class="text-gray-600 text-lg mb-4">Your cart is empty</p><a href="shop.html" class="bg-deep-red text-white px-6 py-3 rounded-lg hover:bg-red-700 transition inline-block">Continue Shopping</a></div>';
-                return;
-              }
-              
-              if (!window.paypal) {
-                paypalRetryCount++;
-                if (paypalRetryCount < maxRetries) {
-                  console.warn('⚠️ PayPal SDK not ready yet, retrying... (' + paypalRetryCount + '/' + maxRetries + ')');
-                  setTimeout(initPayPalButton, 100);
-                } else {
-                  console.error('❌ PayPal SDK failed to load after ' + maxRetries + ' attempts');
-                  document.getElementById('paypal-button-container').innerHTML = 
-                    '<div class="text-center py-6 bg-red-50 border-2 border-red-300 rounded-lg"><p class="text-red-600 font-bold mb-2">❌ Payment System Error</p><p class="text-gray-700 text-sm">PayPal failed to load. Please <button onclick="location.reload()" class="underline text-deep-red font-semibold">refresh the page</button> or contact support.</p></div>';
-                }
-                return;
-              }
-              
-              console.log('✅ PayPal SDK loaded successfully! Rendering button...');
-              
-              try {
-                paypal.Buttons({
-                style: {
-                  color: 'gold',
-                  shape: 'pill',
-                  label: 'pay',
-                  height: 45,
-                  layout: 'vertical',
-                  tagline: false
-                },
-                
-                createOrder: function(data, actions) {
-                  // Get cart total from DOM
-                  const totalSpan = document.getElementById('cart-total');
-                  let total = totalSpan ? parseFloat(totalSpan.textContent) : 0;
-                  
-                  // Minimum amount validation
-                  if (total <= 0) {
-                    alert('⚠️ Your cart is empty. Please add items before checking out.');
-                    throw new Error('Cart is empty');
-                  }
-                  
-                  const amount = parseFloat(total).toFixed(2);
-                  console.log('✅ Creating PayPal order for amount:', amount);
-                  
-                  return actions.order.create({
-                    purchase_units: [{
-                      amount: { 
-                        value: amount,
-                        currency_code: 'USD'
-                      }
-                    }]
-                  });
-                },
-                
-                onApprove: function(data, actions) {
-                  return actions.order.capture().then(function(details) {
-                    try {
-                      // Gather customer info
-                      const name = document.getElementById('checkout-name')?.value.trim() || 'Guest';
-                      const email = document.getElementById('checkout-email')?.value.trim() || 'guest@example.com';
-                      const phone = document.getElementById('checkout-phone')?.value.trim() || 'N/A';
-                      const address = document.getElementById('checkout-address')?.value.trim() || 'N/A';
-                      const shipping = document.getElementById('checkout-shipping')?.value || 'Standard Delivery';
-                      const deliveryDate = document.getElementById('checkout-delivery-date')?.value || '';
-                      const giftNote = document.getElementById('checkout-gift-note')?.value || '';
-                      
-                      // Get cart
-                      const cart = (typeof getCart === 'function') ? getCart() : [];
-                      if (!cart.length) {
-                        alert('Cart is empty');
-                        return;
-                      }
-                      
-                      // Create order object
-                      const orderData = {
-                        name: name,
-                        email: email,
-                        phone: phone,
-                        address: address,
-                        shipping: shipping,
-                        deliveryDate: deliveryDate,
-                        giftNote: giftNote,
-                        items: cart,
-                        subtotal: parseFloat(document.getElementById('checkout-subtotal')?.textContent || '0'),
-                        discountCode: appliedDiscount ? appliedDiscount.code : null,
-                        discountAmount: appliedDiscount ? appliedDiscount.discount : 0,
-                        total: getCheckoutTotal(),
-                        paymentMethod: 'PayPal',
-                        paymentId: details.id
-                      };
-                      
-                      const orderResult = window.createOrder(orderData);
-                      
-                      if (!orderResult || !orderResult.success) {
-                        alert('❌ Failed to create order');
-                        return;
-                      }
-                      
-                      const order = orderResult.order;
-                      
-                      // Send confirmation email
-                      if (typeof simulateEmailConfirmation === 'function') {
-                        window.simulateEmailConfirmation(order);
-                      }
-                      
-                      // Clear cart
-                      if (typeof saveCart === 'function') saveCart([]);
-                      
-                      // Show success message
-                      alert(`✅ Thank you for your order, ${name}!\n\nOrder ID: ${order.id}\nPayment ID: ${details.id}\n\nYou'll receive a confirmation email shortly.`);
-                      
-                      // Redirect after short delay
-                      setTimeout(() => {
-                        window.location.href = 'index.html';
-                      }, 1000);
-                      
-                      return true;
-                    } catch (e) {
-                      console.error('❌ Order processing error:', e);
-                      alert('❌ Error processing order: ' + e.message);
-                      return;
-                    }
-                  }).catch(function(err) {
-                    console.error('Capture error:', err);
-                    alert('❌ Payment capture failed. Please try again.');
-                  });
-                },
-                
-                onError: function(err) {
-                  console.error('❌ PayPal error:', err);
-                  showError('❌ Payment error. Please try again.');
-                },
-                
-                onCancel: function(data) {
-                  console.log('⚠️ Payment cancelled');
-                  showError('⚠️ Payment cancelled. Your cart is still saved.');
-                }
-              }).render('#paypal-button-container').then(function() {
-                console.log('✅✅✅ PayPal button rendered successfully! ✅✅✅');
-              }).catch(function(err) {
-                console.error('❌ PayPal button render error:', err);
-                document.getElementById('paypal-button-container').innerHTML = 
-                  '<div class="text-center py-6 bg-red-50 border-2 border-red-300 rounded-lg"><p class="text-red-600 font-bold mb-2">❌ Render Error</p><p class="text-gray-700 text-sm">' + err.message + '</p><button onclick="location.reload()" class="mt-3 bg-deep-red text-white px-4 py-2 rounded-lg hover:bg-red-700">Refresh Page</button></div>';
-              });
-              } catch (error) {
-                console.error('❌ Error initializing PayPal buttons:', error);
-                document.getElementById('paypal-button-container').innerHTML = 
-                  '<div class="text-center py-6 bg-red-50 border-2 border-red-300 rounded-lg"><p class="text-red-600 font-bold mb-2">❌ Initialization Error</p><p class="text-gray-700 text-sm">' + error.message + '</p><button onclick="location.reload()" class="mt-3 bg-deep-red text-white px-4 py-2 rounded-lg hover:bg-red-700">Refresh Page</button></div>';
-              }
-            }
-            
-            // Initialize PayPal when DOM is ready
-            initPayPalButton();
+
+          const subtotal = getCartTotal();
+          const discount = parseFloat(localStorage.getItem('appliedDiscountAmount')) || 0;
+          const total = Math.max(0.01, subtotal - discount);
+
+          console.log('💰 Creating order:', { subtotal, discount, total });
+
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                currency_code: 'USD',
+                value: total.toFixed(2)
+              },
+              description: 'Heart & Petal Gift Order'
+            }]
           });
-        </script>
+        },
 
-  <script>
-    // Mobile menu toggle
-    document.getElementById('mobile-menu-btn')?.addEventListener('click', function() {
-      const menu = document.getElementById('mobile-menu');
-      menu?.classList.toggle('hidden');
+        onApprove: function(data, actions) {
+          return actions.order.capture().then(function(details) {
+            console.log('✅ Payment captured:', details);
+
+            // Prepare order data
+            const cart = getCart();
+            const orderData = {
+              orderId: details.id,
+              customerName: document.getElementById('checkout-name').value,
+              customerEmail: document.getElementById('checkout-email').value,
+              customerPhone: document.getElementById('checkout-phone').value,
+              shippingAddress: document.getElementById('checkout-address').value,
+              specialInstructions: document.getElementById('checkout-notes').value,
+              items: cart,
+              subtotal: getCartTotal(),
+              discount: parseFloat(localStorage.getItem('appliedDiscountAmount')) || 0,
+              total: details.purchase_units[0].amount.value,
+              paymentStatus: 'Completed',
+              paymentMethod: 'PayPal',
+              timestamp: new Date().toISOString()
+            };
+
+            // Save order
+            if (typeof createOrder === 'function') {
+              const saveResult = createOrder(orderData);
+              console.log('📦 Order saved:', saveResult);
+            }
+
+            // Send confirmation email
+            if (typeof emailjs !== 'undefined') {
+              emailjs.send('service_qw61mye', 'heartandpetal_order', {
+                to_email: orderData.customerEmail,
+                customer_name: orderData.customerName,
+                order_id: orderData.orderId,
+                order_items: cart.map(item => `${item.name} (${item.quantity}x) - $${(item.price * item.quantity).toFixed(2)}`).join('\n'),
+                order_total: `$${orderData.total}`,
+                shipping_address: orderData.shippingAddress
+              }).then(
+                () => console.log('✅ Email sent'),
+                (err) => console.error('❌ Email error:', err)
+              );
+            }
+
+            // Clear cart
+            localStorage.removeItem('cart');
+            localStorage.removeItem('appliedDiscountCode');
+            localStorage.removeItem('appliedDiscountAmount');
+
+            // Redirect to tracking
+            alert(`✅ Payment successful!\n\nOrder ID: ${details.id}\n\nA confirmation email has been sent to ${orderData.customerEmail}`);
+            window.location.href = `tracking.html?order=${details.id}`;
+          });
+        },
+
+        onError: function(err) {
+          console.error('❌ PayPal error:', err);
+          alert('❌ Payment failed. Please try again or contact support.');
+        }
+
+      }).render('#paypal-button-container');
+
+      console.log('✅ PayPal button rendered');
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('🚀 Checkout page loaded');
+      
+      // Display cart
+      displayCheckoutCart();
+
+      // Update cart count in header
+      const cart = getCart();
+      document.getElementById('cart-count').textContent = cart ? cart.reduce((sum, item) => sum + item.quantity, 0) : 0;
+
+      // Initialize PayPal when SDK loads
+      if (window.paypal) {
+        initPayPalButton();
+      } else {
+        // Wait for SDK to load
+        const checkPayPal = setInterval(() => {
+          if (window.paypal) {
+            clearInterval(checkPayPal);
+            initPayPalButton();
+          }
+        }, 100);
+
+        // Timeout after 10 seconds
+        setTimeout(() => {
+          if (!window.paypal) {
+            clearInterval(checkPayPal);
+            document.getElementById('paypal-error').classList.remove('hidden');
+          }
+        }, 10000);
+      }
     });
   </script>
+
 </body>
 </html>
