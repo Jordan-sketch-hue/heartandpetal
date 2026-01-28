@@ -1,13 +1,22 @@
 // Dynamic Responsive Navigation System
 document.addEventListener('DOMContentLoaded', function() {
+  // Support both ID variations
   const mobileMenuBtn = document.getElementById('mobile-menu-btn') || document.getElementById('mobile-menu-toggle');
   const mobileMenu = document.getElementById('mobile-menu');
   const logoImg = document.querySelector('header img[alt*="Logo"]');
   
+  console.log('🔧 Mobile menu setup:', {
+    button: mobileMenuBtn ? 'Found' : 'NOT FOUND',
+    menu: mobileMenu ? 'Found' : 'NOT FOUND'
+  });
+  
   // Mobile menu toggle
   if (mobileMenuBtn && mobileMenu) {
-    mobileMenuBtn.addEventListener('click', function() {
+    mobileMenuBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
       mobileMenu.classList.toggle('hidden');
+      console.log('📱 Mobile menu toggled, hidden:', mobileMenu.classList.contains('hidden'));
     });
     
     // Close menu when link is clicked
@@ -17,6 +26,10 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileMenu.classList.add('hidden');
       });
     });
+    
+    console.log('✅ Mobile menu initialized successfully');
+  } else {
+    console.error('❌ Mobile menu setup failed - missing elements');
   }
   
   // Dynamic logo loading with fallback

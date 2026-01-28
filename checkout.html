@@ -74,19 +74,34 @@
   </header>
 
   <script>
-    // Mobile menu toggle - inline to ensure it works
-    document.addEventListener('DOMContentLoaded', function() {
-      const menuToggle = document.getElementById('mobile-menu-toggle');
-      const mobileMenu = document.getElementById('mobile-menu');
-      
-      if (menuToggle && mobileMenu) {
-        menuToggle.addEventListener('click', function(e) {
-          e.preventDefault();
-          console.log('Mobile menu clicked!');
-          mobileMenu.classList.toggle('hidden');
+    // Mobile menu toggle - inline backup to ensure it works
+    (function() {
+      function initMobileMenu() {
+        const menuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        console.log('🔧 Checkout mobile menu:', {
+          button: menuToggle ? 'Found' : 'NOT FOUND',
+          menu: mobileMenu ? 'Found' : 'NOT FOUND'
         });
+        
+        if (menuToggle && mobileMenu) {
+          menuToggle.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            mobileMenu.classList.toggle('hidden');
+            console.log('📱 Menu toggled, hidden:', mobileMenu.classList.contains('hidden'));
+          };
+          console.log('✅ Checkout mobile menu ready');
+        }
       }
-    });
+      
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initMobileMenu);
+      } else {
+        initMobileMenu();
+      }
+    })();
   </script>
 
   <!-- Main Content -->
