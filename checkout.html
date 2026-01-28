@@ -267,14 +267,49 @@
             <span>•</span>
             <span>256-bit Encryption</span>
           </div>
-        </div>
       </section>
-        <script src="js/auth.js"></script>
-        <script src="js/inventory.js"></script>
-        <script src="js/discounts.js"></script>
-        <script src="js/orders.js"></script>
-        <script src="js/cart.js"></script>
-        <script>
+    </form>
+
+    <!-- Important Note -->
+    <div class="bg-blue-50 border-2 border-blue-300 rounded-lg p-4 mt-6 text-center">
+      <p class="text-sm font-semibold text-gray-700">👆 Complete your order using the PayPal button above</p>
+      <p class="text-xs text-gray-600 mt-1">Your order will be processed securely after payment is confirmed</p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white text-black py-6 w-full mt-auto shadow-lg border-t border-gray-200">
+    <div class="container mx-auto px-6">
+      <div class="flex flex-wrap items-center justify-center gap-4 text-sm">
+        <span class="font-playfair text-lg font-bold">Heart & Petal</span>
+        <span class="text-gray-400">|</span>
+        <a href="mailto:contact@heartandpetal.com" class="hover:text-deep-red transition">contact@heartandpetal.com</a>
+        <span class="text-gray-400">|</span>
+        <a href="mailto:legal@heartandpetal.com" class="hover:text-deep-red transition">Legal Inquiries</a>
+        <span class="text-gray-400">|</span>
+        <a href="legal.html" class="hover:text-deep-red transition">Privacy & Terms</a>
+        <span class="text-gray-400">|</span>
+        <a href="about.html" class="hover:text-deep-red transition">About</a>
+        <span class="text-gray-400">|</span>
+        <a href="faq.html" class="hover:text-deep-red transition">FAQ</a>
+        <span class="text-gray-400">|</span>
+        <span class="text-xs">&copy; 2026 Heart & Petal</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Load Required Scripts FIRST -->
+  <script src="js/auth.js"></script>
+  <script src="js/inventory.js"></script>
+  <script src="js/discounts.js"></script>
+  <script src="js/orders.js"></script>
+  <script src="js/cart.js"></script>
+  
+  <!-- PayPal SDK - LIVE PRODUCTION MODE -->
+  <script src="https://www.paypal.com/sdk/js?client-id=ATV1zuqmwzmcXCuDMfIm9vY4ZhkVn3U9Lj_e8p4fI8rQb7XnEMEN_wapBZHCcpUjXp_IlQjitGWnLMXnDZEy8ILA01u_UTAuYacH4y7YNE6UG_gSkkMQ6hMLQxgt3oHa&currency=USD&components=buttons"></script>
+  
+  <!-- Checkout Logic (runs after all dependencies loaded) -->
+  <script>
           // Product data with sizes for checkout size selection
           const products = [
   // === ROSES (10 products) ===
@@ -781,52 +816,6 @@
             initPayPalButton();
           });
         </script>
-      </section>
-
-      <!-- Trust Badges -->
-      <section class="flex flex-col md:flex-row items-center justify-center gap-4 mt-8">
-        <div class="flex items-center gap-2">
-          <span class="text-champagne-gold text-2xl">&#x1F512;</span>
-          <span class="text-sm">Secure SSL Checkout</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <span class="text-champagne-gold text-2xl">&#x1F4B3;</span>
-          <span class="text-sm">100% Payment Protection</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <span class="text-champagne-gold text-2xl">&#x1F381;</span>
-          <span class="text-sm">Satisfaction Guaranteed</span>
-        </div>
-      </section>
-    </form>
-
-    <!-- Important Note -->
-    <div class="bg-blue-50 border-2 border-blue-300 rounded-lg p-4 mt-6 text-center">
-      <p class="text-sm font-semibold text-gray-700">👆 Complete your order using the PayPal button above</p>
-      <p class="text-xs text-gray-600 mt-1">Your order will be processed securely after payment is confirmed</p>
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="bg-white text-black py-6 w-full mt-auto shadow-lg border-t border-gray-200">
-    <div class="container mx-auto px-6">
-      <div class="flex flex-wrap items-center justify-center gap-4 text-sm">
-        <span class="font-playfair text-lg font-bold">Heart & Petal</span>
-        <span class="text-gray-400">|</span>
-        <a href="mailto:contact@heartandpetal.com" class="hover:text-deep-red transition">contact@heartandpetal.com</a>
-        <span class="text-gray-400">|</span>
-        <a href="mailto:legal@heartandpetal.com" class="hover:text-deep-red transition">Legal Inquiries</a>
-        <span class="text-gray-400">|</span>
-        <a href="legal.html" class="hover:text-deep-red transition">Privacy & Terms</a>
-        <span class="text-gray-400">|</span>
-        <a href="about.html" class="hover:text-deep-red transition">About</a>
-        <span class="text-gray-400">|</span>
-        <a href="faq.html" class="hover:text-deep-red transition">FAQ</a>
-        <span class="text-gray-400">|</span>
-        <span class="text-xs">&copy; 2026 Heart & Petal</span>
-      </div>
-    </div>
-  </footer>
 
   <script>
     // Mobile menu toggle
