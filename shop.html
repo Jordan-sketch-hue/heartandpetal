@@ -540,6 +540,7 @@ function renderProducts(list) {
         <a href="product.html?id=${prod.id}" class="block h-full">
           <img src="${prod.img}" alt="${prod.name}" class="product-image">
         </a>
+        ${urgency ? `<div class="urgency-badge-overlay ${urgency.class}">${urgency.text}</div>` : ''}
         <button 
           onclick="window.toggleWishlist('${prod.id}', '${prod.name}', ${prod.price}, '${prod.img}')" 
           class="wishlist-heart-btn absolute top-2 right-2 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
@@ -554,9 +555,6 @@ function renderProducts(list) {
         <p class="product-description">${prod.desc}</p>
         <div class="product-rating">${stars} <span class="text-gray-600">(${reviews.length})</span></div>
         <p class="product-price">$${prod.price.toFixed(2)}</p>
-        
-        ${urgencyBadge}
-        
         <div class="product-actions">
           <button class="add-to-cart-btn" data-id="${prod.id}" data-name="${prod.name}" data-price="${prod.price}" data-img="${prod.img}">Add to Cart</button>
           <button class="buy-now-btn-sm" data-id="${prod.id}" data-name="${prod.name}" data-price="${prod.price}" data-img="${prod.img}">Buy Now</button>

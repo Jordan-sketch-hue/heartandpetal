@@ -802,52 +802,71 @@
 	}
 }
 
-/* ===== URGENCY BADGES - MINIMALIST PROFESSIONAL ===== */
-.urgency-badge {
+/* ===== URGENCY BADGES - OVERLAY DESIGN ===== */
+.urgency-badge-overlay {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	padding: 6px 14px;
+	border-radius: 6px;
+	font-size: 11px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+	z-index: 10;
+	backdrop-filter: blur(4px);
+	transition: all 0.3s ease;
+}
+
+.urgency-badge-overlay.urgency-critical {
+	background-color: rgba(194, 24, 7, 0.95);
+	color: #FFFFFF;
+	border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.urgency-badge-overlay.urgency-high {
+	background-color: rgba(255, 87, 34, 0.95);
+	color: #FFFFFF;
+	border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.urgency-badge-overlay.urgency-medium {
+	background-color: rgba(212, 117, 42, 0.95);
+	color: #FFFFFF;
+	border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Hover effect on product card */
+.product-card:hover .urgency-badge-overlay {
+	transform: scale(1.05);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Inline badge for product detail pages */
+.urgency-badge-inline {
 	display: inline-block;
-	padding: 6px 12px;
-	border-radius: 4px;
-	font-size: 12px;
-	font-weight: 600;
-	text-align: center;
-	letter-spacing: 0.3px;
-	margin: 8px 0;
-	border: 1px solid;
-	background-color: transparent;
-	transition: opacity 0.2s ease;
+	padding: 8px 16px;
+	border-radius: 6px;
+	font-size: 13px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
-.urgency-badge.urgency-critical {
-	border-color: #C21807;
-	color: #C21807;
-	background-color: #FFF5F3;
+.urgency-badge-inline.urgency-critical {
+	background-color: #C21807;
+	color: #FFFFFF;
 }
 
-.urgency-badge.urgency-critical:hover {
-	background-color: #FFE8E3;
+.urgency-badge-inline.urgency-high {
+	background-color: #FF5722;
+	color: #FFFFFF;
 }
 
-.urgency-badge.urgency-high {
-	border-color: #C21807;
-	color: #C21807;
-	background-color: #FFF8F6;
+.urgency-badge-inline.urgency-medium {
+	background-color: #D4752A;
+	color: #FFFFFF;
 }
 
-.urgency-badge.urgency-high:hover {
-	background-color: #FFEDE8;
-}
-
-.urgency-badge.urgency-medium {
-	border-color: #D4752A;
-	color: #D4752A;
-	background-color: #FFFAF7;
-}
-
-.urgency-badge.urgency-medium:hover {
-	background-color: #FFF4ED;
-}
-
-/* Subtle hover effect - no animation */
-.product-card:hover .urgency-badge {
-	opacity: 0.85;
-}

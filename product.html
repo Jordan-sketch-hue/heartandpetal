@@ -112,10 +112,10 @@
       <p id="review-count" class="text-sm text-charcoal/80 mb-4">(0 reviews)</p>
       
       <!-- Price Display -->
-      <p id="product-price" class="text-2xl text-deep-red font-bold mb-4">$49.99</p>
+      <p id="product-price" class="text-2xl text-deep-red font-bold mb-2">$49.99</p>
 
       <!-- Urgency Badge for Low Stock -->
-      <div id="product-urgency-badge" style="display: none;">
+      <div id="product-urgency-badge" class="mb-4" style="display: none;">
       </div>
 
       <!-- Size/Variant Selector -->
@@ -310,7 +310,7 @@
     if (window.getUrgencyMessage) {
       const urgency = window.getUrgencyMessage(productId);
       if (urgency) {
-        urgencyContainer.innerHTML = `<div class="urgency-badge ${urgency.class}">${urgency.text}</div>`;
+        urgencyContainer.innerHTML = `<div class="urgency-badge-inline ${urgency.class}">${urgency.text}</div>`;
         urgencyContainer.style.display = 'block';
       }
     }
