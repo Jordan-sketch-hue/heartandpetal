@@ -47,8 +47,10 @@ if (loginForm) {
     if (user) {
       loginError.classList.add('hidden');
       localStorage.setItem('hp_last_login', email); // Set session for profile
+      localStorage.setItem('hp_customer_name', user.name); // Store customer name
       alert('Welcome, ' + user.name + '! You are now logged in.');
-      // Optionally, redirect or set session
+      // Redirect to profile page
+      window.location.href = 'profile.html';
     } else {
       loginError.classList.remove('hidden');
     }
