@@ -55,22 +55,66 @@ document.addEventListener('DOMContentLoaded', function() {
       e.preventDefault();
       const email = document.getElementById('login-email').value.trim().toLowerCase();
       const password = document.getElementById('login-password').value;
-      let customers = getCustomers();
-      const user = customers.find(c => c.email === email && c.password === password);
-      if (user) {
-        loginError.classList.add('hidden');
-        localStorage.setItem('hp_last_login', email);
-        localStorage.setItem('hp_customer_name', user.name);
-        
+      
+      // Use modern auth system if available
+      if (window.loginUser && typeof window.loginUser === 'function') {
         const loginBtn = loginForm.querySelector('button[type="submit"]');
         loginBtn.textContent = 'Logging in...';
         loginBtn.disabled = true;
         
-        setTimeout(() => {
-          window.location.href = 'profile.html';
-        }, 500);
+        const result = window.loginUser(email, password);
+        
+        if (result.success) {
+          loginError.classList.add('hidden');
+          
+          // Trigger navigation update
+          if (window.updateNavigation) {
+            window.updateNavigation();
+          }
+          
+          // Dispatch login event for cross-component sync
+          window.dispatchEvent(new CustomEvent('hp:login', { 
+            detail: { user: result.user } 
+          }));
+          
+          // Show success notification
+          if (window.showNotification) {
+            window.showNotification(`Welcome back, ${result.user.name}!`, 'success');
+          }
+          
+          setTimeout(() => {
+            window.location.href = 'profile.html';
+          }, 500);
+        } else {
+          loginBtn.textContent = 'Login';
+          loginBtn.disabled = false;
+          loginError.textContent = result.error || 'Invalid email or password';
+          loginError.classList.remove('hidden');
+        }
       } else {
-        loginError.classList.remove('hidden');
+        // Fallback to legacy auth
+        let customers = getCustomers();
+        const user = customers.find(c => c.email === email && c.password === password);
+        if (user) {
+          loginError.classList.add('hidden');
+          localStorage.setItem('hp_last_login', email);
+          localStorage.setItem('hp_customer_name', user.name);
+          
+          const loginBtn = loginForm.querySelector('button[type="submit"]');
+          loginBtn.textContent = 'Logging in...';
+          loginBtn.disabled = true;
+          
+          // Trigger navigation update
+          if (window.updateNavigation) {
+            window.updateNavigation();
+          }
+          
+          setTimeout(() => {
+            window.location.href = 'profile.html';
+          }, 500);
+        } else {
+          loginError.classList.remove('hidden');
+        }
       }
     };
   }
