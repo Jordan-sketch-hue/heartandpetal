@@ -240,6 +240,8 @@
       const totalEl = document.getElementById('cart-total');
       const discountRow = document.getElementById('discount-row');
 
+      console.log('🛒 Cart contents:', cart);
+
       if (!cart || cart.length === 0) {
         itemsContainer.innerHTML = '<p class="text-gray-500 text-center py-4">Your cart is empty</p>';
         subtotalEl.textContent = '$0.00';
@@ -250,17 +252,22 @@
       }
 
       // Display cart items
-      itemsContainer.innerHTML = cart.map(item => `
-        <div class="flex items-center gap-3 pb-3 border-b">
-          <img src="${item.img || item.image || ''}" alt="${item.name}" class="w-16 h-16 object-cover rounded" onerror="this.src='https://via.placeholder.com/64x64?text=No+Image'">
-          <div class="flex-1">
-            <p class="font-semibold text-sm">${item.name}</p>
-            ${item.variant ? `<p class="text-xs text-gray-500">${typeof item.variant === 'object' ? item.variant.name : item.variant}</p>` : ''}
-            <p class="text-xs text-gray-600">Qty: ${item.quantity} × $${item.price.toFixed(2)}</p>
+      itemsContainer.innerHTML = cart.map((item, index) => {
+        const imageUrl = item.img || item.image || 'https://via.placeholder.com/64x64?text=No+Image';
+        console.log(`📦 Item ${index}:`, item.name, 'Image:', imageUrl);
+        
+        return `
+          <div class="flex items-center gap-3 pb-3 border-b">
+            <img src="${imageUrl}" alt="${item.name}" class="w-16 h-16 object-cover rounded" onerror="this.onerror=null; this.src='https://via.placeholder.com/64x64?text=No+Image';">
+            <div class="flex-1">
+              <p class="font-semibold text-sm">${item.name}</p>
+              ${item.variant ? `<p class="text-xs text-gray-500">${typeof item.variant === 'object' ? item.variant.name : item.variant}</p>` : ''}
+              <p class="text-xs text-gray-600">Qty: ${item.quantity} × $${item.price.toFixed(2)}</p>
+            </div>
+            <p class="font-bold text-sm">$${(item.price * item.quantity).toFixed(2)}</p>
           </div>
-          <p class="font-bold text-sm">$${(item.price * item.quantity).toFixed(2)}</p>
-        </div>
-      `).join('');
+        `;
+      }).join('');
 
       // Calculate totals
       const subtotal = getCartTotal();
