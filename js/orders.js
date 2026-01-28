@@ -101,8 +101,8 @@ function simulateEmailConfirmation(order) {
       message: generateEmailContent(order)
     };
     
-    // Send via EmailJS (Service ID: service_qw61mye, Template ID: template_xyz123)
-    emailjs.send('service_qw61mye', 'template_xyz123', emailParams)
+    // Send via EmailJS (Service ID: service_qw61mye, Template ID: heartandpetal_order)
+    emailjs.send('service_qw61mye', 'heartandpetal_order', emailParams)
       .then(function(response) {
         console.log('✅ REAL Email sent successfully!', response.status, response.text);
         
