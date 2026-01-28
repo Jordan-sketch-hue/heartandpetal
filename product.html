@@ -127,6 +127,9 @@
           <button id="qty-plus" class="px-4 py-2 text-deep-red hover:bg-blush-pink">+</button>
         </div>
         <button id="add-to-cart" class="flex-1 bg-deep-red text-ivory px-8 py-2 rounded-lg font-bold text-lg hover:bg-red-700 transition">Add to Cart</button>
+        <button id="wishlist-btn" onclick="toggleWishlistFromProduct()" class="bg-white border-2 border-deep-red text-deep-red px-6 py-2 rounded-lg font-bold text-lg hover:bg-blush-pink transition flex items-center gap-2">
+          <span id="wishlist-heart">🤍</span>
+        </button>
       </div>
 
       <!-- Product Features -->
@@ -207,6 +210,7 @@
   <script src="js/discounts.js"></script>
   <script src="js/orders.js"></script>
   <script src="js/cart.js"></script>
+  <script src="js/wishlist.js"></script>
   <script>
     // Product data (same as shop.html - ALL 50 products with sizes/variants)
     const products = [
@@ -663,6 +667,28 @@
       `;
       relatedContainer.appendChild(card);
     });
+    
+    // Toggle wishlist for current product
+    function toggleWishlistFromProduct() {
+      if (!product) return;
+      
+      if (window.isInWishlist(product.id)) {
+        window.removeFromWishlist(product.id);
+        document.getElementById('wishlist-heart').textContent = '🤍';
+        alert('Removed from wishlist');
+      } else {
+        window.addToWishlist(product.id, product.name, product.price, product.img);
+        document.getElementById('wishlist-heart').textContent = '❤️';
+        alert('Added to wishlist!');
+      }
+      
+      window.updateWishlistBadge();
+    }
+    
+    // Initialize wishlist button state
+    if (product && window.isInWishlist && window.isInWishlist(product.id)) {
+      document.getElementById('wishlist-heart').textContent = '❤️';
+    }
   </script>
   <script>
     // Mobile menu toggle

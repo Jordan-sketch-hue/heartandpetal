@@ -67,6 +67,33 @@ function updateWishlistBadge() {
   });
 }
 
+// Toggle wishlist (add/remove)
+function toggleWishlist(productId, productName, productPrice, productImg) {
+  if (isInWishlist(productId)) {
+    removeFromWishlist(productId);
+    
+    // Update all heart buttons for this product
+    document.querySelectorAll(`[data-product-id="${productId}"]`).forEach(btn => {
+      const heart = btn.querySelector('span');
+      if (heart) heart.textContent = '🤍';
+    });
+    
+    alert('Removed from wishlist');
+  } else {
+    addToWishlist(productId, productName, productPrice, productImg);
+    
+    // Update all heart buttons for this product
+    document.querySelectorAll(`[data-product-id="${productId}"]`).forEach(btn => {
+      const heart = btn.querySelector('span');
+      if (heart) heart.textContent = '❤️';
+    });
+    
+    alert('Added to wishlist!');
+  }
+  
+  updateWishlistBadge();
+}
+
 // Export globally
 window.getWishlist = getWishlist;
 window.addToWishlist = addToWishlist;
@@ -74,6 +101,7 @@ window.removeFromWishlist = removeFromWishlist;
 window.isInWishlist = isInWishlist;
 window.clearWishlist = clearWishlist;
 window.updateWishlistBadge = updateWishlistBadge;
+window.toggleWishlist = toggleWishlist;
 
 // Initialize on load
 if (document.readyState === 'loading') {

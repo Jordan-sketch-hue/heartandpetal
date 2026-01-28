@@ -184,7 +184,7 @@
       </div>
       <div class="flex items-center gap-2">
         <a href="wishlist.html" class="relative bg-blush-pink px-4 py-2 rounded-lg hover:bg-champagne-gold transition flex items-center gap-2">
-          <span>❤️ Wishlist</span>
+          <span>Wishlist</span>
           <span class="wishlist-badge absolute -top-2 -right-2 bg-deep-red text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold hidden">0</span>
         </a>
       </div>
@@ -435,12 +435,21 @@ function renderProducts(list) {
     const avgRating = (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1);
     const stars = '★'.repeat(Math.round(avgRating)) + '☆'.repeat(5 - Math.round(avgRating));
     
+    const isInWishlist = window.isInWishlist ? window.isInWishlist(prod.id) : false;
+    const heartIcon = isInWishlist ? '❤️' : '🤍';
+    
     return `
     <div class="product-card" data-category="${prod.category}" data-product-id="${prod.id}">
-      <div class="product-image-container">
+      <div class="product-image-container relative">
         <a href="product.html?id=${prod.id}" class="block h-full">
           <img src="${prod.img}" alt="${prod.name}" class="product-image">
         </a>
+        <button 
+          onclick="window.toggleWishlist('${prod.id}', '${prod.name}', ${prod.price}, '${prod.img}')" 
+          class="wishlist-heart-btn absolute top-2 right-2 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
+          data-product-id="${prod.id}">
+          <span class="text-2xl">${heartIcon}</span>
+        </button>
       </div>
       <div class="product-content">
         <a href="product.html?id=${prod.id}" class="hover:text-deep-red">
