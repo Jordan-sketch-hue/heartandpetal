@@ -30,7 +30,50 @@
   <!-- Cute Notifications -->
   <script src="js/notifications.js"></script>
 </head>
-<body class="bg-ivory font-montserrat min-h-screen flex flex-col">  <!-- Free Delivery Banner -->
+<body class="bg-ivory font-montserrat min-h-screen flex flex-col">
+  
+  <!-- Valentine's Day Promo Popup Modal -->
+  <div id="valentines-promo-modal" class="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center hidden">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 overflow-hidden transform transition-all">
+      <!-- Close Button -->
+      <button id="close-promo-modal" class="absolute top-4 right-4 text-gray-400 hover:text-deep-red text-3xl font-bold z-10">&times;</button>
+      
+      <!-- Header with gradient -->
+      <div class="bg-gradient-to-r from-deep-red to-pink-600 text-white text-center py-8 px-6 relative">
+        <div class="text-6xl mb-2">💐</div>
+        <h2 class="font-playfair text-3xl font-bold mb-2">Valentine's Day Special!</h2>
+        <p class="text-xl font-great-vibes">Limited Time Offer</p>
+      </div>
+      
+      <!-- Content -->
+      <div class="p-8 text-center">
+        <div class="mb-6">
+          <p class="text-2xl font-bold text-deep-red mb-2">FREE DELIVERY</p>
+          <p class="text-gray-600 text-sm mb-1">on ALL orders across the USA</p>
+          <p class="text-xs text-gray-500">Includes Express & Valentine's Day Guaranteed shipping!</p>
+        </div>
+        
+        <div class="bg-blush-pink/30 rounded-lg p-4 mb-6">
+          <p class="text-sm font-semibold text-gray-700 mb-2">🌹 Save up to $29.99 on shipping</p>
+          <p class="text-xs text-gray-600">Order now to guarantee Valentine's Day delivery</p>
+        </div>
+        
+        <!-- CTA Buttons -->
+        <div class="space-y-3">
+          <button id="shop-now-btn" class="w-full bg-deep-red text-white py-4 rounded-lg font-bold text-lg hover:bg-red-700 transition shadow-lg">
+            💝 Shop Now & Save
+          </button>
+          <button id="remind-later-btn" class="w-full text-gray-600 text-sm hover:text-deep-red transition">
+            Remind me later
+          </button>
+        </div>
+        
+        <p class="text-xs text-gray-400 mt-4">Offer valid until February 14, 2026</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Free Delivery Banner -->
   <div class="bg-deep-red text-ivory text-center py-2 text-sm font-bold">
     FREE DELIVERY ON ALL ORDERS ACROSS THE USA!
   </div>  <!-- Header -->
@@ -663,6 +706,70 @@ if (categoryFromURL) {
 if (filterForm) {
   filterForm.onchange = filterProducts;
 }
+
+// Valentine's Day Promo Modal Logic
+document.addEventListener('DOMContentLoaded', function() {
+  const modal = document.getElementById('valentines-promo-modal');
+  const closeBtn = document.getElementById('close-promo-modal');
+  const shopNowBtn = document.getElementById('shop-now-btn');
+  const remindLaterBtn = document.getElementById('remind-later-btn');
+  
+  // Check if user has already seen the modal today
+  const lastSeen = localStorage.getItem('hp_promo_last_seen');
+  const today = new Date().toDateString();
+  
+  // Show modal if not seen today
+  if (lastSeen !== today) {
+    setTimeout(() => {
+      modal.classList.remove('hidden');
+    }, 1500); // Show after 1.5 seconds
+  }
+  
+  // Close modal function
+  function closeModal() {
+    modal.classList.add('hidden');
+    localStorage.setItem('hp_promo_last_seen', today);
+  }
+  
+  // Close button
+  closeBtn.addEventListener('click', closeModal);
+  
+  // Shop Now button - close modal and scroll to products
+  shopNowBtn.addEventListener('click', function() {
+    closeModal();
+    document.querySelector('#product-grid')?.scrollIntoView({behavior:'smooth', block: 'start'});
+    showSuccess('🌹 Amazing! Browse our collection below');
+  });
+  
+  // Remind Later button - close and remind tomorrow
+  remindLaterBtn.addEventListener('click', function() {
+    closeModal();
+    showInfo('We\'ll remind you next time! 💐');
+  });
+  
+  // Close on outside click
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+  
+  // Wishlist reminder - show after 5 minutes if user has wishlist items
+  setTimeout(() => {
+    const wishlist = JSON.parse(localStorage.getItem('hp_wishlist') || '[]');
+    if (wishlist.length > 0) {
+      showInfo(`💝 You have ${wishlist.length} item${wishlist.length > 1 ? 's' : ''} in your wishlist! Don't forget to check out before they're gone.`);
+    }
+  }, 300000); // 5 minutes
+  
+  // Viewed items reminder - track product views
+  const viewedItems = JSON.parse(localStorage.getItem('hp_viewed_items') || '[]');
+  if (viewedItems.length > 0) {
+    setTimeout(() => {
+      showInfo(`🌸 Welcome back! You recently viewed ${viewedItems.length} item${viewedItems.length > 1 ? 's' : ''}. Want to take another look?`);
+    }, 180000); // 3 minutes
+  }
+});
 </script>
 </body>
 </html>
