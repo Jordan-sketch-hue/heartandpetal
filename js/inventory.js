@@ -100,33 +100,46 @@ function isProductLimited(productId) {
   return limited;
 }
 
-// Get urgency messaging for low-stock items
+// Get urgency messaging for popular items regardless of inventory
+// Popular categories: roses, teddy bears, chocolates, combos
 function getUrgencyMessage(productId) {
   const { stock, limited } = getProductStock(productId);
   
-  if (!limited) return null;
+  // Determine if this is a popular item category
+  const isPopular = isPopularItem(productId);
   
-  if (stock <= 2) {
-    return {
-      text: '🚨 Almost Gone!',
-      class: 'urgency-critical',
-      color: '#C21807'
-    };
-  } else if (stock <= 5) {
-    return {
-      text: '⚡ Few Items Left',
-      class: 'urgency-high',
-      color: '#FF5722'
-    };
-  } else if (stock <= 10) {
-    return {
-      text: '⏱️ Limited Stock',
-      class: 'urgency-medium',
-      color: '#FF9800'
-    };
+  // Show urgency for popular items with limited stock OR any item with very low stock
+  if (isPopular || limited) {
+    if (stock <= 2) {
+      return {
+        text: 'Almost Gone',
+        class: 'urgency-critical',
+        color: '#C21807'
+      };
+    } else if (stock <= 5) {
+      return {
+        text: 'Few Items Left',
+        class: 'urgency-high',
+        color: '#FF5722'
+      };
+    } else if (stock <= 10) {
+      return {
+        text: 'Limited Stock',
+        class: 'urgency-medium',
+        color: '#FF9800'
+      };
+    }
   }
   
   return null;
+}
+
+// Identify if product is in popular category (high demand items)
+function isPopularItem(productId) {
+  // Popular items: roses, teddies, chocolates, combos
+  const category = productId.split(/(\d+)/)[0].toLowerCase();
+  const popularCategories = ['roses', 'teddy', 'choc', 'combo'];
+  return popularCategories.includes(category);
 }
 
 function getStockStatus(productId) {
@@ -203,3 +216,4 @@ window.getStockStatus = getStockStatus;
 window.reserveStock = reserveStock;
 window.releaseStock = releaseStock;
 window.getUrgencyMessage = getUrgencyMessage;
+window.isPopularItem = isPopularItem;
