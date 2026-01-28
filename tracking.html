@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/styles.css">
+  <script src="js/notifications.js"></script>
 </head>
 <body class="bg-ivory font-montserrat">
   <!-- Free Delivery Banner -->
@@ -148,7 +149,7 @@
       const orderId = document.getElementById('order-id-input').value.trim();
       
       if (!orderId) {
-        alert('Please enter an Order ID');
+        showError('Please enter an Order ID');
         return;
       }
       

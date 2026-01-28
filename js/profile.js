@@ -134,7 +134,7 @@ function setupTracking() {
     trackBtn.addEventListener('click', function() {
       const orderId = trackInput.value.trim();
       if (!orderId) {
-        alert('Please enter an order ID');
+        showError('Please enter an order ID');
         return;
       }
       

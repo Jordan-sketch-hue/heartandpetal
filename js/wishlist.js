@@ -78,7 +78,7 @@ function toggleWishlist(productId, productName, productPrice, productImg) {
       if (heart) heart.textContent = '🤍';
     });
     
-    alert('Removed from wishlist');
+    showInfo('Removed from wishlist');
   } else {
     addToWishlist(productId, productName, productPrice, productImg);
     
@@ -88,7 +88,7 @@ function toggleWishlist(productId, productName, productPrice, productImg) {
       if (heart) heart.textContent = '❤️';
     });
     
-    alert('Added to wishlist!');
+    showSuccess('Added to wishlist!');
   }
   
   updateWishlistBadge();

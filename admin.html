@@ -19,6 +19,8 @@
   <script src="js/error-handler.js"></script>
   <!-- Responsive Navigation -->
   <script src="js/responsive-nav.js"></script>
+  <!-- Cute Notifications -->
+  <script src="js/notifications.js"></script>
 </head>
 <body class="bg-ivory font-montserrat min-h-screen flex flex-col">
   <!-- Header -->
@@ -207,7 +209,7 @@
       savePendingReviews(pending);
       saveApprovedReviews(approved);
       
-      alert(`✓ Review from ${review.name} approved!`);
+      showSuccess(`Review from ${review.name} approved!`);
       loadReviewsList();
     }
     
@@ -218,7 +220,7 @@
       pending.splice(index, 1);
       savePendingReviews(pending);
       
-      alert(`✗ Review from ${review.name} rejected.`);
+      showInfo(`Review from ${review.name} rejected.`);
       loadReviewsList();
     }
     

@@ -90,7 +90,7 @@ function loadOrders() {
       const orders = JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]');
       orders[idx].status = statusInput.value;
       localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
-      alert('Order status updated!');
+      showSuccess('Order status updated!');
       loadOrders();
     };
   });
@@ -111,7 +111,7 @@ if (orderForm) {
       orderForm.reset();
       // Simulate confirmation/follow-up email
       setTimeout(() => {
-        alert('Order confirmation/follow-up email sent to ' + email + ' (simulated).');
+        showSuccess('Order confirmation/follow-up email sent to ' + email + ' (simulated).');
       }, 500);
     }
   };

@@ -25,6 +25,8 @@
   <script src="js/error-handler.js"></script>
   <!-- Responsive Navigation -->
   <script src="js/mobile-menu.js"></script>
+  <!-- Cute Notifications -->
+  <script src="js/notifications.js"></script>
 </head>
 <body class="bg-ivory font-montserrat min-h-screen flex flex-col justify-between">
   <!-- Free Delivery Banner -->
@@ -443,7 +445,7 @@
       const selectedOption = sizeSelect.value;
 
       if (!selectedOption) {
-        alert('Please select a size or option before adding to cart');
+        showError('Please select a size or option before adding to cart');
         return;
       }
 
@@ -462,7 +464,7 @@
           baseProduct: product
         });
       } else {
-        alert(`Added ${quantity}x ${product.name} to cart!`);
+        showSuccess(`Added ${quantity}x ${product.name} to cart!`);
       }
       
       // Reset quantity
@@ -680,11 +682,11 @@
       if (window.isInWishlist(product.id)) {
         window.removeFromWishlist(product.id);
         document.getElementById('wishlist-heart').textContent = '🤍';
-        alert('Removed from wishlist');
+        showInfo('Removed from wishlist');
       } else {
         window.addToWishlist(product.id, product.name, product.price, product.img);
         document.getElementById('wishlist-heart').textContent = '❤️';
-        alert('Added to wishlist!');
+        showSuccess('Added to wishlist!');
       }
       
       window.updateWishlistBadge();
