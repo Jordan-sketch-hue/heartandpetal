@@ -175,7 +175,7 @@
           </div>
           <div class="flex justify-between text-sm">
             <span class="text-gray-700">Discount Applied:</span>
-            <span class="font-semibold text-deep-red">-$<span id="checkout-discount">0.00</span></span>
+            <span class="font-semibold text-deep-red" id="checkout-discount">$0.00</span>
           </div>
         </div>
         
@@ -202,7 +202,9 @@
             <p class="font-bold mb-2">🔒 Secure PayPal Checkout</p>
             <p class="text-gray-700">Your payment is processed securely through PayPal. No credit card information is stored on our servers.</p>
           </div>
-          <div id="paypal-button-container" class="flex justify-center mb-4"></div>
+          <div id="paypal-button-container" class="flex justify-center mb-4 min-h-[50px]">
+            <p class="text-gray-400 text-sm">Loading payment options...</p>
+          </div>
           <p class="text-xs text-gray-500 mt-4">Powered by PayPal for Heart & Petal | SSL Secure Checkout</p>
         </div>
       </section>
@@ -355,6 +357,7 @@
                 const subtotalSpan = document.getElementById('checkout-subtotal');
                 const discountSpan = document.getElementById('checkout-discount');
                 const totalSpan = document.getElementById('cart-total');
+                const totalDisplaySpan = document.getElementById('checkout-total-display');
                 
                 if (subtotalSpan) subtotalSpan.textContent = subtotal.toFixed(2);
                 
@@ -366,10 +369,12 @@
                     discountSpan.innerHTML = `-$${discountAmount.toFixed(2)} <span class='text-xs'>(${appliedDiscount.code})</span>`;
                   }
                 } else {
-                  if (discountSpan) discountSpan.textContent = '$0.00';
+                  if (discountSpan) discountSpan.textContent = '-$0.00';
                 }
                 
-                totalSpan.textContent = Math.max(0, finalTotal).toFixed(2);
+                const finalAmount = Math.max(0, finalTotal).toFixed(2);
+                totalSpan.textContent = finalAmount;
+                if (totalDisplaySpan) totalDisplaySpan.textContent = finalAmount;
               }
               
               document.addEventListener('DOMContentLoaded', function() {
@@ -508,6 +513,13 @@
           }
           
           document.addEventListener('DOMContentLoaded', function() {
+            // Prevent form submission (PayPal handles order completion)
+            document.getElementById('checkout-form')?.addEventListener('submit', function(e) {
+              e.preventDefault();
+              alert('⚠️ Please use the PayPal button to complete your order.');
+              return false;
+            });
+            
             // Discount button handler
             document.getElementById('apply-discount-btn').onclick = function(e) {
               e.preventDefault();
@@ -542,6 +554,7 @@
             
             // Render PayPal button
             if (window.paypal) {
+              console.log('✅ PayPal SDK loaded, rendering button...');
               paypal.Buttons({
                 style: {
                   color: 'gold',
@@ -557,13 +570,14 @@
                   const totalSpan = document.getElementById('cart-total');
                   let total = totalSpan ? parseFloat(totalSpan.textContent) : 0;
                   
-                  // For testing - use a small amount
+                  // Minimum amount validation
                   if (total <= 0) {
-                    total = 49.99; // Test amount
+                    alert('⚠️ Your cart is empty. Please add items before checking out.');
+                    throw new Error('Cart is empty');
                   }
                   
                   const amount = parseFloat(total).toFixed(2);
-                  console.log('PayPal order amount:', amount);
+                  console.log('✅ Creating PayPal order for amount:', amount);
                   
                   return actions.order.create({
                     purchase_units: [{
@@ -658,7 +672,17 @@
                   console.log('⚠️ Payment cancelled');
                   showError('⚠️ Payment cancelled. Your cart is still saved.');
                 }
-              }).render('#paypal-button-container');
+              }).render('#paypal-button-container').then(function() {
+                console.log('✅ PayPal button rendered successfully');
+              }).catch(function(err) {
+                console.error('❌ PayPal button render error:', err);
+                document.getElementById('paypal-button-container').innerHTML = 
+                  '<p class="text-red-600 text-center p-4">❌ PayPal button failed to load. Please refresh the page or contact support.</p>';
+              });
+            } else {
+              console.error('❌ PayPal SDK not loaded');
+              document.getElementById('paypal-button-container').innerHTML = 
+                '<p class="text-red-600 text-center p-4">❌ Payment system unavailable. Please refresh the page.</p>';
             }
           });
         </script>
@@ -679,10 +703,13 @@
           <span class="text-sm">Satisfaction Guaranteed</span>
         </div>
       </section>
-
-      <!-- Submit Button -->
-      <button type="submit" class="bg-deep-red text-ivory px-8 py-4 rounded-lg font-bold text-lg hover:bg-red-700 transition w-full mt-8">Complete Order</button>
     </form>
+
+    <!-- Important Note -->
+    <div class="bg-blue-50 border-2 border-blue-300 rounded-lg p-4 mt-6 text-center">
+      <p class="text-sm font-semibold text-gray-700">👆 Complete your order using the PayPal button above</p>
+      <p class="text-xs text-gray-600 mt-1">Your order will be processed securely after payment is confirmed</p>
+    </div>
   </main>
 
   <!-- Footer -->
