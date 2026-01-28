@@ -532,7 +532,6 @@ function renderProducts(list) {
     
     // Get urgency message for low-stock items
     const urgency = window.getUrgencyMessage ? window.getUrgencyMessage(prod.id) : null;
-    const urgencyBadge = urgency ? `<div class="urgency-badge ${urgency.class}">${urgency.text}</div>` : '';
     
     return `
     <div class="product-card" data-category="${prod.category}" data-product-id="${prod.id}">

@@ -5,46 +5,46 @@ const INVENTORY_KEY = 'hp_inventory';
 
 // Product stock - popular items have limited stock
 const productStock = {
-  'roses1': { stock: 8, limited: true },
-  'roses2': { stock: 12, limited: true },
-  'roses3': { stock: 15, limited: false },
+  'roses1': { stock: 2, limited: true },    // Almost Gone
+  'roses2': { stock: 4, limited: true },    // Few Items Left
+  'roses3': { stock: 8, limited: true },    // Limited Stock
   'roses4': { stock: 20, limited: false },
-  'roses5': { stock: 5, limited: true },
+  'roses5': { stock: 3, limited: true },    // Few Items Left
   'roses6': { stock: 25, limited: false },
   'roses7': { stock: 18, limited: false },
-  'roses8': { stock: 10, limited: true },
+  'roses8': { stock: 5, limited: true },    // Few Items Left
   'roses9': { stock: 30, limited: false },
-  'roses10': { stock: 7, limited: true },
-  'choc1': { stock: 6, limited: true },
+  'roses10': { stock: 1, limited: true },   // Almost Gone
+  'choc1': { stock: 2, limited: true },     // Almost Gone
   'choc2': { stock: 14, limited: false },
-  'choc3': { stock: 9, limited: true },
+  'choc3': { stock: 4, limited: true },     // Few Items Left
   'choc4': { stock: 22, limited: false },
-  'choc5': { stock: 4, limited: true },
+  'choc5': { stock: 1, limited: true },     // Almost Gone
   'choc6': { stock: 28, limited: false },
   'choc7': { stock: 16, limited: false },
-  'choc8': { stock: 8, limited: true },
+  'choc8': { stock: 5, limited: true },     // Few Items Left
   'choc9': { stock: 32, limited: false },
-  'choc10': { stock: 5, limited: true },
-  'teddy1': { stock: 7, limited: true },
+  'choc10': { stock: 3, limited: true },    // Few Items Left
+  'teddy1': { stock: 2, limited: true },    // Almost Gone
   'teddy2': { stock: 11, limited: false },
-  'teddy3': { stock: 8, limited: true },
+  'teddy3': { stock: 4, limited: true },    // Few Items Left
   'teddy4': { stock: 24, limited: false },
-  'teddy5': { stock: 3, limited: true },
+  'teddy5': { stock: 1, limited: true },    // Almost Gone
   'teddy6': { stock: 27, limited: false },
   'teddy7': { stock: 19, limited: false },
-  'teddy8': { stock: 9, limited: true },
+  'teddy8': { stock: 5, limited: true },    // Few Items Left
   'teddy9': { stock: 35, limited: false },
-  'teddy10': { stock: 6, limited: true },
-  'combo1': { stock: 5, limited: true },
+  'teddy10': { stock: 3, limited: true },   // Few Items Left
+  'combo1': { stock: 2, limited: true },    // Almost Gone
   'combo2': { stock: 13, limited: false },
-  'combo3': { stock: 7, limited: true },
+  'combo3': { stock: 4, limited: true },    // Few Items Left
   'combo4': { stock: 21, limited: false },
-  'combo5': { stock: 2, limited: true },
+  'combo5': { stock: 1, limited: true },    // Almost Gone
   'combo6': { stock: 26, limited: false },
   'combo7': { stock: 17, limited: false },
-  'combo8': { stock: 10, limited: true },
+  'combo8': { stock: 8, limited: true },    // Limited Stock
   'combo9': { stock: 33, limited: false },
-  'combo10': { stock: 4, limited: true },
+  'combo10': { stock: 2, limited: true },   // Almost Gone
   'flower1': { stock: 9, limited: true },
   'flower2': { stock: 15, limited: false },
   'flower3': { stock: 11, limited: false },
@@ -206,7 +206,16 @@ function releaseStock(productId, quantity = 1) {
 }
 
 // Initialize on page load
-document.addEventListener('DOMContentLoaded', initializeInventory);
+document.addEventListener('DOMContentLoaded', () => {
+  initializeInventory();
+  
+  // Test urgency system
+  console.log('🎯 Testing Urgency System:');
+  console.log('roses1 urgency:', window.getUrgencyMessage('roses1'));
+  console.log('choc1 urgency:', window.getUrgencyMessage('choc1'));
+  console.log('teddy1 urgency:', window.getUrgencyMessage('teddy1'));
+  console.log('combo1 urgency:', window.getUrgencyMessage('combo1'));
+});
 
 // Export globally
 window.getProductStock = getProductStock;
