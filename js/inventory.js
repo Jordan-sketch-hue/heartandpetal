@@ -150,7 +150,7 @@ function getStockStatus(productId) {
   }
   
   if (limited && stock <= 5) {
-    return { status: 'low-stock', text: `Only ${stock} left!`, color: 'text-orange-700' };
+    return { status: 'low-stock', text: 'Low Stock', color: 'text-orange-700' };
   }
   
   if (limited) {
