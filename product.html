@@ -461,10 +461,11 @@
           price: price,
           quantity: quantity,
           variant: sizeLabel,
+          img: product.img,
           baseProduct: product
         });
       } else {
-        showSuccess(`Added ${quantity}x ${product.name} to cart!`);
+        showSuccess(`Added ${quantity}x ${product.name} to cart!`, product.img);
       }
       
       // Reset quantity
@@ -697,5 +698,6 @@
       document.getElementById('wishlist-heart').textContent = '❤️';
     }
   </script>
+  <script src="js/chatbot.js"></script>
 </body>
 </html>

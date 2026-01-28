@@ -1,7 +1,7 @@
 // Heart & Petal - Cute Notification System
-// Creates branded, dismissible notifications
+// Creates branded, dismissible notifications with optional product images
 
-function showNotification(message, type = 'info') {
+function showNotification(message, type = 'info', imageUrl = null) {
   // Remove any existing notifications
   const existing = document.querySelector('.hp-notification');
   if (existing) existing.remove();
@@ -13,18 +13,26 @@ function showNotification(message, type = 'info') {
   // Icon based on type
   const icons = {
     error: '💔',
-    success: '💐',
+    success: '✓',
     info: '🌸',
-    warning: '🌹'
+    warning: '⚠'
   };
   
-  notification.innerHTML = `
-    <div class="hp-notification-content">
-      <span class="hp-notification-icon">${icons[type] || icons.info}</span>
-      <span class="hp-notification-message">${message}</span>
-      <button class="hp-notification-close" onclick="this.parentElement.parentElement.remove()">✕</button>
-    </div>
-  `;
+  // Build content with optional image
+  let content = '<div class="hp-notification-content">';
+  
+  if (imageUrl) {
+    content += `<img src="${imageUrl}" alt="Product" class="hp-notification-img" onerror="this.style.display='none'">`;
+  } else {
+    content += `<span class="hp-notification-icon">${icons[type] || icons.info}</span>`;
+  }
+  
+  content += `
+    <span class="hp-notification-message">${message}</span>
+    <button class="hp-notification-close" onclick="this.parentElement.parentElement.remove()">✕</button>
+  </div>`;
+  
+  notification.innerHTML = content;
   
   // Add to page
   document.body.appendChild(notification);
@@ -32,16 +40,16 @@ function showNotification(message, type = 'info') {
   // Animate in
   setTimeout(() => notification.classList.add('hp-notification-show'), 10);
   
-  // Auto-remove after 5 seconds
+  // Auto-remove after 2.5 seconds (faster)
   setTimeout(() => {
     notification.classList.remove('hp-notification-show');
-    setTimeout(() => notification.remove(), 300);
-  }, 5000);
+    setTimeout(() => notification.remove(), 250);
+  }, 2500);
 }
 
 // Convenience functions - Export all to window for global access
 window.showNotification = showNotification;
-window.showError = (message) => showNotification(message, 'error');
-window.showSuccess = (message) => showNotification(message, 'success');
-window.showInfo = (message) => showNotification(message, 'info');
-window.showWarning = (message) => showNotification(message, 'warning');
+window.showError = (message, imageUrl = null) => showNotification(message, 'error', imageUrl);
+window.showSuccess = (message, imageUrl = null) => showNotification(message, 'success', imageUrl);
+window.showInfo = (message, imageUrl = null) => showNotification(message, 'info', imageUrl);
+window.showWarning = (message, imageUrl = null) => showNotification(message, 'warning', imageUrl);

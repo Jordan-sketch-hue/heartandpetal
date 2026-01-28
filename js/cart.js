@@ -135,7 +135,8 @@ function addToCart(product) {
 		if (saveCart(cart)) {
 			// Use cute notification system if available, fallback to old popup
 			if (window.showSuccess) {
-				window.showSuccess(`Added ${cartItem.name} to cart! 💐`);
+				const productImg = cartItem.img || cartItem.baseProduct?.img || null;
+				window.showSuccess(`${cartItem.name} added to cart!`, productImg);
 			} else {
 				showCartPopup(cartItem);
 			}
