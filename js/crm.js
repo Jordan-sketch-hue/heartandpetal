@@ -11,15 +11,40 @@ const loginForm = document.getElementById('crm-login-form');
 const loginDiv = document.getElementById('crm-login');
 const dashDiv = document.getElementById('crm-dashboard');
 const loginError = document.getElementById('crm-login-error');
+
 if (loginForm) {
   loginForm.onsubmit = function(e) {
     e.preventDefault();
-    const user = document.getElementById('crm-username').value.trim();
-    const pass = document.getElementById('crm-password').value;
-    if (user === ADMIN_USER && pass === ADMIN_PASS) {
-      loginDiv.classList.add('hidden');
-      dashDiv.classList.remove('hidden');
-    } else {
+    
+    try {
+      const user = document.getElementById('crm-username').value.trim();
+      const pass = document.getElementById('crm-password').value;
+      
+      if (user === ADMIN_USER && pass === ADMIN_PASS) {
+        loginDiv.classList.add('hidden');
+        dashDiv.classList.remove('hidden');
+        
+        // Log successful login
+        if (window.logSuccess) {
+          window.logSuccess('crm', 'Admin login successful');
+        }
+        console.log('✅ CRM Admin login successful');
+        
+      } else {
+        loginError.classList.remove('hidden');
+        
+        // Log failed login attempt
+        if (window.logError) {
+          window.logError('crm', 'Failed login attempt', null, 'medium');
+        }
+        console.warn('⚠️ CRM login attempt failed');
+      }
+    } catch (error) {
+      console.error('CRM Login Error:', error);
+      if (window.logError) {
+        window.logError('crm', 'Login system error', error, 'critical');
+      }
+      loginError.textContent = 'System error. Please try again.';
       loginError.classList.remove('hidden');
     }
   };
@@ -28,32 +53,86 @@ if (loginForm) {
 // Customer registration (sync with customer-login.html)
 const regForm = document.getElementById('crm-register-form');
 const customersTable = document.getElementById('crm-customers');
+
 function loadCustomers() {
   if (!customersTable) return;
-  // Merge CRM and customer-login.html customers
-  const crmCustomers = JSON.parse(localStorage.getItem(CUSTOMERS_KEY) || '[]');
-  const authCustomers = JSON.parse(localStorage.getItem('hp_customers') || '[]');
-  // Merge by email, prefer CRM data for address, but add name/email/address from both
-  const merged = [...crmCustomers];
-  authCustomers.forEach(c => {
-    if (!merged.find(m => m.email === c.email)) {
-      merged.push({ name: c.name, email: c.email, address: c.address });
+  
+  try {
+    // Merge CRM and customer-login.html customers
+    const crmCustomers = JSON.parse(localStorage.getItem(CUSTOMERS_KEY) || '[]');
+    const authCustomers = JSON.parse(localStorage.getItem('hp_customers') || '[]');
+    
+    // Merge by email, prefer CRM data for address, but add name/email/address from both
+    const merged = [...crmCustomers];
+    authCustomers.forEach(c => {
+      if (!merged.find(m => m.email === c.email)) {
+        merged.push({ name: c.name, email: c.email, address: c.address });
+      }
+    });
+    
+    customersTable.innerHTML = merged.map(c => 
+      `<tr><td class='p-2'>${c.name || 'N/A'}</td><td class='p-2'>${c.email || 'N/A'}</td><td class='p-2'>${c.address || 'N/A'}</td></tr>`
+    ).join('');
+    
+    if (window.logSuccess) {
+      window.logSuccess('crm', `Loaded ${merged.length} customers`);
     }
-  });
-  customersTable.innerHTML = merged.map(c => `<tr><td class='p-2'>${c.name}</td><td class='p-2'>${c.email}</td><td class='p-2'>${c.address}</td></tr>`).join('');
+    
+  } catch (error) {
+    console.error('Error loading customers:', error);
+    if (window.logError) {
+      window.logError('crm', 'Failed to load customers', error, 'high');
+    }
+    if (customersTable) {
+      customersTable.innerHTML = '<tr><td colspan="3" class="p-2 text-red-600">Error loading customers</td></tr>';
+    }
+  }
 }
 if (regForm) {
   regForm.onsubmit = function(e) {
     e.preventDefault();
-    const name = document.getElementById('reg-name').value.trim();
-    const email = document.getElementById('reg-email').value.trim();
-    const address = document.getElementById('reg-address').value.trim();
-    if (name && email && address) {
-      const customers = JSON.parse(localStorage.getItem(CUSTOMERS_KEY) || '[]');
-      customers.push({ name, email, address });
-      localStorage.setItem(CUSTOMERS_KEY, JSON.stringify(customers));
-      loadCustomers();
-      regForm.reset();
+    
+    try {
+      const name = document.getElementById('reg-name').value.trim();
+      const email = document.getElementById('reg-email').value.trim();
+      const address = document.getElementById('reg-address').value.trim();
+      
+      if (name && email && address) {
+        const customers = JSON.parse(localStorage.getItem(CUSTOMERS_KEY) || '[]');
+        
+        // Check for duplicate email
+        if (customers.find(c => c.email === email)) {
+          if (window.showNotification) {
+            window.showNotification('Customer with this email already exists', 'warning');
+          }
+          if (window.logError) {
+            window.logError('crm', 'Duplicate customer email', null, 'low');
+          }
+          return;
+        }
+        
+        customers.push({ name, email, address });
+        localStorage.setItem(CUSTOMERS_KEY, JSON.stringify(customers));
+        
+        if (window.logSuccess) {
+          window.logSuccess('crm', `Registered customer: ${email}`);
+        }
+        
+        loadCustomers();
+        regForm.reset();
+        
+        if (window.showNotification) {
+          window.showNotification('Customer registered successfully', 'success');
+        }
+      }
+    } catch (error) {
+      console.error('Error registering customer:', error);
+      if (window.logError) {
+        window.logError('crm', 'Failed to register customer', error, 'high');
+      }
+      if (window.showNotification) {
+        window.showNotification('Failed to register customer', 'error');
+      }
     }
   };
   loadCustomers();

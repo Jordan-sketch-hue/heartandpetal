@@ -277,13 +277,3 @@ function copyCouponCode(code) {
 
 // Export for onclick handlers
 window.copyCouponCode = copyCouponCode;
-        </ul>
-      </div>
-    </div>
-  `).join('');
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  renderProfile();
-  renderOrders();
-});
