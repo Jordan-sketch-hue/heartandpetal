@@ -226,7 +226,25 @@ function loginUser(email, password) {
       return { success: false, error: 'Error processing password' };
     }
     
-    const user = customers.find(c => c.email === lowerEmail && c.passwordHash === passwordHash);
+    // Try to find user with hashed password first (new format)
+    let user = customers.find(c => c.email === lowerEmail && c.passwordHash === passwordHash);
+    
+    // Fallback to plain password for backward compatibility (old format)
+    if (!user) {
+      user = customers.find(c => c.email === lowerEmail && c.password === password);
+      
+      // If found with old format, upgrade to hashed password
+      if (user) {
+        console.log('🔄 Upgrading user to hashed password...');
+        const userIndex = customers.findIndex(c => c.email === lowerEmail);
+        if (userIndex !== -1) {
+          customers[userIndex].passwordHash = passwordHash;
+          delete customers[userIndex].password; // Remove old plain password
+          saveCustomers(customers);
+          console.log('✅ User upgraded to hashed password');
+        }
+      }
+    }
     
     if (!user) {
       console.warn('⚠️ Login failed: invalid credentials');

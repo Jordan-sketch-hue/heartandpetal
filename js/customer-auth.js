@@ -32,21 +32,52 @@ document.addEventListener('DOMContentLoaded', function() {
       const email = document.getElementById('reg-email').value.trim().toLowerCase();
       const password = document.getElementById('reg-password').value;
       const address = document.getElementById('reg-address').value.trim();
-      if (!name || !email || !password || !address) return;
-      let customers = getCustomers();
-      if (customers.find(c => c.email === email)) {
-        registerSuccess.textContent = 'Email already registered.';
-        registerSuccess.classList.remove('hidden');
-        registerSuccess.classList.remove('text-green-700');
+      
+      if (!name || !email || !password || !address) {
+        registerSuccess.textContent = 'All fields are required.';
+        registerSuccess.classList.remove('hidden', 'text-green-700');
         registerSuccess.classList.add('text-red-600');
         return;
       }
-      customers.push({ name, email, password, address });
-      saveCustomers(customers);
-      registerSuccess.textContent = 'Registration successful! You can now log in.';
-      registerSuccess.classList.remove('hidden', 'text-red-600');
-      registerSuccess.classList.add('text-green-700');
-      registerForm.reset();
+      
+      // Use modern registration if available
+      if (window.registerUser && typeof window.registerUser === 'function') {
+        const result = window.registerUser(name, email, password, address);
+        
+        if (result.success) {
+          registerSuccess.textContent = 'Registration successful! You can now log in.';
+          registerSuccess.classList.remove('hidden', 'text-red-600');
+          registerSuccess.classList.add('text-green-700');
+          registerForm.reset();
+          
+          // Optionally auto-login after registration
+          setTimeout(() => {
+            const loginResult = window.loginUser(email, password);
+            if (loginResult.success) {
+              window.location.href = 'profile.html';
+            }
+          }, 1000);
+        } else {
+          registerSuccess.textContent = result.error || 'Registration failed';
+          registerSuccess.classList.remove('hidden', 'text-green-700');
+          registerSuccess.classList.add('text-red-600');
+        }
+      } else {
+        // Fallback to old registration method
+        let customers = getCustomers();
+        if (customers.find(c => c.email === email)) {
+          registerSuccess.textContent = 'Email already registered.';
+          registerSuccess.classList.remove('hidden', 'text-green-700');
+          registerSuccess.classList.add('text-red-600');
+          return;
+        }
+        customers.push({ name, email, password, address });
+        saveCustomers(customers);
+        registerSuccess.textContent = 'Registration successful! You can now log in.';
+        registerSuccess.classList.remove('hidden', 'text-red-600');
+        registerSuccess.classList.add('text-green-700');
+        registerForm.reset();
+      }
     };
   }
 
