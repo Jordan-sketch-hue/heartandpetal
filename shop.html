@@ -479,6 +479,10 @@ function renderProducts(list) {
       const product = products.find(p => p.id === id);
       const availableOptions = product ? (product.sizes || product.variants || []) : [];
       
+      // Determine if this is a rose product (has vase options) or chocolate/other
+      const isRoses = product && product.category === 'roses';
+      const optionLabel = isRoses ? 'Size & Vase Option:' : 'Select Size:';
+      
       // Build modal content
       let optionsHtml = '';
       if (availableOptions.length > 0) {
@@ -489,7 +493,7 @@ function renderProducts(list) {
         }).join('');
         optionsHtml = `
           <div class="mb-4">
-            <label class="block text-sm font-bold text-charcoal mb-2">Size & Vase Option:</label>
+            <label class="block text-sm font-bold text-charcoal mb-2">${optionLabel}</label>
             <select id="modal-size-select" class="w-full border-2 border-deep-red rounded px-3 py-2 text-sm font-medium">
               ${optionsList}
             </select>
