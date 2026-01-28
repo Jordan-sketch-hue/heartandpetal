@@ -33,7 +33,7 @@
   
   <!-- Free Delivery Banner -->
   <div class="bg-deep-red text-white text-center py-2 text-sm font-bold">
-    🎁 FREE DELIVERY ON ALL ORDERS ACROSS THE USA!
+    FREE DELIVERY ON ALL ORDERS ACROSS THE USA!
   </div>
 
   <!-- Header -->
@@ -125,6 +125,41 @@
                 placeholder="Any special delivery instructions..."></textarea>
             </div>
           </form>
+        </div>
+
+        <!-- Delivery Service Options -->
+        <div class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <span class="text-2xl">🚚</span> Delivery Service
+          </h2>
+          
+          <div class="bg-green-50 border-2 border-green-300 rounded-lg p-4 mb-4">
+            <p class="text-sm font-bold text-green-800 flex items-center gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              FREE Standard Delivery on all orders across the USA!
+            </p>
+            <p class="text-xs text-gray-700 mt-1 ml-7">Standard delivery takes 3-5 business days. Express options available.</p>
+          </div>
+          
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Select Delivery Speed</label>
+              <select id="checkout-shipping" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deep-red focus:border-transparent bg-white">
+                <option value="Standard Delivery (3-5 days)">Standard Delivery (3-5 days) - FREE</option>
+                <option value="Express Delivery (1-2 days)">Express Delivery (1-2 days) - FREE</option>
+                <option value="Valentine's Day Guaranteed">Valentine's Day Guaranteed - FREE</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Preferred Delivery Date (Optional)</label>
+              <input type="date" id="checkout-delivery-date" 
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deep-red focus:border-transparent"
+                placeholder="Select delivery date">
+            </div>
+          </div>
         </div>
 
         <!-- Payment Section -->
@@ -402,6 +437,8 @@
               customerEmail: document.getElementById('checkout-email').value,
               customerPhone: document.getElementById('checkout-phone').value,
               shippingAddress: document.getElementById('checkout-address').value,
+              deliveryService: document.getElementById('checkout-shipping')?.value || 'Standard Delivery (3-5 days)',
+              deliveryDate: document.getElementById('checkout-delivery-date')?.value || 'Not specified',
               specialInstructions: document.getElementById('checkout-notes').value,
               items: cart,
               subtotal: getCartTotal(),
@@ -426,7 +463,9 @@
                 order_id: orderData.orderId,
                 order_items: cart.map(item => `${item.name} (${item.quantity}x) - $${(item.price * item.quantity).toFixed(2)}`).join('\n'),
                 order_total: `$${orderData.total}`,
-                shipping_address: orderData.shippingAddress
+                shipping_address: orderData.shippingAddress,
+                delivery_service: orderData.deliveryService,
+                delivery_date: orderData.deliveryDate
               }).then(
                 () => console.log('✅ Email sent'),
                 (err) => console.error('❌ Email error:', err)
