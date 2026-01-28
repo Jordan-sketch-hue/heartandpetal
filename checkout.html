@@ -305,8 +305,25 @@
   <script src="js/orders.js"></script>
   <script src="js/cart.js"></script>
   
-  <!-- PayPal SDK - LIVE PRODUCTION MODE -->
-  <script src="https://www.paypal.com/sdk/js?client-id=ATV1zuqmwzmcXCuDMfIm9vY4ZhkVn3U9Lj_e8p4fI8rQb7XnEMEN_wapBZHCcpUjXp_IlQjitGWnLMXnDZEy8ILA01u_UTAuYacH4y7YNE6UG_gSkkMQ6hMLQxgt3oHa&currency=USD&components=buttons"></script>
+  <!-- PayPal SDK - LIVE PRODUCTION MODE with proper async loading -->
+  <script>
+    // Create PayPal script element with error handling
+    (function() {
+      const script = document.createElement('script');
+      script.src = 'https://www.paypal.com/sdk/js?client-id=ATV1zuqmwzmcXCuDMfIm9vY4ZhkVn3U9Lj_e8p4fI8rQb7XnEMEN_wapBZHCcpUjXp_IlQjitGWnLMXnDZEy8ILA01u_UTAuYacH4y7YNE6UG_gSkkMQ6hMLQxgt3oHa&currency=USD&components=buttons';
+      script.async = true;
+      script.onload = function() {
+        console.log('✅ PayPal SDK loaded successfully via script injection');
+        window.paypalSDKLoaded = true;
+      };
+      script.onerror = function() {
+        console.error('❌ Failed to load PayPal SDK from CDN');
+        document.getElementById('paypal-button-container').innerHTML = 
+          '<div class="text-center py-6 bg-red-50 border-2 border-red-300 rounded-lg"><p class="text-red-600 font-bold mb-2">❌ PayPal SDK Failed to Load</p><p class="text-gray-700 text-sm">Unable to connect to PayPal servers. Please check your internet connection.</p><button onclick="location.reload()" class="mt-3 bg-deep-red text-white px-4 py-2 rounded-lg hover:bg-red-700">Refresh Page</button></div>';
+      };
+      document.head.appendChild(script);
+    })();
+  </script>
   
   <!-- Checkout Logic (runs after all dependencies loaded) -->
   <script>
