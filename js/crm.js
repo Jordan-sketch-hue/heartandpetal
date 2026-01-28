@@ -40,11 +40,13 @@ if (loginForm) {
         console.warn('⚠️ CRM login attempt failed');
       }
     } catch (error) {
+      // Log error for dev team (console/storage only)
       console.error('CRM Login Error:', error);
       if (window.logError) {
-        window.logError('crm', 'Login system error', error, 'critical');
+        window.logError('crm', 'Login system error', error, 'high');
       }
-      loginError.textContent = 'System error. Please try again.';
+      // Customer-facing message (generic)
+      loginError.textContent = 'Unable to login. Please check your credentials.';
       loginError.classList.remove('hidden');
     }
   };

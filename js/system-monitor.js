@@ -115,8 +115,9 @@
         this.alertTeam(errorEntry);
       }
 
-      // Show user notification for high/critical
-      if (severity === SEVERITY.HIGH || severity === SEVERITY.CRITICAL) {
+      // Show user notification ONLY for critical (generic message)
+      // HIGH/MEDIUM/LOW are dev-only (console/storage)
+      if (severity === SEVERITY.CRITICAL) {
         this.showUserError(errorEntry);
       }
 
@@ -164,14 +165,18 @@
       localStorage.setItem('hp_critical_alerts', JSON.stringify(criticalAlerts.slice(-20)));
     }
 
-    // Show error to user
+    // Show error to user (CUSTOMER-FACING - Keep generic)
     showUserError(errorEntry) {
-      if (window.showNotification && typeof window.showNotification === 'function') {
-        window.showNotification(
-          `System issue in ${errorEntry.componentName}. Our team has been notified.`,
-          'error'
-        );
+      // CRITICAL ONLY - Don't expose technical details to customers
+      if (errorEntry.severity === SEVERITY.CRITICAL) {
+        if (window.showNotification && typeof window.showNotification === 'function') {
+          window.showNotification(
+            'We\'re experiencing a temporary issue. Please try again in a moment.',
+            'error'
+          );
+        }
       }
+      // HIGH severity errors - silent for customers, logged for dev team only
     }
 
     // Log success for component health check
