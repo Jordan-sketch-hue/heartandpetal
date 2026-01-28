@@ -14,12 +14,16 @@
   <meta property="og:url" content="https://heartandpetal.com/about.html">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://heartandpetal.com/about.html">
-  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dij2fdtw4/image/upload/logofile.png">
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dij2fdtw4/image/upload/samples/logo.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
+  <!-- Global Error Handler -->
+  <script src="js/error-handler.js"></script>
+  <!-- Responsive Navigation -->
+  <script src="js/responsive-nav.js"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -40,20 +44,60 @@
     }
   </script>
 </head>
-<body class="font-poppins bg-ivory text-charcoal min-h-screen flex flex-col">
+<body class="bg-ivory font-montserrat min-h-screen flex flex-col">
+  <!-- Free Delivery Banner -->
+  <div class="bg-deep-red text-ivory text-center py-2 text-sm font-bold">
+    FREE DELIVERY ON ALL ORDERS ACROSS THE USA!
+  </div>
   <!-- Header -->
-  <header class="bg-white shadow-md sticky top-0 z-50">
-    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-      <a href="index.html" class="font-playfair text-2xl font-bold text-deep-red">Heart & Petal</a>
-      <nav class="hidden md:flex space-x-6 items-center">
-        <a href="index.html" class="font-semibold hover:text-deep-red transition">Home</a>
-        <a href="shop.html" class="font-semibold hover:text-deep-red transition">Shop</a>
-        <a href="about.html" class="font-semibold text-deep-red transition">About</a>
-        <a href="faq.html" class="font-semibold hover:text-deep-red transition">FAQ</a>
-        <a href="customer-login.html" class="font-semibold hover:text-deep-red transition">Account</a>
-        <a href="checkout.html" id="cart-link" class="relative font-semibold bg-deep-red text-white px-4 py-2 rounded-lg hover:bg-red-700 transition">
-          🛒 Cart <span id="cart-count" class="absolute -top-2 -right-2 bg-champagne-gold text-charcoal text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">0</span>
-        </a>
+  <header class="bg-white/90 shadow sticky top-0 z-50">
+    <div class="container mx-auto flex items-center justify-between py-3 px-4 md:px-6">
+      <a href="index.html" class="flex items-center gap-1 md:gap-2 flex-shrink-0">
+        <img src="https://res.cloudinary.com/dij2fdtw4/image/upload/samples/logo.png" alt="Heart & Petal Logo" class="h-8 md:h-10 w-8 md:w-10 object-contain">
+        <span class="font-playfair text-xl md:text-2xl text-deep-red tracking-wide hidden sm:inline">Heart & Petal</span>
+      </a>
+      <!-- Desktop Nav - Hidden on mobile -->
+      <nav class="hidden lg:flex space-x-3 xl:space-x-6 text-sm md:text-lg items-center">
+        <a href="index.html" class="hover:text-deep-red transition">Home</a>
+        <a href="shop.html" class="hover:text-deep-red transition">Shop</a>
+        <a href="about.html" class="hover:text-deep-red transition font-bold text-deep-red">About</a>
+        <a href="faq.html" class="hover:text-deep-red transition">FAQ</a>
+        <a href="checkout.html" class="hover:text-deep-red transition">Checkout</a>
+        <a href="legal.html" class="hover:text-deep-red transition">Legal</a>
+        <div class="relative group">
+          <button class="hover:text-champagne-gold transition focus:outline-none text-sm md:text-base">CRM</button>
+          <div class="absolute right-0 mt-2 w-48 bg-white border border-charcoal rounded shadow-lg opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition z-50">
+            <a href="admin.html" class="block px-4 py-2 hover:bg-blush-pink/40 text-sm">Admin</a>
+            <a href="customer-login.html" class="block px-4 py-2 hover:bg-blush-pink/40 text-sm">Customer</a>
+          </div>
+        </div>
+      </nav>
+      <!-- Mobile Menu Button -->
+      <button id="mobile-menu-btn" class="lg:hidden text-deep-red focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+      <!-- Cart Button -->
+      <a href="checkout.html" class="ml-1 md:ml-2 lg:ml-4 bg-deep-red text-ivory px-1.5 md:px-4 py-1.5 md:py-2 rounded-lg font-great-vibes text-sm md:text-xl shadow hover:bg-red-700 transition flex items-center gap-0.5 md:gap-2 flex-shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+        <span class="hidden sm:inline">Cart</span>
+      </a>
+    </div>
+    <!-- Mobile Menu - Hidden on desktop -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-charcoal max-h-96 overflow-y-auto">
+      <a href="index.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Home</a>
+      <a href="shop.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Shop</a>
+      <a href="about.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40 font-bold text-deep-red">About</a>
+      <a href="faq.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">FAQ</a>
+      <a href="checkout.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Checkout</a>
+      <a href="legal.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Legal</a>
+      <a href="admin.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Admin</a>
+      <a href="customer-login.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Customer</a>
+    </div>
+  </header>
       </nav>
     </div>
   </header>
