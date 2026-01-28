@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Dashboard - Heart & Petal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Courier New', monospace;
+      background: #0a0a0a;
+      color: #00ff00;
+    }
+    .terminal {
+      background: #1a1a1a;
+      border: 2px solid #00ff00;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+    }
+    .pass { color: #4CAF50; font-weight: bold; }
+    .fail { color: #F44336; font-weight: bold; }
+    .warn { color: #FF9800; font-weight: bold; }
+    .info { color: #2196F3; font-weight: bold; }
+    .blink { animation: blink 1s infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+    .test-item {
+      padding: 8px;
+      margin: 4px 0;
+      border-left: 3px solid #00ff00;
+      background: rgba(0, 255, 0, 0.05);
+    }
+    .metric {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+      border: 1px solid #00ff00;
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body class="p-8">
+  <div class="max-w-6xl mx-auto">
+    <!-- Header -->
+    <div class="terminal mb-8 text-center">
+      <h1 class="text-4xl font-bold mb-2">🤖 AUTOMATED TEST DASHBOARD 🤖</h1>
+      <p class="text-xl">Heart & Petal - Feature Testing System</p>
+      <p class="text-sm text-gray-400 mt-2">Real-time automated testing for all site features</p>
+    </div>
+
+    <!-- Test Controls -->
+    <div class="terminal mb-8">
+      <h2 class="text-2xl font-bold mb-4">⚙️ Test Controls</h2>
+      <div class="flex gap-4">
+        <button onclick="runAllTests()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded font-bold transition">
+          ▶ Run All Tests
+        </button>
+        <button onclick="runQuickTest()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded font-bold transition">
+          ⚡ Quick Test
+        </button>
+        <button onclick="clearResults()" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded font-bold transition">
+          🗑 Clear Results
+        </button>
+        <button onclick="exportReport()" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded font-bold transition">
+          📄 Export Report
+        </button>
+      </div>
+      <div class="mt-4">
+        <label class="flex items-center gap-2">
+          <input type="checkbox" id="autoTest" checked>
+          <span>Auto-run tests on page load</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Test Metrics -->
+    <div class="grid grid-cols-4 gap-4 mb-8">
+      <div class="metric">
+        <div class="text-4xl font-bold pass" id="passedCount">0</div>
+        <div class="text-sm">PASSED</div>
+      </div>
+      <div class="metric">
+        <div class="text-4xl font-bold fail" id="failedCount">0</div>
+        <div class="text-sm">FAILED</div>
+      </div>
+      <div class="metric">
+        <div class="text-4xl font-bold warn" id="warningsCount">0</div>
+        <div class="text-sm">WARNINGS</div>
+      </div>
+      <div class="metric">
+        <div class="text-4xl font-bold info" id="passRate">0%</div>
+        <div class="text-sm">PASS RATE</div>
+      </div>
+    </div>
+
+    <!-- Test Status -->
+    <div class="terminal mb-8">
+      <h2 class="text-2xl font-bold mb-4">📊 Test Status</h2>
+      <div id="testStatus" class="space-y-2">
+        <p>Waiting for tests to run<span class="blink">_</span></p>
+      </div>
+    </div>
+
+    <!-- Test Results -->
+    <div class="terminal">
+      <h2 class="text-2xl font-bold mb-4">📋 Detailed Results</h2>
+      <div id="testResults" class="space-y-1">
+        <p class="text-gray-400">No test results yet. Click "Run All Tests" to begin.</p>
+      </div>
+    </div>
+
+    <!-- Last Test Info -->
+    <div class="terminal mt-8">
+      <h2 class="text-2xl font-bold mb-4">🕐 Last Test Run</h2>
+      <div id="lastTestInfo">
+        <p class="text-gray-400">No tests have been run yet.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load all required scripts -->
+  <script src="js/error-handler.js"></script>
+  <script src="js/system-monitor.js"></script>
+  <script src="js/mobile-menu.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/nav-manager.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/inventory.js"></script>
+  <script src="js/test-suite.js"></script>
+
+  <script>
+    // Dashboard JavaScript
+    let currentReport = null;
+
+    async function runAllTests() {
+      document.getElementById('testStatus').innerHTML = '<p class="info">⏳ Running all tests<span class="blink">...</span></p>';
+      document.getElementById('testResults').innerHTML = '<p class="info">Testing in progress...</p>';
+
+      if (window.runTests) {
+        currentReport = await window.runTests();
+        updateDashboard(currentReport);
+      } else {
+        console.error('Test suite not loaded');
+        document.getElementById('testStatus').innerHTML = '<p class="fail">❌ Test suite not loaded!</p>';
+      }
+    }
+
+    async function runQuickTest() {
+      document.getElementById('testStatus').innerHTML = '<p class="info">⚡ Running quick validation tests...</p>';
+      
+      const quickTests = [
+        { name: 'Scripts loaded', check: () => typeof window.loginUser === 'function' },
+        { name: 'localStorage available', check: () => typeof localStorage !== 'undefined' },
+        { name: 'Mobile menu present', check: () => document.getElementById('mobile-menu-btn') !== null },
+        { name: 'Cart functions available', check: () => typeof window.addToCart === 'function' }
+      ];
+
+      let results = '<div class="space-y-2">';
+      quickTests.forEach(test => {
+        const passed = test.check();
+        results += `<div class="test-item ${passed ? 'pass' : 'fail'}">${passed ? '✓' : '✗'} ${test.name}</div>`;
+      });
+      results += '</div>';
+
+      document.getElementById('testResults').innerHTML = results;
+      document.getElementById('testStatus').innerHTML = '<p class="pass">✓ Quick test completed</p>';
+    }
+
+    function clearResults() {
+      document.getElementById('testResults').innerHTML = '<p class="text-gray-400">Results cleared.</p>';
+      document.getElementById('testStatus').innerHTML = '<p>Ready for testing<span class="blink">_</span></p>';
+      document.getElementById('passedCount').textContent = '0';
+      document.getElementById('failedCount').textContent = '0';
+      document.getElementById('warningsCount').textContent = '0';
+      document.getElementById('passRate').textContent = '0%';
+      localStorage.removeItem('hp_test_report');
+    }
+
+    function exportReport() {
+      if (!currentReport) {
+        alert('No test report available. Run tests first.');
+        return;
+      }
+
+      const reportText = `
+HEART & PETAL - TEST REPORT
+Generated: ${new Date().toLocaleString()}
+========================================
+
+SUMMARY:
+--------
+Passed: ${currentReport.passed}
+Failed: ${currentReport.failed}
+Warnings: ${currentReport.warnings}
+Pass Rate: ${currentReport.passRate}%
+
+DETAILED RESULTS:
+-----------------
+${currentReport.results ? currentReport.results.map(r => 
+  `${r.status === 'PASS' ? '✓' : r.status === 'FAIL' ? '✗' : '⚠'} ${r.test}${r.error ? ' - ' + r.error : ''}${r.message ? ' - ' + r.message : ''}`
+).join('\n') : 'No detailed results available'}
+
+========================================
+      `.trim();
+
+      const blob = new Blob([reportText], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `test-report-${Date.now()}.txt`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function updateDashboard(report) {
+      if (!report) return;
+
+      // Update metrics
+      document.getElementById('passedCount').textContent = report.passed;
+      document.getElementById('failedCount').textContent = report.failed;
+      document.getElementById('warningsCount').textContent = report.warnings;
+      document.getElementById('passRate').textContent = report.passRate + '%';
+
+      // Update status
+      const statusColor = report.failed === 0 ? 'pass' : 'fail';
+      document.getElementById('testStatus').innerHTML = `
+        <p class="${statusColor}">
+          ${report.failed === 0 ? '✅ All tests passed!' : `❌ ${report.failed} test(s) failed`}
+        </p>
+      `;
+
+      // Update results
+      if (report.results && report.results.length > 0) {
+        let resultsHTML = '<div class="space-y-1">';
+        report.results.forEach(result => {
+          const statusClass = result.status === 'PASS' ? 'pass' : result.status === 'FAIL' ? 'fail' : 'warn';
+          const icon = result.status === 'PASS' ? '✓' : result.status === 'FAIL' ? '✗' : '⚠';
+          resultsHTML += `
+            <div class="test-item ${statusClass}">
+              ${icon} ${result.test}
+              ${result.error ? `<span class="text-sm"> - ${result.error}</span>` : ''}
+              ${result.message ? `<span class="text-sm"> - ${result.message}</span>` : ''}
+            </div>
+          `;
+        });
+        resultsHTML += '</div>';
+        document.getElementById('testResults').innerHTML = resultsHTML;
+      }
+
+      // Update last test info
+      document.getElementById('lastTestInfo').innerHTML = `
+        <p><strong>Timestamp:</strong> ${new Date().toLocaleString()}</p>
+        <p><strong>Total Tests:</strong> ${report.passed + report.failed}</p>
+        <p><strong>Status:</strong> <span class="${statusColor}">${report.failed === 0 ? 'PASSED' : 'FAILED'}</span></p>
+      `;
+    }
+
+    // Load previous report if available
+    window.addEventListener('load', () => {
+      const savedReport = localStorage.getItem('hp_test_report');
+      if (savedReport) {
+        try {
+          currentReport = JSON.parse(savedReport);
+          updateDashboard(currentReport);
+        } catch (e) {
+          console.error('Failed to load saved report:', e);
+        }
+      }
+
+      // Auto-run if checkbox is checked
+      if (document.getElementById('autoTest').checked) {
+        setTimeout(() => runAllTests(), 1000);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+name: Automated Tests
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v3
+    
+    - name: 🔧 Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+    
+    - name: 📦 Install dependencies
+      run: |
+        npm install
+    
+    - name: 🧪 Run automated tests
+      run: |
+        npm test
+    
+    - name: 📊 Upload test results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        path: test-report.txt
+    
+    - name: ✅ Tests passed
+      if: success()
+      run: echo "All tests passed! ✅"
+    
+    - name: ❌ Tests failed
+      if: failure()
+      run: echo "Tests failed! Check test-report.txt for details."
