@@ -82,6 +82,12 @@
           </svg>
           Wishlist
         </button>
+        <button class="tab-btn flex-1 min-w-fit px-6 py-4 text-center font-semibold transition-colors border-b-2 border-transparent hover:bg-gray-50 text-gray-600" data-tab="coupons">
+          <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+          </svg>
+          My Coupons
+        </button>
         <button class="tab-btn flex-1 min-w-fit px-6 py-4 text-center font-semibold transition-colors border-b-2 border-transparent hover:bg-gray-50 text-gray-600" data-tab="account">
           <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
@@ -130,6 +136,18 @@
           <h2 class="text-2xl font-playfair font-bold mb-4 text-gray-800">My Wishlist</h2>
           <div id="wishlist-items">
             <p class="text-gray-500 text-center py-8">Your wishlist is empty. Browse our <a href="shop.html" class="text-deep-red font-semibold underline">shop</a> to add items!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- My Coupons Tab -->
+      <div id="coupons-tab" class="tab-panel hidden">
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h2 class="text-2xl font-playfair font-bold mb-4 text-gray-800">Available Discount Coupons</h2>
+          <p class="text-gray-600 mb-6">Exclusive discount codes for registered customers. Each code can be used once per account.</p>
+          
+          <div id="coupons-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Coupons will be loaded here -->
           </div>
         </div>
       </div>
@@ -183,6 +201,7 @@
     </div>
   </footer>
   <script src="js/customer-auth.js?v=2.0"></script>
+  <script src="js/discounts.js"></script>
   <script src="js/profile.js?v=2.0"></script>
   <script src="js/chatbot.js"></script>
 </body>

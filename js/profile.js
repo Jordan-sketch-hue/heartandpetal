@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
   renderProfile();
   renderOrders();
   loadWishlist();
+  renderCoupons();
   setupTracking();
   setupLogout();
 });
@@ -169,11 +170,113 @@ function setupLogout() {
       if (confirm('Are you sure you want to logout?')) {
         localStorage.removeItem('hp_last_login');
         localStorage.removeItem('hp_customer_name');
+        localStorage.removeItem('hp_session');
         window.location.href = 'customer-login.html';
       }
     });
   }
 }
+
+function renderCoupons() {
+  const customer = getCurrentCustomer();
+  const couponsDiv = document.getElementById('coupons-list');
+  if (!customer || !couponsDiv) return;
+  
+  // Check if discount functions are available
+  if (typeof getAvailableCouponsForUser !== 'function') {
+    couponsDiv.innerHTML = '<div class="col-span-2 text-center text-gray-500 py-8">Discount system loading...</div>';
+    return;
+  }
+  
+  const availableCoupons = getAvailableCouponsForUser(customer.email);
+  const usedCoupons = getUsedCouponsForUser(customer.email);
+  
+  if (availableCoupons.length === 0 && usedCoupons.length === 0) {
+    couponsDiv.innerHTML = '<div class="col-span-2 text-center text-gray-500 py-8">No coupons available at this time.</div>';
+    return;
+  }
+  
+  let html = '';
+  
+  // Show available coupons
+  if (availableCoupons.length > 0) {
+    html += availableCoupons.map(coupon => `
+      <div class="border-2 border-deep-red rounded-lg p-4 bg-gradient-to-br from-white to-pink-50 hover:shadow-lg transition relative">
+        <div class="absolute top-3 right-3 bg-green-500 text-white text-xs px-2 py-1 rounded-full font-bold">AVAILABLE</div>
+        <div class="mb-3">
+          <div class="text-2xl font-bold text-deep-red font-mono">${coupon.code}</div>
+          <div class="text-sm text-gray-600 mt-1">${coupon.description}</div>
+        </div>
+        <div class="border-t border-gray-200 pt-3 space-y-2">
+          <div class="flex items-center justify-between text-sm">
+            <span class="font-semibold">Discount:</span>
+            <span class="text-lg font-bold text-deep-red">
+              ${coupon.type === 'percent' ? `${coupon.value}% OFF` : `$${coupon.value} OFF`}
+            </span>
+          </div>
+          ${coupon.minPurchase > 0 ? `
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-semibold">Min. Purchase:</span>
+              <span class="text-gray-700">$${coupon.minPurchase.toFixed(2)}</span>
+            </div>
+          ` : '<div class="text-sm text-green-600 font-semibold">✓ No minimum purchase</div>'}
+          <div class="mt-3 pt-3 border-t">
+            <button onclick="copyCouponCode('${coupon.code}')" class="w-full bg-deep-red text-white py-2 px-4 rounded-lg font-semibold hover:bg-red-700 transition">
+              Copy Code & Shop Now
+            </button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+  
+  // Show used coupons
+  if (usedCoupons.length > 0) {
+    html += usedCoupons.map(coupon => `
+      <div class="border-2 border-gray-300 rounded-lg p-4 bg-gray-50 opacity-60 relative">
+        <div class="absolute top-3 right-3 bg-gray-500 text-white text-xs px-2 py-1 rounded-full font-bold">USED</div>
+        <div class="mb-3">
+          <div class="text-2xl font-bold text-gray-500 font-mono line-through">${coupon.code}</div>
+          <div class="text-sm text-gray-500 mt-1">${coupon.description}</div>
+        </div>
+        <div class="border-t border-gray-300 pt-3 space-y-2">
+          <div class="flex items-center justify-between text-sm">
+            <span class="font-semibold text-gray-600">Discount:</span>
+            <span class="text-lg font-bold text-gray-500">
+              ${coupon.type === 'percent' ? `${coupon.value}% OFF` : `$${coupon.value} OFF`}
+            </span>
+          </div>
+          <div class="text-sm text-gray-500 italic mt-2">
+            ✓ Already redeemed - Each coupon can only be used once
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+  
+  couponsDiv.innerHTML = html;
+}
+
+function copyCouponCode(code) {
+  // Copy to clipboard
+  navigator.clipboard.writeText(code).then(() => {
+    if (window.showNotification && typeof window.showNotification === 'function') {
+      window.showNotification(`Coupon code "${code}" copied! Redirecting to shop...`, 'success');
+    } else {
+      alert(`Coupon code "${code}" copied to clipboard!`);
+    }
+    
+    // Redirect to shop after short delay
+    setTimeout(() => {
+      window.location.href = 'shop.html';
+    }, 1500);
+  }).catch(err => {
+    alert(`Coupon code: ${code}\n\nPlease copy this code manually.`);
+  });
+}
+
+// Export for onclick handlers
+window.copyCouponCode = copyCouponCode;
         </ul>
       </div>
     </div>

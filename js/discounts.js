@@ -1,7 +1,8 @@
 // Heart & Petal Discount Code System
-// Manages promotional codes and discount calculations
+// Manages promotional codes and discount calculations with one-time use tracking
 
 const DISCOUNTS_KEY = 'hp_discounts';
+const USED_COUPONS_KEY = 'hp_used_coupons';
 
 // Pre-defined discount codes
 const discountCodes = {
@@ -35,7 +36,34 @@ function getDiscountCodes() {
   }
 }
 
-function validateDiscountCode(code, cartTotal = 0) {
+// Track used coupons per user
+function getUserUsedCoupons(userEmail) {
+  try {
+    const usedCoupons = JSON.parse(localStorage.getItem(USED_COUPONS_KEY) || '{}');
+    return usedCoupons[userEmail] || [];
+  } catch (e) {
+    console.error('❌ Failed to get used coupons:', e);
+    return [];
+  }
+}
+
+function markCouponAsUsed(userEmail, couponCode) {
+  try {
+    const usedCoupons = JSON.parse(localStorage.getItem(USED_COUPONS_KEY) || '{}');
+    if (!usedCoupons[userEmail]) {
+      usedCoupons[userEmail] = [];
+    }
+    if (!usedCoupons[userEmail].includes(couponCode)) {
+      usedCoupons[userEmail].push(couponCode);
+      localStorage.setItem(USED_COUPONS_KEY, JSON.stringify(usedCoupons));
+      console.log(`✅ Coupon ${couponCode} marked as used for ${userEmail}`);
+    }
+  } catch (e) {
+    console.error('❌ Failed to mark coupon as used:', e);
+  }
+}
+
+function validateDiscountCode(code, cartTotal = 0, userEmail = null) {
   try {
     const upperCode = (code || '').toUpperCase().trim();
     const discounts = getDiscountCodes();
@@ -47,6 +75,14 @@ function validateDiscountCode(code, cartTotal = 0) {
     
     if (!discount.active) {
       return { valid: false, error: 'This code is no longer active', discount: null };
+    }
+    
+    // Check if user already used this coupon (one-time use)
+    if (userEmail) {
+      const usedCoupons = getUserUsedCoupons(userEmail);
+      if (usedCoupons.includes(upperCode)) {
+        return { valid: false, error: 'You have already used this coupon', discount: null };
+      }
     }
     
     if (cartTotal < discount.minPurchase) {
@@ -84,8 +120,8 @@ function calculateDiscount(cartTotal, discount) {
   }
 }
 
-function applyDiscountToCart(code, cartTotal) {
-  const validation = validateDiscountCode(code, cartTotal);
+function applyDiscountToCart(code, cartTotal, userEmail = null) {
+  const validation = validateDiscountCode(code, cartTotal, userEmail);
   
   if (!validation.valid) {
     console.warn(`⚠️ Discount validation failed: ${validation.error}`);
@@ -126,9 +162,24 @@ document.addEventListener('DOMContentLoaded', initializeDiscounts);
 // Wrapper function for checkout compatibility
 function applyDiscount(code, cart, subtotal) {
   const upperCode = (code || '').toUpperCase().trim();
-  const result = applyDiscountToCart(upperCode, subtotal);
+  
+  // Get current user email
+  let userEmail = null;
+  try {
+    const session = JSON.parse(localStorage.getItem('hp_session') || 'null');
+    userEmail = session ? session.email : null;
+  } catch (e) {
+    console.error('Could not get user session');
+  }
+  
+  const result = applyDiscountToCart(upperCode, subtotal, userEmail);
   
   if (result.applied) {
+    // Mark coupon as used for this user
+    if (userEmail) {
+      markCouponAsUsed(userEmail, upperCode);
+    }
+    
     return {
       success: true,
       discountAmount: result.discount,
@@ -145,6 +196,32 @@ function applyDiscount(code, cart, subtotal) {
   }
 }
 
+// Get available coupons for user (excluding already used ones)
+function getAvailableCouponsForUser(userEmail) {
+  const discounts = getDiscountCodes();
+  const usedCoupons = getUserUsedCoupons(userEmail);
+  
+  return Object.entries(discounts)
+    .filter(([code, details]) => details.active && !usedCoupons.includes(code))
+    .map(([code, details]) => ({ 
+      code, 
+      ...details,
+      used: false
+    }));
+}
+
+// Get used coupons for user
+function getUsedCouponsForUser(userEmail) {
+  const discounts = getDiscountCodes();
+  const usedCoupons = getUserUsedCoupons(userEmail);
+  
+  return usedCoupons.map(code => ({
+    code,
+    ...(discounts[code] || {}),
+    used: true
+  }));
+}
+
 // Export globally
 window.validateDiscountCode = validateDiscountCode;
 window.calculateDiscount = calculateDiscount;
@@ -152,3 +229,7 @@ window.applyDiscountToCart = applyDiscountToCart;
 window.applyDiscount = applyDiscount;
 window.getActiveDiscounts = getActiveDiscounts;
 window.getDiscountCodes = getDiscountCodes;
+window.getUserUsedCoupons = getUserUsedCoupons;
+window.markCouponAsUsed = markCouponAsUsed;
+window.getAvailableCouponsForUser = getAvailableCouponsForUser;
+window.getUsedCouponsForUser = getUsedCouponsForUser;
