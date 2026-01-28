@@ -613,13 +613,22 @@
               }
             };
             
-            // Render PayPal button
-            const cart = getCart();
-            if (!cart || cart.length === 0) {
-              console.warn('⚠️ Cart is empty, not rendering PayPal button');
-              document.getElementById('paypal-button-container').innerHTML = 
-                '<div class="text-center py-6"><p class="text-gray-600 text-lg mb-4">Your cart is empty</p><a href="shop.html" class="bg-deep-red text-white px-6 py-3 rounded-lg hover:bg-red-700 transition inline-block">Continue Shopping</a></div>';
-            } else if (window.paypal) {
+            // Render PayPal button - wait for SDK to load
+            function initPayPalButton() {
+              const cart = getCart();
+              if (!cart || cart.length === 0) {
+                console.warn('⚠️ Cart is empty, not rendering PayPal button');
+                document.getElementById('paypal-button-container').innerHTML = 
+                  '<div class="text-center py-6"><p class="text-gray-600 text-lg mb-4">Your cart is empty</p><a href="shop.html" class="bg-deep-red text-white px-6 py-3 rounded-lg hover:bg-red-700 transition inline-block">Continue Shopping</a></div>';
+                return;
+              }
+              
+              if (!window.paypal) {
+                console.warn('⚠️ PayPal SDK not ready yet, retrying...');
+                setTimeout(initPayPalButton, 100); // Retry after 100ms
+                return;
+              }
+              
               console.log('✅ PayPal SDK loaded, rendering button...');
               paypal.Buttons({
                 style: {
@@ -745,11 +754,10 @@
                 document.getElementById('paypal-button-container').innerHTML = 
                   '<p class="text-red-600 text-center p-4">❌ PayPal button failed to load. Please refresh the page or contact support.</p>';
               });
-            } else {
-              console.error('❌ PayPal SDK not loaded');
-              document.getElementById('paypal-button-container').innerHTML = 
-                '<p class="text-red-600 text-center p-4">❌ Payment system unavailable. Please refresh the page.</p>';
             }
+            
+            // Initialize PayPal when DOM is ready
+            initPayPalButton();
           });
         </script>
       </section>
