@@ -77,7 +77,7 @@ if (!document.getElementById('hp-chatbot')) {
 	modal.style.zIndex = '10000';
 	modal.innerHTML = `
 		<div style="background: linear-gradient(135deg, #b80038 60%, #f7cac9 100%); color: #fff; border-radius: 1rem 1rem 0 0; padding: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-			<img src='assets/images/logofile.png' alt='Heart & Petal' style='height: 2rem; width: 2rem; border-radius: 50%; background: #fff;'>
+			<img src='assets/logofile.png' alt='Heart & Petal' style='height: 2rem; width: 2rem; border-radius: 50%; background: #fff; object-fit: cover; padding: 0.2rem;'>
 			<span style="font-family: 'Playfair Display', serif; font-size: 1.2rem;">Heart & Petal AI Chat</span>
 			<button id="hp-chatbot-close" style="margin-left:auto; background:none; border:none; color:#fff; font-size:1.2rem; cursor:pointer;">&times;</button>
 		</div>
