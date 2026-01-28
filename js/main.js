@@ -77,7 +77,7 @@ if (!document.getElementById('hp-chatbot')) {
 	modal.style.zIndex = '10000';
 	modal.innerHTML = `
 		<div style="background: linear-gradient(135deg, #b80038 60%, #f7cac9 100%); color: #fff; border-radius: 1rem 1rem 0 0; padding: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-			<img src='https://res.cloudinary.com/dij2fdtw4/image/upload/v1769602073/give_a_rosebud_favicon_in_red_please_xqnp4v.jpg' alt='Heart & Petal' style='height: 2.5rem; width: 2.5rem; border-radius: 50%; background: #fff; object-fit: cover; padding: 0.15rem;'>
+			<img src='https://res.cloudinary.com/dij2fdtw4/image/upload/v1769603941/logofile_fsd1cx.png' alt='Heart & Petal' style='height: 2.5rem; width: 2.5rem; border-radius: 50%; background: #fff; object-fit: cover; padding: 0.15rem;'>
 			<span style="font-family: 'Playfair Display', serif; font-size: 1.2rem;">Heart & Petal AI Chat</span>
 			<button id="hp-chatbot-close" style="margin-left:auto; background:none; border:none; color:#fff; font-size:1.2rem; cursor:pointer;">&times;</button>
 		</div>
