@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 120'%3E%3Cdefs%3E%3ClinearGradient id='rosefill' x1='0%' y1='0%' x2='100%' y2='100%'%3E%3Cstop offset='0%' style='stop-color:%23ff1744;stop-opacity:1' /%3E%3Cstop offset='100%' style='stop-color:%23d32f2f;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M 50 20 Q 35 35 35 55 Q 35 80 50 95 Q 65 80 65 55 Q 65 35 50 20 Z' fill='url(%23rosefill)' /%3E%3Cpath d='M 50 25 Q 42 35 42 50 Q 42 70 50 82 Q 58 70 58 50 Q 58 35 50 25 Z' fill='%23ff5252' opacity='0.8' /%3E%3Crect x='45' y='95' width='10' height='15' fill='%23228b22' /%3E%3Crect x='40' y='100' width='20' height='5' fill='%23228b22' /%3E%3C/svg%3E">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Tracking - Heart & Petal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-ivory font-montserrat">
+  <!-- Free Delivery Banner -->
+  <div class="bg-deep-red text-ivory text-center py-2 text-sm font-bold">
+    FREE DELIVERY ON ALL ORDERS ACROSS THE USA!
+  </div>
+
+  <!-- Header -->
+  <header class="bg-white/90 shadow sticky top-0 z-50">
+    <div class="container mx-auto flex items-center justify-between py-3 px-4 md:px-6">
+      <a href="index.html" class="flex items-center gap-2">
+        <img src="assets/logofile.png" alt="Heart & Petal Logo" class="h-10 w-10 object-contain">
+        <span class="font-playfair text-2xl text-deep-red tracking-wide">Heart & Petal</span>
+      </a>
+      <nav class="flex space-x-6 text-lg items-center">
+        <a href="index.html" class="hover:text-deep-red transition">Home</a>
+        <a href="shop.html" class="hover:text-deep-red transition">Shop</a>
+        <a href="tracking.html" class="font-bold text-deep-red">Tracking</a>
+        <a href="profile.html" class="hover:text-deep-red transition">Profile</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container mx-auto px-6 py-12 max-w-4xl">
+    <h1 class="font-playfair text-4xl text-deep-red mb-8 text-center">Track Your Order</h1>
+
+    <!-- Search Order -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Find Your Order</h2>
+      <div class="flex gap-4">
+        <input type="text" id="order-id-input" placeholder="Enter Order ID (e.g., ORD-1234567890)" class="flex-1 border border-charcoal rounded px-4 py-3">
+        <button onclick="searchOrder()" class="bg-deep-red text-white px-8 py-3 rounded hover:bg-champagne-gold transition font-bold">Track</button>
+      </div>
+      <p class="text-sm text-gray-600 mt-2">Order ID can be found in your confirmation email</p>
+    </section>
+
+    <!-- Order Details (Hidden initially) -->
+    <div id="order-details" class="hidden">
+      <!-- Order Info -->
+      <section class="bg-white rounded-lg shadow-lg p-8 mb-6">
+        <div class="flex justify-between items-start mb-6">
+          <div>
+            <h2 class="text-2xl font-bold mb-2">Order <span id="display-order-id"></span></h2>
+            <p class="text-gray-600">Placed on <span id="order-date"></span></p>
+          </div>
+          <div class="text-right">
+            <p class="text-sm text-gray-600">Status</p>
+            <p id="order-status" class="text-lg font-bold text-deep-red"></p>
+          </div>
+        </div>
+
+        <!-- Customer Info -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 p-4 bg-gray-50 rounded">
+          <div>
+            <p class="text-sm text-gray-600">Customer</p>
+            <p id="customer-name" class="font-semibold"></p>
+            <p id="customer-email" class="text-sm text-gray-600"></p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-600">Delivery Address</p>
+            <p id="shipping-address" class="font-semibold"></p>
+          </div>
+        </div>
+
+        <!-- Tracking Timeline -->
+        <div class="mb-6">
+          <h3 class="text-lg font-bold mb-4">Shipment Progress</h3>
+          <div id="tracking-timeline" class="space-y-4">
+            <!-- Timeline items will be inserted here -->
+          </div>
+        </div>
+
+        <!-- Order Items -->
+        <div>
+          <h3 class="text-lg font-bold mb-4">Items in Your Order</h3>
+          <div id="order-items" class="space-y-3">
+            <!-- Items will be inserted here -->
+          </div>
+        </div>
+
+        <!-- Order Total -->
+        <div class="mt-6 pt-6 border-t border-gray-200">
+          <div class="flex justify-between text-lg">
+            <span class="font-semibold">Total:</span>
+            <span id="order-total" class="font-bold text-deep-red"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Estimated Delivery -->
+      <section class="bg-gradient-to-r from-blush-pink/30 to-champagne-gold/30 rounded-lg p-6 text-center">
+        <p class="text-lg mb-2">📦 Estimated Delivery</p>
+        <p id="estimated-delivery" class="text-2xl font-bold text-deep-red"></p>
+      </section>
+    </div>
+
+    <!-- No Order Found -->
+    <div id="no-order-found" class="hidden bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center">
+      <p class="text-lg text-gray-700">Order not found. Please check your Order ID and try again.</p>
+    </div>
+
+    <!-- Recent Orders -->
+    <section id="recent-orders-section" class="mt-12">
+      <h2 class="text-2xl font-bold mb-6">Recent Orders</h2>
+      <div id="recent-orders" class="grid gap-4">
+        <!-- Recent orders will be listed here -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-charcoal text-ivory py-8 mt-12">
+    <div class="container mx-auto px-6 text-center">
+      <p>&copy; 2026 Heart & Petal. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/orders.js"></script>
+  <script>
+    function searchOrder() {
+      const orderId = document.getElementById('order-id-input').value.trim();
+      
+      if (!orderId) {
+        alert('Please enter an Order ID');
+        return;
+      }
+      
+      const order = window.getOrderById(orderId);
+      
+      if (!order) {
+        document.getElementById('order-details').classList.add('hidden');
+        document.getElementById('no-order-found').classList.remove('hidden');
+        return;
+      }
+      
+      displayOrderDetails(order);
+    }
+    
+    function displayOrderDetails(order) {
+      document.getElementById('no-order-found').classList.add('hidden');
+      document.getElementById('order-details').classList.remove('hidden');
+      
+      // Basic info
+      document.getElementById('display-order-id').textContent = order.id;
+      document.getElementById('order-date').textContent = new Date(order.created).toLocaleDateString();
+      document.getElementById('order-status').textContent = order.status;
+      document.getElementById('customer-name').textContent = order.name;
+      document.getElementById('customer-email').textContent = order.email;
+      document.getElementById('shipping-address').textContent = order.address;
+      document.getElementById('order-total').textContent = '$' + order.total;
+      
+      // Estimated delivery
+      const deliveryDate = order.deliveryDate || calculateDeliveryDate(order.created, order.shipping);
+      document.getElementById('estimated-delivery').textContent = deliveryDate;
+      
+      // Tracking timeline
+      displayTrackingTimeline(order);
+      
+      // Order items
+      displayOrderItems(order.items);
+    }
+    
+    function displayTrackingTimeline(order) {
+      const timeline = document.getElementById('tracking-timeline');
+      const statuses = ['Pending', 'Processing', 'Shipped', 'Delivered'];
+      const currentIndex = statuses.indexOf(order.status);
+      
+      timeline.innerHTML = statuses.map((status, index) => {
+        const isCompleted = index <= currentIndex;
+        const isCurrent = index === currentIndex;
+        
+        return `
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center ${isCompleted ? 'bg-deep-red text-white' : 'bg-gray-300 text-gray-600'} font-bold">
+              ${isCompleted ? '✓' : index + 1}
+            </div>
+            <div class="flex-1">
+              <p class="font-semibold ${isCurrent ? 'text-deep-red' : ''}">${status}</p>
+              <p class="text-sm text-gray-600">${getStatusMessage(status, order)}</p>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+    
+    function getStatusMessage(status, order) {
+      const messages = {
+        'Pending': 'Order received and awaiting processing',
+        'Processing': 'Your order is being prepared',
+        'Shipped': 'Package is on its way!',
+        'Delivered': 'Delivered successfully'
+      };
+      return messages[status] || '';
+    }
+    
+    function displayOrderItems(items) {
+      const container = document.getElementById('order-items');
+      container.innerHTML = items.map(item => `
+        <div class="flex items-center gap-4 p-3 bg-gray-50 rounded">
+          <img src="${item.img}" alt="${item.name}" class="w-16 h-16 object-cover rounded">
+          <div class="flex-1">
+            <p class="font-semibold">${item.name}</p>
+            <p class="text-sm text-gray-600">Quantity: ${item.quantity}</p>
+          </div>
+          <p class="font-bold text-deep-red">$${(item.price * item.quantity).toFixed(2)}</p>
+        </div>
+      `).join('');
+    }
+    
+    function calculateDeliveryDate(orderDate, shipping) {
+      const date = new Date(orderDate);
+      const daysToAdd = shipping.includes('Express') ? 2 : shipping.includes('Next') ? 1 : 5;
+      date.setDate(date.getDate() + daysToAdd);
+      return date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    }
+    
+    function loadRecentOrders() {
+      const orders = JSON.parse(localStorage.getItem('hp_crm_orders') || '[]');
+      const recentOrders = orders.slice(-5).reverse();
+      
+      const container = document.getElementById('recent-orders');
+      
+      if (recentOrders.length === 0) {
+        container.innerHTML = '<p class="text-gray-600 text-center">No orders found</p>';
+        return;
+      }
+      
+      container.innerHTML = recentOrders.map(order => `
+        <div class="bg-white rounded-lg shadow p-4 hover:shadow-lg transition cursor-pointer" onclick="document.getElementById('order-id-input').value='${order.id}'; searchOrder();">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="font-bold text-deep-red">${order.id}</p>
+              <p class="text-sm text-gray-600">${new Date(order.created).toLocaleDateString()}</p>
+            </div>
+            <span class="px-3 py-1 rounded-full text-xs font-semibold ${order.status === 'Delivered' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}">${order.status}</span>
+          </div>
+          <p class="mt-2 text-gray-700">${order.items.length} item(s) • $${order.total}</p>
+        </div>
+      `).join('');
+    }
+    
+    // Load recent orders on page load
+    loadRecentOrders();
+  </script>
+</body>
+</html>

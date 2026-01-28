@@ -90,6 +90,28 @@
     </div>
   </section>
 
+  <!-- Search Bar -->
+  <section class="bg-white py-4 px-4 md:px-8 shadow-sm">
+    <div class="container mx-auto max-w-4xl">
+      <div class="flex gap-2">
+        <div class="flex-1 relative">
+          <input type="text" id="product-search-input" placeholder="🔍 Search products (roses, chocolates, teddy bears...)" class="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-deep-red focus:outline-none">
+          <button id="search-clear-btn" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-deep-red hidden">✕</button>
+        </div>
+        <button id="product-search-btn" class="bg-deep-red text-white px-6 py-3 rounded-lg hover:bg-red-700 transition font-bold">Search</button>
+      </div>
+      <!-- Category Filters -->
+      <div class="flex gap-2 mt-3 overflow-x-auto pb-2">
+        <button onclick="filterByCategory('all')" data-filter="all" class="filter-btn px-4 py-2 rounded-full bg-deep-red text-white font-semibold text-sm whitespace-nowrap active">All</button>
+        <button onclick="filterByCategory('roses')" data-filter="roses" class="filter-btn px-4 py-2 rounded-full bg-white text-charcoal border border-gray-300 hover:bg-blush-pink/40 font-semibold text-sm whitespace-nowrap">Roses</button>
+        <button onclick="filterByCategory('chocolates')" data-filter="chocolates" class="filter-btn px-4 py-2 rounded-full bg-white text-charcoal border border-gray-300 hover:bg-blush-pink/40 font-semibold text-sm whitespace-nowrap">Chocolates</button>
+        <button onclick="filterByCategory('teddy')" data-filter="teddy" class="filter-btn px-4 py-2 rounded-full bg-white text-charcoal border border-gray-300 hover:bg-blush-pink/40 font-semibold text-sm whitespace-nowrap">Teddy Bears</button>
+        <button onclick="filterByCategory('combo')" data-filter="combo" class="filter-btn px-4 py-2 rounded-full bg-white text-charcoal border border-gray-300 hover:bg-blush-pink/40 font-semibold text-sm whitespace-nowrap">Gift Combos</button>
+        <button onclick="filterByCategory('flowers')" data-filter="flowers" class="filter-btn px-4 py-2 rounded-full bg-white text-charcoal border border-gray-300 hover:bg-blush-pink/40 font-semibold text-sm whitespace-nowrap">Other Flowers</button>
+      </div>
+    </div>
+  </section>
+
   <!-- Advanced Product Filters -->
   <section class="sticky top-16 z-40 bg-white/95 shadow-sm py-2 px-2 md:px-8 w-full">
     <form id="shop-filters" class="flex flex-wrap gap-2 md:gap-4 items-center justify-between">
@@ -150,13 +172,19 @@
       </div>
       <div class="flex flex-col">
         <label class="text-xs font-bold mb-1">Sort By</label>
-        <select id="sort-products" class="border border-charcoal rounded px-2 py-1 text-xs md:text-sm">
+        <select id="sort-products" onchange="sortProducts(this.value)" class="border border-charcoal rounded px-2 py-1 text-xs md:text-sm">
           <option value="default">Default</option>
-          <option value="price-asc">Price: Low to High</option>
-          <option value="price-desc">Price: High to Low</option>
-          <option value="name-asc">Name: A-Z</option>
-          <option value="name-desc">Name: Z-A</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="price-high">Price: High to Low</option>
+          <option value="name">Name: A-Z</option>
+          <option value="newest">Newest First</option>
         </select>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="wishlist.html" class="relative bg-blush-pink px-4 py-2 rounded-lg hover:bg-champagne-gold transition flex items-center gap-2">
+          <span>❤️ Wishlist</span>
+          <span class="wishlist-badge absolute -top-2 -right-2 bg-deep-red text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold hidden">0</span>
+        </a>
       </div>
     </form>
   </section>
@@ -203,6 +231,8 @@
   <script src="js/discounts.js"></script>
   <script src="js/orders.js"></script>
   <script src="js/cart.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/wishlist.js"></script>
 <script>
 // --- Generic Customer Reviews Pool (1000+ unique customers) ---
 const firstNames = ['Sarah','John','Emma','Michael','Lisa','David','Jennifer','Robert','Amanda','Chris','Michelle','James','Nicole','Kevin','Rachel','Daniel','Ashley','Brian','Stephanie','Mark','Lauren','Jason','Megan','Thomas','Emily','Jessica','Matthew','Elizabeth','Andrew','Rebecca','Joshua','Amanda','Jacob','Samantha','Tyler','Hannah','Ryan','Alexis','Brandon','Madison','Nicholas','Olivia','Jordan','Sophia','Justin','Isabella','Kyle','Ava','Nathan','Emily','Aaron','Abigail','Jonathan','Mia','Austin','Charlotte','Logan','Harper','Zachary','Amelia','Caleb','Evelyn','Ethan','Ella','Benjamin','Scarlett','William','Grace','Alexander','Chloe','Jack','Victoria','Owen','Aria','Luke','Zoey','Dylan','Lily','Connor','Natalie','Isaac','Addison','Jackson','Lillian','Mason','Brooklyn','Liam','Zoe','Noah','Layla','Aiden','Riley','Jayden','Lucy','Lucas','Audrey','Grayson','Bella','Carter','Claire','Wyatt','Skylar','Parker','Ellie','Hunter','Samantha','Cameron','Stella','Sebastian','Paisley','Cooper','Savannah','Christian','Aurora','Eli','Penelope','Landon','Nora','Colton','Hazel','Hudson','Violet','Brayden','Hannah','Bentley','Maya','Samuel','Elena','Dominic','Anna','Gavin','Caroline','Brody','Aubrey','Jaxon','Eliana','Chase','Naomi','Tristan','Julia','Adam','Madelyn','Asher','Leah','Ian','Sarah','Ezra','Allison','Leo','Eva','Sawyer','Alice','Lincoln','Ruby','Miles','Sophie','Max','Ivy','Declan','Piper','Maverick','Emilia','Nolan','Autumn','Cole','Serenity','Silas','Willow','Axel','Lydia','Blake','Clara','Easton','Nova','Jace','Kinsley','Carson','Delilah','Ryker','Iris','Roman','Genesis','Kai','Josephine','Wesley','Aurora','Levi','Ariana','Xavier','Kennedy','Adrian','Sadie','Camden','Gabriella','Micah','Brielle','Harrison','Adalyn','Ryder','Jade','Emmett','Jasmine','Kingston','Nevaeh','Jonah','Emery','Rowan','Margaret','Greyson','Quinn','Beckett','Isabelle','Bennett','Faith','Mateo','Alexandra','Elliott','Mackenzie','Ezekiel','Trinity','Weston','Reagan','Antonio','Melody','Maxwell','Rose','Finn','Arianna','Calvin','Gianna','Ashton','Valentina','Jude','Camila','Graham','Ayla','Elliot','Andrea','Dean','Lila','Maddox','Maria','Abel','Josephine','Santiago','Athena','Oscar','Eloise','Marcus','Katherine','George','Natalia','Nash','Adalynn','Spencer','Luna','Silas','Elaina','Holden','Annabelle','Tucker','Peyton','Archer','Mila','Louis','Raelynn','Preston','Finley','Ivan','Teagan','Victor','Alina','Rylan','Paige','Grady','Molly','Theodore','Harmony','Lorenzo','Sloane','Milo','Sienna','Atticus','Presley','August','Marley','Garrett','Keira','River','Emersyn','Leon','Maggie','Judah','Alaina','Ronan','Juliette','Orion','Julianna','Griffin','Alana','Legend','Alivia','Kyrie','Juliana','Rafael','Lucia','Donovan','Evangeline','Sullivan','Makayla','Thiago','Summer','Karter','Cora','Edgar','Morgan','Phoenix','Phoebe','Tate','Tessa','Tobias','Amara','Emmanuel','Myla','Zane','Mariana','Allen','Brynn','Jasper','Arabella','Drew','Gemma','Morgan','Rylee','Tyson','Mckenna','Felix','Esther','Jett','Lyla','Anderson','Elsie','Dawson','Angela','Zander','Wren','Caden','Vera','Blake','Hayden','Erick','Blake','Nash','Freya','Waylon','Londyn','Rory','Catherine','Crew','Ember','Zayn','Adeline','Kieran','Remi','Walter','Catalina','Reid','June','Arthur','Vivienne','Beau','Daniela','Stetson','Adelaide','Ellis','Sage','Gunnar','Genevieve','Abel','Dakota','Dallas','Rosalie','Callum','Cecilia','Brooks','River','Enzo','Oakley','Colt','Selena','Kameron','Fiona','Tucker','April','Major','Lucille','Malcolm','Eliza','Maximus','Jordyn','Kaden','Reese','Jameson','Gabriela','Arlo','Destiny','Joaquin','Tatum','Kane','Brooklynn','Royce','Kelsey','Ramon','Phoenix','Kellan','Delaney','Bodhi','Lennon','Greyson','Gracie','Otto','Taylor','Dexter','Ruth','Hugh','Hope','Amos','Maddison','Alijah','Jane','Pierce','Daisy','Cayden','Charlie','Miller','Margot','Kade','Journey','Miller','Esme','Ridge','Ryleigh','Jayce','Madeleine','Porter','Lilliana','Danny','Kali','Wells','Winter','Abram','Jolene','Phillip','Meadow','Clyde','Saylor','Finnegan','Maci','Kellen','Kimberly','Beckett','Celeste','Moshe','Daphne','Ellison','Danna','Wade','Wynter','Duke','Paris','Johnny','Joanna','Bowen','Adelynn','Alec','Lainey','Zayne','Shelby','Ari','Haven','Boston','Kayla','Byron','Evie','Cohen','Aliyah','Francis','Erin','Hank','Monroe','Jensen','Bethany','Keegan','Rosemary','Landen','Averie','Leonel','Charlee','Moises','Ainsley','Mohammed','Allie','Clark','Aylin','Jefferson','Rosie','Romeo','Cassidy','Hector','Leila','Julio','Bianca','Marcos','Remington','Muhammad','Mabel','Matteo','Kylee','Otis','Maren','Russell','Poppy','Hendrix','Blakely','Messiah','Harlow','Henrik','Collins','Adonis','Kyra','Jax','Kalani','Marcel','Mira','Armando','Nyla','Abdiel','Noelle','Gerald','Emelia','Rowen','Nicole','Armani','Millie','Damian','Myra','Louie','Sutton','Malakai','Amanda','Rodrigo','Paloma','Nehemiah','Treasure','Briggs','Skye','Bjorn','Imani','Darius','Aniyah','Iker','Amber','Franco','Roselyn','Lawson','Kamila','Maurice','Kynlee','Yousef','Sylvia','Talon','Emory','Vihaan','Bridget','Kareem','Raegan','Edison','Maliyah','Issac','Amira','Yahir','Camryn','Santino','Matilda','Douglas','Leslie','Alexis','Anaya','Zion','Camilla','Ayan','Angelina','Bjorn','Michaela','Cairo','Madilyn','Curtis','Miranda','Dominick','Xiomara','Franco','Lennox','Gustavo','Lana','Hassan','Diana','Hugo','Alondra','Kash','Joelle','Kyson','Farrah','Milan','Nayeli','Phillip','Adelyn','Ramon','Karina','Remy','Amaya','Rey','Alaya','Rohan','Amina','Royce','Annie','Seven','Ashlyn','Stanley','Aspen','Titan','Beatrice','Vincenzo','Bristol','Kyrie','Charli','Legacy','Chelsea','Nelson','Elise','Noe','Amari','Onyx','Lyric','Santino','Meredith','Solomon','Mckenzie','Sonny','Mylah','Sutton','Nadia','Yusuf','Ainsley','Alaric','Briana','Alfonso','Cheyenne','Alfredo','Elle','Amos','Estelle','Anderson','Evelynn','Ariel','Haley','Arian','Haylee'];
