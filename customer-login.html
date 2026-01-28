@@ -35,9 +35,12 @@
         <img src="assets/logofile.png" alt="Heart & Petal Logo" class="h-10 w-10 object-contain">
         <span class="font-playfair text-2xl text-deep-red tracking-wide">Heart & Petal</span>
       </a>
-      <nav class="space-x-6 text-lg flex items-center">
+      <!-- Desktop Nav - Hidden on mobile -->
+      <nav class="hidden lg:flex space-x-6 text-lg items-center">
         <a href="index.html" class="hover:text-deep-red transition">Home</a>
         <a href="shop.html" class="hover:text-deep-red transition">Shop</a>
+        <a href="about.html" class="hover:text-deep-red transition">About</a>
+        <a href="faq.html" class="hover:text-deep-red transition">FAQ</a>
         <a href="checkout.html" class="hover:text-deep-red transition">Checkout</a>
         <a href="legal.html" class="hover:text-deep-red transition">Legal</a>
         <div class="relative group ml-2">
@@ -48,12 +51,30 @@
           </div>
         </div>
       </nav>
+      <!-- Mobile Menu Button -->
+      <button id="mobile-menu-btn" class="lg:hidden text-deep-red focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+      <!-- Cart Button -->
       <a href="checkout.html" class="ml-4 bg-deep-red text-ivory px-4 py-2 rounded-lg font-great-vibes text-xl shadow hover:bg-red-700 transition flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
         </svg>
         Cart
       </a>
+    </div>
+    <!-- Mobile Menu - Hidden on desktop -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-charcoal max-h-96 overflow-y-auto">
+      <a href="index.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Home</a>
+      <a href="shop.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Shop</a>
+      <a href="about.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">About</a>
+      <a href="faq.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">FAQ</a>
+      <a href="checkout.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Checkout</a>
+      <a href="legal.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Legal</a>
+      <a href="admin.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Admin Login</a>
+      <a href="customer-login.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40 font-bold text-deep-red">Customer Login</a>
     </div>
   </header>
 
@@ -99,6 +120,11 @@
       </div>
     </div>
   </footer>
-  <script src="js/customer-auth.js?v=3.0"></script>
+  <script src="js/error-handler.js"></script>
+  <script src="js/system-monitor.js"></script>
+  <script src="js/mobile-menu.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/nav-manager.js"></script>
+  <script src="js/customer-auth.js"></script>
 </body>
 </html>
