@@ -16,7 +16,7 @@ if (!localStorage.getItem('hp_newsletter_popup')) {
 		popup.innerHTML = `
 			<div style="max-width: 380px; margin: 8vh auto; background: #fff; border-radius: 1.5rem; box-shadow: 0 8px 32px rgba(44,44,44,0.18); padding: 2.5rem 2rem 2rem 2rem; text-align: center; position: relative; font-family: Montserrat, Arial, sans-serif;">
 				<button id='hp-newsletter-close' style='position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.5rem;color:#b80038;cursor:pointer;'>&times;</button>
-				<img src='assets/images/logofile.png' alt='Heart & Petal' style='height: 3rem; margin-bottom: 1rem;'>
+				<img src='https://res.cloudinary.com/dij2fdtw4/image/upload/samples/logo.png' alt='Heart & Petal' style='height: 3rem; margin-bottom: 1rem;'>
 				<h2 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #b80038; margin-bottom: 0.5rem;">Get 20% Off!</h2>
 				<p style="margin-bottom: 1.2rem;">Sign up for our newsletter and enjoy a one-time 20% discount on your first order.</p>
 				<form id='hp-newsletter-form' style='display:flex;gap:0.5rem;justify-content:center;'>

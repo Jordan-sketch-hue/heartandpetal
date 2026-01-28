@@ -266,7 +266,7 @@ function showCartPopup(product) {
 		popup.innerHTML = '';
 		document.body.appendChild(popup);
 	}
-	popup.innerHTML = `<img src='assets/images/logofile.png' alt='Heart & Petal' style='height:2.5rem;margin-right:1rem;border-radius:1rem;background:#fff;'>
+	popup.innerHTML = `<img src='https://res.cloudinary.com/dij2fdtw4/image/upload/samples/logo.png' alt='Heart & Petal' style='height:2.5rem;margin-right:1rem;border-radius:1rem;background:#fff;'>
 		<div><b>${product.name}</b> added to cart!<br><span style='font-size:0.95rem;'>View your cart or continue shopping.</span></div>`;
 	popup.style.opacity = '1';
 	popup.style.pointerEvents = 'auto';
