@@ -619,12 +619,36 @@ function getQueryParam(name) {
   const url = new URL(window.location.href);
   return url.searchParams.get(name);
 }
+
+// Category filter function with visual feedback
+function filterByCategory(category) {
+  // Update active state on buttons
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    if (btn.getAttribute('data-filter') === category) {
+      btn.classList.add('active', 'bg-deep-red', 'text-white');
+      btn.classList.remove('bg-white', 'text-charcoal', 'border', 'border-gray-300');
+    } else {
+      btn.classList.remove('active', 'bg-deep-red', 'text-white');
+      btn.classList.add('bg-white', 'text-charcoal', 'border', 'border-gray-300');
+    }
+  });
+
+  // Filter products
+  if (category === 'all') {
+    renderProducts(products);
+  } else {
+    const filtered = products.filter(p => p.category === category);
+    renderProducts(filtered);
+  }
+
+  // Scroll to products
+  document.querySelector('#product-grid')?.scrollIntoView({behavior:'smooth', block: 'start'});
+}
+
 const categoryFromURL = getQueryParam('category');
 if (categoryFromURL) {
   setTimeout(() => {
-    const catProducts = products.filter(p => p.category === categoryFromURL);
-    renderProducts(catProducts);
-    document.querySelector('#product-grid').scrollIntoView({behavior:'smooth'});
+    filterByCategory(categoryFromURL);
   }, 200);
 } else {
   renderProducts(products);
