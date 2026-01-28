@@ -21,7 +21,7 @@
   
   <!-- Core JavaScript Files (load before PayPal) -->
   <script src="js/error-handler.js"></script>
-  <script src="js/responsive-nav.js"></script>
+  <script src="js/mobile-menu.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/inventory.js"></script>
   <script src="js/discounts.js"></script>
@@ -72,37 +72,6 @@
       </nav>
     </div>
   </header>
-
-  <script>
-    // Mobile menu toggle - inline backup to ensure it works
-    (function() {
-      function initMobileMenu() {
-        const menuToggle = document.getElementById('mobile-menu-toggle');
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        console.log('🔧 Checkout mobile menu:', {
-          button: menuToggle ? 'Found' : 'NOT FOUND',
-          menu: mobileMenu ? 'Found' : 'NOT FOUND'
-        });
-        
-        if (menuToggle && mobileMenu) {
-          menuToggle.onclick = function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            mobileMenu.classList.toggle('hidden');
-            console.log('📱 Menu toggled, hidden:', mobileMenu.classList.contains('hidden'));
-          };
-          console.log('✅ Checkout mobile menu ready');
-        }
-      }
-      
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initMobileMenu);
-      } else {
-        initMobileMenu();
-      }
-    })();
-  </script>
 
   <!-- Main Content -->
   <main class="container mx-auto px-4 py-8 max-w-6xl">
