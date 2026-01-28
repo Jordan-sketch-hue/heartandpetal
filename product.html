@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="assets/images/logofile.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="View detailed product information for Heart & Petal gifts including flowers, chocolates, and teddy bears. Check availability and pricing.">
+  <meta name="keywords" content="product details, flowers, chocolates, teddy bears, gift options, pricing, availability">
+  <meta name="author" content="Heart & Petal">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+  <meta property="og:type" content="product">
+  <meta property="og:title" content="Product Details - Heart & Petal">
+  <meta property="og:description" content="Discover our premium gift options with detailed descriptions and pricing.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://heartandpetal.com/product.html">
+  <title>Product Details - Heart & Petal Gifts</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- Global Error Handler (must load first) -->
+  <script src="js/error-handler.js"></script>
+</head>
+<body class="bg-ivory font-montserrat min-h-screen flex flex-col justify-between">
+  <!-- Free Delivery Banner -->
+  <div class="bg-deep-red text-ivory text-center py-2 text-sm font-bold">
+    FREE DELIVERY ON ALL ORDERS ACROSS THE USA!
+  </div>
+  <!-- Header -->
+  <header class="bg-white/90 shadow sticky top-0 z-50">
+    <div class="container mx-auto flex items-center justify-between py-4 px-6">
+      <a href="index.html" class="flex items-center gap-2">
+        <img src="assets/images/logofile.png" alt="Heart & Petal Logo" class="h-10 w-10 object-contain">
+        <span class="font-playfair text-2xl text-deep-red tracking-wide">Heart & Petal</span>
+      </a>
+      <nav class="space-x-6 text-lg flex items-center">
+        <a href="index.html" class="hover:text-deep-red transition">Home</a>
+        <a href="shop.html" class="hover:text-deep-red transition">Shop</a>
+        <a href="about.html" class="hover:text-deep-red transition">About</a>
+        <a href="faq.html" class="hover:text-deep-red transition">FAQ</a>
+        <a href="checkout.html" class="hover:text-deep-red transition">Checkout</a>
+        <a href="legal.html" class="hover:text-deep-red transition">Legal</a>
+        <div class="relative group ml-2">
+          <button class="hover:text-champagne-gold transition focus:outline-none">CRM Login/Register</button>
+          <div class="absolute right-0 mt-2 w-48 bg-white border border-charcoal rounded shadow-lg opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition z-50">
+            <a href="admin.html" class="block px-4 py-2 hover:bg-blush-pink/40">Admin Login</a>
+            <a href="customer-login.html" class="block px-4 py-2 hover:bg-blush-pink/40">Customer Login/Register</a>
+          </div>
+        </div>
+      </nav>
+      <a href="checkout.html" class="ml-4 bg-deep-red text-ivory px-4 py-2 rounded-lg font-great-vibes text-xl shadow hover:bg-red-700 transition flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+        Cart
+      </a>
+    </div>
+  </header>
+
+
+  <!-- Product Main Section -->
+  <main class="container mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    <!-- Image Carousel -->
+    <section>
+      <div class="relative w-full aspect-square rounded-lg overflow-hidden shadow-lg">
+        <!-- Carousel Images (replace src with actual product images) -->
+        <img id="carousel-image" src="assets/images/roses.jpg" alt="Product Image" class="w-full h-full object-cover transition duration-300">
+        <!-- Carousel Controls -->
+        <button id="prev-btn" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 rounded-full p-2 shadow hover:bg-blush-pink transition">&#8592;</button>
+        <button id="next-btn" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 rounded-full p-2 shadow hover:bg-blush-pink transition">&#8594;</button>
+      </div>
+      <!-- Thumbnails (optional) -->
+      <div id="thumbnail-container" class="flex space-x-2 mt-4 justify-center">
+      </div>
+    </section>
+
+    <!-- Product Details -->
+    <section>
+      <h1 id="product-name" class="text-3xl font-playfair font-bold mb-4">Red Roses Bouquet</h1>
+      <p id="product-description" class="text-lg mb-4">Classic, elegant roses hand-selected for freshness and beauty. Perfect for Valentine's Day or any romantic occasion.</p>
+      
+      <!-- Star Rating -->
+      <div id="star-rating" class="flex items-center gap-1 text-champagne-gold text-xl mb-2"></div>
+      <p id="review-count" class="text-sm text-charcoal/80 mb-4">(0 reviews)</p>
+      
+      <!-- Price Display -->
+      <p id="product-price" class="text-2xl text-deep-red font-bold mb-4">$49.99</p>
+
+      <!-- Size/Variant Selector -->
+      <div id="variant-selector" class="mb-6 p-4 bg-blush-pink/10 rounded-lg">
+        <label class="block font-bold mb-2">Select Size/Option:</label>
+        <select id="size-select" class="w-full border-2 border-deep-red rounded px-3 py-2 font-semibold">
+          <option value="">-- Choose an option --</option>
+        </select>
+        <p id="variant-price" class="text-lg text-deep-red font-bold mt-2">Price: $49.99</p>
+      </div>
+
+      <!-- Quantity and Add to Cart -->
+      <div class="flex gap-2 mb-4">
+        <div class="flex items-center border-2 border-deep-red rounded-lg">
+          <button id="qty-minus" class="px-4 py-2 text-deep-red hover:bg-blush-pink">−</button>
+          <input id="qty-input" type="number" value="1" min="1" class="w-16 text-center border-l border-r border-deep-red py-2" readonly>
+          <button id="qty-plus" class="px-4 py-2 text-deep-red hover:bg-blush-pink">+</button>
+        </div>
+        <button id="add-to-cart" class="flex-1 bg-deep-red text-ivory px-8 py-2 rounded-lg font-bold text-lg hover:bg-red-700 transition">Add to Cart</button>
+      </div>
+
+      <!-- Product Features -->
+      <ul id="product-features" class="list-disc list-inside text-left text-charcoal/80 mb-6">
+      </ul>
+      <p class="text-sm text-champagne-gold">Free delivery on all Valentine’s orders!</p>
+    </section>
+  </main>
+
+  <!-- Reviews Section -->
+  <section class="container mx-auto px-6 py-16 max-w-4xl">
+    <h2 class="font-playfair text-3xl font-bold mb-8 text-deep-red">Customer Reviews</h2>
+
+    <!-- Review Submission Form -->
+    <div class="bg-blush-pink/20 rounded-lg p-8 mb-12">
+      <h3 class="text-xl font-bold mb-6">Share Your Review</h3>
+      <form id="review-form" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input type="text" id="review-name" placeholder="Your Name" class="border-2 border-deep-red rounded px-4 py-2" required>
+          <input type="email" id="review-email" placeholder="Your Email" class="border-2 border-deep-red rounded px-4 py-2" required>
+        </div>
+        
+        <div>
+          <label class="block font-bold mb-2">Rating (1-5 stars)</label>
+          <div class="flex gap-2 mb-2">
+            <select id="review-rating" class="border-2 border-deep-red rounded px-4 py-2" required>
+              <option value="">-- Select Rating --</option>
+              <option value="5">⭐⭐⭐⭐⭐ 5 Stars</option>
+              <option value="4">⭐⭐⭐⭐ 4 Stars</option>
+              <option value="3">⭐⭐⭐ 3 Stars</option>
+              <option value="2">⭐⭐ 2 Stars</option>
+              <option value="1">⭐ 1 Star</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold mb-2">Your Review</label>
+          <textarea id="review-text" placeholder="Share your thoughts about this product..." class="w-full border-2 border-deep-red rounded px-4 py-2 h-24" required></textarea>
+          <p class="text-xs text-charcoal/60 mt-1">Max 500 characters. Review will be moderated before posting.</p>
+        </div>
+
+        <button type="submit" class="bg-deep-red text-ivory px-8 py-3 rounded-lg font-bold hover:bg-red-700 transition">Submit Review for Approval</button>
+        <p id="review-status" class="text-sm text-champagne-gold hidden mt-2"></p>
+      </form>
+    </div>
+
+    <!-- Reviews Display -->
+    <div id="reviews-container" class="space-y-6">
+      <!-- Reviews will be populated by JavaScript -->
+    </div>
+
+    <!-- Related Products -->
+    <h3 class="font-playfair text-2xl font-bold mt-16 mb-8 text-deep-red">Related Products</h3>
+    <div id="related-products" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-white text-black py-8 w-full mt-auto shadow-lg border-t border-gray-200">
+    <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between">
+      <div class="mb-4 md:mb-0">
+        <span class="font-playfair text-lg font-bold tracking-wide">Heart & Petal</span>
+      </div>
+      <div class="space-x-6 text-sm">
+        <a href="legal.html" class="font-bold hover:text-deep-red transition">Privacy & Terms</a>
+        <a href="mailto:contact@heartandpetal.com" class="font-bold hover:text-deep-red transition">Contact</a>
+        <a href="about.html" class="font-bold hover:text-deep-red transition">About</a>
+        <a href="faq.html" class="font-bold hover:text-deep-red transition">FAQ</a>
+      </div>
+      <div class="text-xs mt-4 md:mt-0">&copy; 2026 Heart & Petal. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <!-- Dynamic Product Page Script -->
+  <script src="js/auth.js"></script>
+  <script src="js/inventory.js"></script>
+  <script src="js/discounts.js"></script>
+  <script src="js/orders.js"></script>
+  <script src="js/cart.js"></script>
+  <script>
+    // Product data (same as shop.html - ALL 50 products with sizes/variants)
+    const products = [
+      // === ROSES (10 products) ===
+      { id: 'roses1', name: 'Red Roses Bouquet', price: 49.99, img: 'assets/images/red roses bouquet.jpg', images: ['assets/images/red roses bouquet.jpg', 'assets/images/red roses bouquet (1).jpg', 'assets/images/red roses bouquet product image.jpg'], desc: 'Classic, elegant roses hand-selected for freshness and beauty. Each long-stemmed rose is carefully chosen to ensure peak bloom and lasting quality. Perfect for expressing timeless love and romance.', category: 'roses', color: 'Red', type: 'Rose', assortment: 'Flowers', sizes: [{ size: 'Small (6 stems)', price: 39.99 }, { size: 'Medium (12 stems)', price: 49.99 }, { size: 'Large (18 stems)', price: 64.99 }, { size: 'Deluxe (24 stems)', price: 89.99 }] },
+      { id: 'roses2', name: 'Pink Roses Arrangement', price: 54.99, img: 'assets/images/pink rose arrangement.jpg', images: ['assets/images/pink rose arrangement.jpg', 'assets/images/pink rose arrnagemnt product image.jpg'], desc: 'Soft pink roses for a romantic touch. Delicate and graceful, these premium roses symbolize admiration and appreciation. Beautifully arranged with lush greenery and tied with satin ribbon.', category: 'roses', color: 'Pink', type: 'Rose', assortment: 'Flowers', sizes: [{ size: 'Small (6 stems)', price: 44.99 }, { size: 'Medium (12 stems)', price: 54.99 }, { size: 'Large (18 stems)', price: 69.99 }, { size: 'Deluxe (24 stems)', price: 94.99 }] },
+      { id: 'roses3', name: 'White Roses Elegance', price: 59.99, img: 'assets/images/white rose arrangement product image.jpg', images: ['assets/images/white rose arrangement product image.jpg', 'assets/images/white rose arrangement product image (1).jpg', 'assets/images/white rose arrangement product image (2).jpg'], desc: 'Pure white roses symbolizing eternal love and devotion. Each pristine bloom represents purity and new beginnings. Elegantly arranged for weddings, anniversaries, or heartfelt gestures.', category: 'roses', color: 'White', type: 'Rose', assortment: 'Flowers', sizes: [{ size: 'Small (6 stems)', price: 49.99 }, { size: 'Medium (12 stems)', price: 59.99 }, { size: 'Large (18 stems)', price: 74.99 }, { size: 'Deluxe (24 stems)', price: 99.99 }] },
+      { id: 'roses4', name: 'Dozen Long-Stemmed Roses', price: 79.99, img: 'assets/images/Dozen Long-Stemmed Roses product image.jpg', images: ['assets/images/Dozen Long-Stemmed Roses product image.jpg', 'assets/images/Dozen Long-Stemmed Roses product image (1).jpg', 'assets/images/Dozen Long-Stemmed Roses product image (2).jpg'], desc: 'Classic dozen long-stemmed red roses - the ultimate symbol of romantic love. Premium quality blooms with extended vase life. Wrapped in elegant paper with ribbon and includes a personalized message card.', category: 'roses', color: 'Red', type: 'Rose', assortment: 'Flowers', sizes: [{ size: 'Half Dozen (6)', price: 54.99 }, { size: 'Dozen (12)', price: 79.99 }, { size: 'Premium Dozen (12, Premium Grade)', price: 99.99 }, { size: 'Two Dozen (24)', price: 139.99 }] },
+      { id: 'roses5', name: 'Blush Pink Rose Box', price: 69.99, img: 'assets/images/blush pink rose box.jpg', images: ['assets/images/blush pink rose box.jpg', 'assets/images/blush pink rose box (1).jpg'], desc: 'Beautiful blush pink roses in luxury presentation box. Perfectly arranged in a keepsake hatbox that doubles as elegant decor. Includes premium roses with baby\'s breath accents for a sophisticated touch.', category: 'roses', color: 'Pink', type: 'Rose', assortment: 'Flowers', sizes: [{ size: 'Small Box (12 stems)', price: 59.99 }, { size: 'Medium Box (16 stems)', price: 69.99 }, { size: 'Large Box (20 stems)', price: 89.99 }, { size: 'Grand Luxury Box (24 stems)', price: 119.99 }] },
+      { id: 'roses6', name: 'Rainbow Roses Mix', price: 89.99, img: 'assets/images/rainbow roses mix.jpg', images: ['assets/images/rainbow roses mix.jpg', 'assets/images/rainbow roses mix (1).jpg', 'assets/images/rainbow roses mix (2).jpg'], desc: 'Stunning rainbow-colored roses featuring vibrant hues. Each rose is uniquely tinted to create a spectacular multi-color display. Perfect for celebrating diversity, joy, and extraordinary love.', category: 'roses', color: 'Assorted', type: 'Rose', assortment: 'Flowers', sizes: [{ size: 'Small (8 stems)', price: 69.99 }, { size: 'Medium (12 stems)', price: 89.99 }, { size: 'Large (16 stems)', price: 119.99 }, { size: 'Spectacular (20 stems)', price: 149.99 }] },
+      { id: 'roses7', name: 'Classic Valentine\'s Roses', price: 64.99, img: 'assets/images/classic valentiens roses.jpg', images: ['assets/images/classic valentiens roses.jpg', 'assets/images/classic valentiens roses (1).jpg'], desc: 'Traditional red roses for Valentine\'s Day romance. Hand-selected for their deep crimson color and intoxicating fragrance. Artfully arranged with seasonal greenery and wrapped in elegant Valentine-themed paper.', category: 'roses', color: 'Red', type: 'Rose', assortment: 'Flowers', sizes: [{ size: 'Small (6 stems)', price: 44.99 }, { size: 'Medium (12 stems)', price: 64.99 }, { size: 'Large (18 stems)', price: 84.99 }, { size: 'Premium (24 stems)', price: 109.99 }] },
+      { id: 'roses8', name: 'Luxury Red Rose Hatbox', price: 99.99, img: 'assets/images/Luxury Red Rose Hatbox.jpg', images: ['assets/images/Luxury Red Rose Hatbox.jpg', 'assets/images/Luxury Red Rose Hatbox (1).jpg'], desc: 'Premium roses in elegant hatbox presentation. Features the finest grade long-stemmed roses arranged in a sophisticated round box. Includes luxury wrapping and a handwritten gift card for that extra special touch.', category: 'roses', color: 'Red', type: 'Rose', assortment: 'Flowers', sizes: [{ size: 'Classic (16 stems)', price: 89.99 }, { size: 'Deluxe (20 stems)', price: 99.99 }, { size: 'Signature (24 stems)', price: 139.99 }, { size: 'Presidential (30 stems)', price: 179.99 }] },
+      { id: 'roses9', name: 'Petite Rose Posy', price: 39.99, img: 'assets/images/Petite Rose Posy.jpg', images: ['assets/images/Petite Rose Posy.jpg', 'assets/images/Petite Rose Posy (1).jpg'], desc: 'Small but charming rose bouquet perfect for any occasion. Compact arrangement of fresh pink roses with delicate filler flowers. Ideal for "thinking of you" moments or as a sweet surprise gift.', category: 'roses', color: 'Pink', type: 'Rose', assortment: 'Flowers', sizes: [{ size: 'Tiny (3 stems)', price: 29.99 }, { size: 'Petite (6 stems)', price: 39.99 }, { size: 'Sweet (9 stems)', price: 54.99 }, { size: 'Premium Petite (12 stems)', price: 69.99 }] },
+      { id: 'roses10', name: 'Grand Romance Roses', price: 129.99, img: 'assets/images/Grand Romance Roses.jpg', images: ['assets/images/Grand Romance Roses.jpg', 'assets/images/Grand Romance Roses (1).jpg', 'assets/images/Grand Romance Roses (2).jpg'], desc: 'Extravagant arrangement for grand romantic gestures. Features 24 premium long-stemmed red roses in a stunning display. Includes luxury wrapping, satin ribbon, and personalized card for unforgettable moments.', category: 'roses', color: 'Red', type: 'Rose', assortment: 'Flowers', sizes: [{ size: 'Large (20 stems)', price: 99.99 }, { size: 'Grand (24 stems)', price: 129.99 }, { size: 'Extravagant (30 stems)', price: 169.99 }, { size: 'Royal (36 stems)', price: 219.99 }] },
+
+      // === CHOCOLATES (10 products) ===
+      { id: 'choc1', name: 'Valentine\'s Chocolate Box', price: 29.99, img: 'assets/images/Valentine_\'s Chocolate Box.jpg', images: ['assets/images/Valentine_\'s Chocolate Box.jpg', 'assets/images/Valentine_\'s Chocolate Box (1).jpg'], desc: 'Assorted heart-shaped chocolates in Valentine-themed box. Features milk, dark, and white chocolate varieties with creamy fillings. Beautifully packaged in red and pink for the perfect romantic gift.', category: 'chocolates', color: 'Assorted', type: 'Other', assortment: 'Chocolate', variants: [{ name: 'Standard Box (8 oz)', price: 29.99 }, { name: 'Deluxe Box (12 oz)', price: 44.99 }, { name: 'Premium Assortment (16 oz)', price: 59.99 }] },
+      { id: 'choc2', name: 'Dark Chocolate Truffles', price: 34.99, img: 'assets/images/Dark Chocolate Truffles.jpg', images: ['assets/images/Dark Chocolate Truffles.jpg', 'assets/images/Dark Chocolate Truffles (1).jpg', 'assets/images/Dark Chocolate Truffles (2).jpg'], desc: 'Rich dark chocolate truffles with velvety ganache centers. Made from premium cocoa for intense chocolate flavor. Dusted with cocoa powder and presented in an elegant gift box.', category: 'chocolates', color: 'Other', type: 'Other', assortment: 'Chocolate', variants: [{ name: 'Classic (6 truffles)', price: 34.99 }, { name: 'Premium (9 truffles)', price: 49.99 }, { name: 'Luxury Reserve (12 truffles)', price: 69.99 }] },
+      { id: 'choc3', name: 'Milk Chocolate Hearts', price: 24.99, img: 'assets/images/Milk Chocolate Hearts.jpg', images: ['assets/images/Milk Chocolate Hearts.jpg', 'assets/images/Milk Chocolate Hearts (1).jpg', 'assets/images/Milk Chocolate Hearts (2).jpg'], desc: 'Sweet milk chocolate hearts perfect for Valentine\'s Day. Smooth, creamy chocolate in adorable heart shapes. Individually wrapped in festive foil for sharing or enjoying slowly.', category: 'chocolates', color: 'Other', type: 'Other', assortment: 'Chocolate', variants: [{ name: 'Regular Box (6 oz)', price: 24.99 }, { name: 'Large Box (10 oz)', price: 37.99 }, { name: 'Family Box (1 lb)', price: 49.99 }] },
+      { id: 'choc4', name: 'Assorted Chocolate Pralines', price: 39.99, img: 'assets/images/Assorted Chocolate Pralines.jpg', images: ['assets/images/Assorted Chocolate Pralines.jpg', 'assets/images/Assorted Chocolate Pralines (1).jpg', 'assets/images/Assorted Chocolate Pralines (2).jpg'], desc: 'Premium pralines selection with assorted fillings and flavors. Features caramel, hazelnut, raspberry, and champagne centers. Handcrafted by artisan chocolatiers in a luxurious presentation box.', category: 'chocolates', color: 'Assorted', type: 'Other', assortment: 'Chocolate', variants: [{ name: 'Classic Collection (8 pieces)', price: 39.99 }, { name: 'Artisan Collection (12 pieces)', price: 59.99 }, { name: 'Master Collection (16 pieces)', price: 79.99 }] },
+      { id: 'choc5', name: 'Chocolate Dipped Strawberries', price: 44.99, img: 'assets/images/Chocolate Dipped Strawberries.jpg', images: ['assets/images/Chocolate Dipped Strawberries.jpg', 'assets/images/Chocolate Dipped Strawberries (1).jpg', 'assets/images/Chocolate Dipped Strawberries (2).jpg'], desc: 'Fresh strawberries dipped in premium Belgian chocolate. Half-dozen large berries coated in dark, milk, or white chocolate with decorative drizzle. Delivered fresh for maximum flavor and elegance.', category: 'chocolates', color: 'Red', type: 'Other', assortment: 'Chocolate Dipped Strawberry', variants: [{ name: 'Half Dozen', price: 44.99 }, { name: 'Dozen', price: 79.99 }, { name: 'Deluxe Dozen (Premium Dipped)', price: 99.99 }] },
+      { id: 'choc6', name: 'Gourmet Chocolate Bark', price: 27.99, img: 'assets/images/Gourmet Chocolate Bark.jpg', images: ['assets/images/Gourmet Chocolate Bark.jpg', 'assets/images/Gourmet Chocolate Bark (1).jpg', 'assets/images/Gourmet Chocolate Bark (2).jpg'], desc: 'Handcrafted chocolate bark with nuts, dried fruit, and sea salt. Artisan-made using premium chocolate and quality ingredients. Broken into rustic pieces and beautifully boxed for gift-giving.', category: 'chocolates', color: 'Other', type: 'Other', assortment: 'Chocolate', variants: [{ name: 'Standard Box (7 oz)', price: 27.99 }, { name: 'Premium Box (12 oz)', price: 44.99 }, { name: 'Assorted Flavors (1 lb)', price: 54.99 }] },
+      { id: 'choc7', name: 'White Chocolate Selection', price: 32.99, img: 'assets/images/White Chocolate Selection.jpg', images: ['assets/images/White Chocolate Selection.jpg', 'assets/images/White Chocolate Selection (1).jpg', 'assets/images/White Chocolate Selection (2).jpg'], desc: 'Smooth white chocolate treats with various fillings. Features vanilla cream, raspberry, and lemon centers. Elegant white chocolate pieces with decorative toppings in a sophisticated gift box.', category: 'chocolates', color: 'White', type: 'Other', assortment: 'Chocolate', variants: [{ name: 'Selection (6 pieces)', price: 32.99 }, { name: 'Deluxe (9 pieces)', price: 47.99 }, { name: 'Premium Selection (12 pieces)', price: 64.99 }] },
+      { id: 'choc8', name: 'Hazelnut Chocolate Medley', price: 36.99, img: 'assets/images/Hazelnut Chocolate Medley.jpg', images: ['assets/images/Hazelnut Chocolate Medley.jpg', 'assets/images/Hazelnut Chocolate Medley (1).jpg', 'assets/images/Hazelnut Chocolate Medley (2).jpg'], desc: 'Chocolate with roasted hazelnuts and praline. Features whole roasted hazelnuts in milk and dark chocolate. Includes hazelnut praline truffles for the ultimate nutty chocolate experience.', category: 'chocolates', color: 'Other', type: 'Other', assortment: 'Chocolate', variants: [{ name: 'Classic Box (8 oz)', price: 36.99 }, { name: 'Premium Box (12 oz)', price: 54.99 }, { name: 'Luxury Assortment (1 lb)', price: 74.99 }] },
+      { id: 'choc9', name: 'Chocolate & Caramel Squares', price: 31.99, img: 'assets/images/Chocolate & Caramel Squares.jpg', images: ['assets/images/Chocolate & Caramel Squares.jpg', 'assets/images/Chocolate & Caramel Squares (1).jpg', 'assets/images/Chocolate & Caramel Squares (2).jpg'], desc: 'Decadent chocolate caramel squares with sea salt. Layers of buttery caramel enrobed in premium dark chocolate. Finished with flaky sea salt for the perfect sweet-salty combination.', category: 'chocolates', color: 'Other', type: 'Other', assortment: 'Chocolate', variants: [{ name: 'Box (6 oz)', price: 31.99 }, { name: 'Large Box (10 oz)', price: 46.99 }, { name: 'Premium Box (1 lb)', price: 61.99 }] },
+      { id: 'choc10', name: 'Luxury Chocolate Gift Tin', price: 49.99, img: 'assets/images/Luxury Chocolate Gift Tin.jpg', images: ['assets/images/Luxury Chocolate Gift Tin.jpg', 'assets/images/Luxury Chocolate Gift Tin (1).jpg', 'assets/images/Luxury Chocolate Gift Tin (2).jpg'], desc: 'Premium chocolates in decorative keepsake tin. Assorted gourmet chocolates including truffles, pralines, and caramels. Beautifully presented in a reusable tin perfect for storing memories.', category: 'chocolates', color: 'Assorted', type: 'Other', assortment: 'Chocolate', variants: [{ name: 'Classic Tin (10 oz)', price: 49.99 }, { name: 'Deluxe Tin (14 oz)', price: 69.99 }, { name: 'Premium Luxury Tin (1 lb)', price: 89.99 }] },
+
+      // === TEDDY BEARS (10 products) ===
+      { id: 'teddy1', name: 'Classic Cuddly Teddy', price: 19.99, img: 'assets/images/Classic Cuddly Teddy.jpg', images: ['assets/images/Classic Cuddly Teddy.jpg', 'assets/images/Classic Cuddly Teddy (1).jpg', 'assets/images/Classic Cuddly Teddy (2).jpg'], desc: 'Soft and huggable teddy bear perfect for all ages. Made from ultra-plush materials with safety-tested construction. Traditional brown teddy with embroidered features and sitting height of 12 inches.', category: 'teddy', color: 'Other', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Standard (12")', price: 19.99 }, { name: 'Large (18")', price: 34.99 }, { name: 'Jumbo (24")', price: 49.99 }] },
+      { id: 'teddy2', name: 'Valentine\'s Plush Bear', price: 24.99, img: 'assets/images/Valentine_\'s Plush Bear.jpg', images: ['assets/images/Valentine_\'s Plush Bear.jpg', 'assets/images/Valentine_\'s Plush Bear (1).jpg', 'assets/images/Valentine_\'s Plush Bear (2).jpg'], desc: 'Teddy with Valentine\'s Day theme holding a plush heart. Features soft red fur with embroidered "Be Mine" message. Includes attached satin heart pillow - perfect keepsake for your special someone.', category: 'teddy', color: 'Red', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Standard (12")', price: 24.99 }, { name: 'Deluxe (16")', price: 39.99 }, { name: 'Premium (20")', price: 54.99 }] },
+      { id: 'teddy3', name: 'Giant Hug Teddy', price: 59.99, img: 'assets/images/Classic Cuddly Teddy.jpg', images: ['assets/images/Classic Cuddly Teddy.jpg', 'assets/images/Classic Cuddly Teddy (1).jpg', 'assets/images/Classic Cuddly Teddy (2).jpg'], desc: 'Extra-large teddy for big hugs and maximum cuddles. Standing 24 inches tall with ultra-soft plush fur. Perfect for making a grand romantic gesture or as a comforting companion.', category: 'teddy', color: 'Other', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Large (24")', price: 59.99 }, { name: 'Gigantic (30")', price: 89.99 }, { name: 'Super Jumbo (36")', price: 129.99 }] },
+      { id: 'teddy4', name: 'Pink Bow Teddy', price: 22.99, img: 'assets/images/Pink Bow Teddy.jpg', images: ['assets/images/Pink Bow Teddy.jpg', 'assets/images/Pink Bow Teddy (1).jpg', 'assets/images/Pink Bow Teddy (2).jpg'], desc: 'Adorable teddy with pink satin bow and soft cream fur. Features embroidered smile and safety eyes. Sits perfectly on a shelf or bed as a sweet romantic reminder.', category: 'teddy', color: 'Pink', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Standard (12")', price: 22.99 }, { name: 'Large (16")', price: 36.99 }, { name: 'XL (20")', price: 49.99 }] },
+      { id: 'teddy5', name: '"I Love You" Bear', price: 27.99, img: 'assets/images/I Love You_ Bear.jpg', images: ['assets/images/I Love You_ Bear.jpg', 'assets/images/I Love You_ Bear (1).jpg', 'assets/images/I Love You_ Bear (2).jpg'], desc: 'Teddy holding "I Love You" heart pillow. Soft beige bear clutching red satin heart with embroidered message. Expresses your feelings perfectly - a timeless keepsake of your love.', category: 'teddy', color: 'Red', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Standard (12")', price: 27.99 }, { name: 'Large (16")', price: 39.99 }, { name: 'Extra Large (20")', price: 54.99 }] },
+      { id: 'teddy6', name: 'Mini Teddy Keychain', price: 9.99, img: 'assets/images/Mini Teddy Keychain.jpg', images: ['assets/images/Mini Teddy Keychain.jpg', 'assets/images/Mini Teddy Keychain (1).jpg'], desc: 'Cute mini teddy keychain perfect for bags or keys. Adorable 3-inch plush bear with metal clasp attachment. Carries your love wherever they go - sweet and affordable gift option.', category: 'teddy', color: 'Other', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Single (3")', price: 9.99 }, { name: 'Pair (Two 3" Bears)', price: 17.99 }, { name: 'Set of 4', price: 34.99 }] },
+      { id: 'teddy7', name: 'Soft Cream Teddy', price: 29.99, img: 'assets/images/Soft Cream Teddy.jpg', images: ['assets/images/Soft Cream Teddy.jpg', 'assets/images/Soft Cream Teddy (1).jpg', 'assets/images/Soft Cream Teddy (2).jpg'], desc: 'Soft cream-colored teddy with premium plush fabric. Features embroidered paw pads and nose with ribbon accent. Classic design that complements any decor - 15 inches of pure softness.', category: 'teddy', color: 'White', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Standard (15")', price: 29.99 }, { name: 'Large (18")', price: 44.99 }, { name: 'Deluxe (22")', price: 59.99 }] },
+      { id: 'teddy8', name: 'Blush Pink Teddy', price: 26.99, img: 'assets/images/Blush Pink Teddy.jpg', images: ['assets/images/Blush Pink Teddy.jpg', 'assets/images/Blush Pink Teddy (1).jpg', 'assets/images/Blush Pink Teddy (2).jpg'], desc: 'Elegant blush pink plush teddy with delicate features. Soft pastel pink fur with embroidered details and satin bow. Romantic and sophisticated - perfect for Valentine\'s or anniversaries.', category: 'teddy', color: 'Pink', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Standard (14")', price: 26.99 }, { name: 'Premium (18")', price: 41.99 }, { name: 'Deluxe (22")', price: 56.99 }] },
+      { id: 'teddy9', name: 'Heart Patch Teddy', price: 24.99, img: 'assets/images/Heart Patch Teddy.jpg', images: ['assets/images/Heart Patch Teddy.jpg', 'assets/images/Heart Patch Teddy (1).jpg', 'assets/images/Heart Patch Teddy (2).jpg'], desc: 'Teddy with embroidered heart patch detail on chest. Classic brown bear with red heart embroidery symbolizing love. Comes with personalized gift tag for adding your special message.', category: 'teddy', color: 'Red', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Standard (13")', price: 24.99 }, { name: 'Large (17")', price: 39.99 }, { name: 'Premium XL (21")', price: 54.99 }] },
+      { id: 'teddy10', name: 'Deluxe Valentine Bear', price: 39.99, img: 'assets/images/Deluxe Valentine Bear.jpg', images: ['assets/images/Deluxe Valentine Bear.jpg', 'assets/images/Deluxe Valentine Bear (1).jpg', 'assets/images/Deluxe Valentine Bear (2).jpg'], desc: 'Premium teddy for your special someone. Luxurious red plush fur with satin bow and holding roses. Extra-soft construction with Valentine message - the ultimate romantic plush gift.', category: 'teddy', color: 'Red', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Premium (16")', price: 39.99 }, { name: 'Luxury (20")', price: 59.99 }, { name: 'Supreme (24")', price: 79.99 }] },
+
+      // === GIFT COMBOS (10 products) ===
+      { id: 'combo1', name: 'Roses & Chocolates Combo', price: 69.99, img: 'assets/images/Roses & Chocolates Combo.jpg', images: ['assets/images/Roses & Chocolates Combo.jpg', 'assets/images/Roses & Chocolates Combo (1).jpg', 'assets/images/Roses & Chocolates Combo (2).jpg'], desc: 'Beautiful roses with gourmet chocolates in gift box. Includes half-dozen premium roses and assorted chocolate truffles. Elegantly packaged together for the perfect romantic combination.', category: 'combo', color: 'Assorted', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Standard (6 roses + 6 chocolates)', price: 69.99 }, { name: 'Deluxe (12 roses + 12 chocolates)', price: 99.99 }, { name: 'Premium (18 roses + luxury chocolates)', price: 139.99 }] },
+      { id: 'combo2', name: 'Teddy & Roses Gift Set', price: 64.99, img: 'assets/images/Teddy & Roses Gift Set.jpg', images: ['assets/images/Teddy & Roses Gift Set.jpg', 'assets/images/Teddy & Roses Gift Set (1).jpg', 'assets/images/Teddy & Roses Gift Set (2).jpg'], desc: 'Cute teddy with fresh roses in coordinated gift set. Features 12-inch plush bear and half-dozen roses beautifully arranged. Complete with gift box and personalized card for maximum impact.', category: 'combo', color: 'Assorted', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Standard (12" bear + 6 roses)', price: 64.99 }, { name: 'Premium (16" bear + 12 roses)', price: 94.99 }, { name: 'Deluxe (20" bear + 18 roses)', price: 129.99 }] },
+      { id: 'combo3', name: 'Chocolate & Teddy Pair', price: 54.99, img: 'assets/images/Chocolate & Teddy Pair.jpg', images: ['assets/images/Chocolate & Teddy Pair.jpg', 'assets/images/Chocolate & Teddy Pair (1).jpg', 'assets/images/Chocolate & Teddy Pair (2).jpg'], desc: 'Chocolates and plush teddy combo in gift basket. Includes premium chocolate assortment and adorable Valentine bear. Wrapped in cellophane with ribbon - sweet treats and lasting keepsake together.', category: 'combo', color: 'Assorted', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Standard (12" bear + 8 oz chocolates)', price: 54.99 }, { name: 'Premium (16" bear + 12 oz gourmet)', price: 79.99 }, { name: 'Luxury (20" bear + 16 oz artisan)', price: 109.99 }] },
+      { id: 'combo4', name: 'Ultimate Valentine\'s Box', price: 129.99, img: 'assets/images/Ultimate Valentine_\'s Box.jpg', images: ['assets/images/Ultimate Valentine_\'s Box.jpg', 'assets/images/Ultimate Valentine_\'s Box (1).jpg', 'assets/images/Ultimate Valentine_\'s Box (2).jpg'], desc: 'All-inclusive Valentine\'s gift box with everything. Features roses, premium chocolates, teddy bear, and champagne. Luxuriously packaged in keepsake box - the complete romantic experience.', category: 'combo', color: 'Assorted', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Deluxe Box', price: 129.99 }, { name: 'Premium Box (Champagne + extras)', price: 169.99 }, { name: 'Luxury Box (Premium everything)', price: 219.99 }] },
+      { id: 'combo5', name: 'Sweetheart Gift Basket', price: 89.99, img: 'assets/images/Sweetheart Gift Basket.jpg', images: ['assets/images/Sweetheart Gift Basket.jpg', 'assets/images/Sweetheart Gift Basket (1).jpg', 'assets/images/Sweetheart Gift Basket (2).jpg'], desc: 'Basket with roses, chocolates, and teddy bear. Thoughtfully curated with fresh roses, gourmet treats, and plush companion. Beautifully arranged in wicker basket with decorative wrap.', category: 'combo', color: 'Assorted', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Standard Basket', price: 89.99 }, { name: 'Premium Basket (Larger items)', price: 124.99 }, { name: 'Deluxe Basket (Everything premium)', price: 159.99 }] },
+      { id: 'combo6', name: 'Deluxe Combo (All-in-One)', price: 149.99, img: 'assets/images/Roses & Chocolates Combo.jpg', images: ['assets/images/Roses & Chocolates Combo.jpg', 'assets/images/Roses & Chocolates Combo (1).jpg', 'assets/images/Sweetheart Gift Basket.jpg'], desc: 'Premium combo with everything for ultimate romance. Includes dozen roses, luxury chocolates, premium teddy, and spa items. Presented in elegant gift box - the grand gesture they deserve.', category: 'combo', color: 'Assorted', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Premium Package', price: 149.99 }, { name: 'Luxury Package (Extra spa items)', price: 199.99 }, { name: 'Grand Luxury (Everything deluxe)', price: 259.99 }] },
+      { id: 'combo7', name: 'Petite Combo Set', price: 44.99, img: 'assets/images/Teddy & Roses Gift Set.jpg', images: ['assets/images/Teddy & Roses Gift Set.jpg', 'assets/images/Chocolate & Teddy Pair.jpg'], desc: 'Small but sweet combo gift perfect for any occasion. Features three roses, chocolate box, and mini teddy bear. Perfectly sized for expressing love without overwhelming - thoughtful and affordable.', category: 'combo', color: 'Assorted', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Petite (3 items)', price: 44.99 }, { name: 'Small (5 items + extras)', price: 64.99 }, { name: 'Medium (7 items premium)', price: 84.99 }] },
+      { id: 'combo8', name: 'Luxury Gift Hamper', price: 199.99, img: 'assets/images/Sweetheart Gift Basket.jpg', images: ['assets/images/Sweetheart Gift Basket.jpg', 'assets/images/Sweetheart Gift Basket (1).jpg', 'assets/images/Roses & Chocolates Combo.jpg'], desc: 'Extravagant gift hamper with premium selections. Includes two dozen roses, gourmet chocolates, wine, teddy, and spa products. Presented in luxury wicker hamper - ultimate indulgence.', category: 'combo', color: 'Assorted', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Premium Hamper (24 roses)', price: 199.99 }, { name: 'Deluxe Hamper (Premium wine)', price: 249.99 }, { name: 'Royal Hamper (Everything premium)', price: 319.99 }] },
+      { id: 'combo9', name: 'Romantic Night Combo', price: 109.99, img: 'assets/images/Ultimate Valentine_\'s Box.jpg', images: ['assets/images/Ultimate Valentine_\'s Box.jpg', 'assets/images/Roses & Chocolates Combo.jpg'], desc: 'Perfect combo for romantic evening at home. Features roses, chocolates, champagne, candles, and music playlist card. Everything needed for an unforgettable date night together.', category: 'combo', color: 'Assorted', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Standard Evening', price: 109.99 }, { name: 'Premium Evening (Better wine)', price: 149.99 }, { name: 'Luxury Evening (Premium everything)', price: 199.99 }] },
+      { id: 'combo10', name: 'Classic Valentine\'s Trio', price: 79.99, img: 'assets/images/Teddy & Roses Gift Set.jpg', images: ['assets/images/Teddy & Roses Gift Set.jpg', 'assets/images/Chocolate & Teddy Pair.jpg', 'assets/images/Roses & Chocolates Combo.jpg'], desc: 'Roses, chocolates, and teddy trio in coordinated gift. Traditional Valentine combination with half-dozen roses, chocolate box, and 12-inch bear. Beautifully packaged together for maximum impact.', category: 'combo', color: 'Assorted', type: 'Other', assortment: 'Keepsake', variants: [{ name: 'Standard Trio (6 roses)', price: 79.99 }, { name: 'Premium Trio (12 roses)', price: 109.99 }, { name: 'Deluxe Trio (18 roses + XL bear)', price: 149.99 }] },
+
+      // === FLOWERS/MIXED BOUQUETS (10 products) ===
+      { id: 'flower1', name: 'Tulip Spring Mix', price: 44.99, img: 'assets/images/pink rose arrangement.jpg', images: ['assets/images/pink rose arrangement.jpg', 'assets/images/pink rose arrnagemnt product image.jpg'], desc: 'Fresh tulips in spring colors for cheerful gifting. Features assorted pink, yellow, and purple tulips with greenery. Wrapped in kraft paper with ribbon - brings springtime joy any time of year.', category: 'flowers', color: 'Assorted', type: 'Tulip', assortment: 'Flowers', sizes: [{ size: 'Small (8 stems)', price: 34.99 }, { size: 'Medium (12 stems)', price: 44.99 }, { size: 'Large (16 stems)', price: 59.99 }, { size: 'Deluxe (20 stems)', price: 79.99 }] },
+      { id: 'flower2', name: 'Lily & Rose Bouquet', price: 64.99, img: 'assets/images/white rose arrangement product image.jpg', images: ['assets/images/white rose arrangement product image.jpg', 'assets/images/white rose arrangement product image (1).jpg', 'assets/images/white rose arrangement product image (2).jpg'], desc: 'Elegant lilies with roses in sophisticated arrangement. Combines fragrant white lilies with pink roses and eucalyptus. Premium design perfect for weddings, anniversaries, or elegant expressions.', category: 'flowers', color: 'White', type: 'Lily', assortment: 'Flowers', sizes: [{ size: 'Small (6 lilies + 6 roses)', price: 54.99 }, { size: 'Medium (8 lilies + 10 roses)', price: 64.99 }, { size: 'Large (10 lilies + 14 roses)', price: 84.99 }, { size: 'Premium (12 lilies + 18 roses)', price: 109.99 }] },
+      { id: 'flower3', name: 'Sunflower Smile Bunch', price: 39.99, img: 'assets/images/red roses bouquet.jpg', images: ['assets/images/red roses bouquet.jpg', 'assets/images/red roses bouquet (1).jpg'], desc: 'Bright sunflowers to brighten anyone\'s day. Large, cheerful sunflowers with seasonal filler flowers. Wrapped in rustic paper - perfect for spreading joy and positivity.', category: 'flowers', color: 'Other', type: 'Other', assortment: 'Flowers', sizes: [{ size: 'Small (5 sunflowers)', price: 29.99 }, { size: 'Medium (7 sunflowers)', price: 39.99 }, { size: 'Large (10 sunflowers)', price: 54.99 }, { size: 'Jumbo (15 sunflowers)', price: 74.99 }] },
+      { id: 'flower4', name: 'Mixed Wildflower Jar', price: 34.99, img: 'assets/images/pink rose arrangement.jpg', images: ['assets/images/pink rose arrangement.jpg'], desc: 'Charming wildflowers in rustic mason jar. Features daisies, baby\'s breath, and seasonal blooms in vintage jar. Casual elegance perfect for farmhouse decor or casual gifting.', category: 'flowers', color: 'Assorted', type: 'Other', assortment: 'Flowers', sizes: [{ size: 'Small Jar (8 stems)', price: 24.99 }, { size: 'Medium Jar (12 stems)', price: 34.99 }, { size: 'Large Jar (16 stems)', price: 49.99 }, { size: 'Extra Large (20 stems)', price: 64.99 }] },
+      { id: 'flower5', name: 'Orchid Elegance', price: 54.99, img: 'assets/images/white rose arrangement product image.jpg', images: ['assets/images/white rose arrangement product image.jpg', 'assets/images/white rose arrangement product image (1).jpg'], desc: 'Sophisticated orchid arrangement in decorative pot. Premium phalaenopsis orchid with multiple blooms and elegant container. Long-lasting beauty that symbolizes luxury and refined taste.', category: 'flowers', color: 'White', type: 'Other', assortment: 'Plants', variants: [{ name: 'Single Stem (3 blooms)', price: 54.99 }, { name: 'Double Stem (6 blooms)', price: 74.99 }, { name: 'Triple Stem (9 blooms)', price: 99.99 }, { name: 'Premium Display (12+ blooms)', price: 129.99 }] },
+      { id: 'flower6', name: 'Peony & Rose Arrangement', price: 74.99, img: 'assets/images/blush pink rose box.jpg', images: ['assets/images/blush pink rose box.jpg', 'assets/images/blush pink rose box (1).jpg', 'assets/images/pink rose arrangement.jpg'], desc: 'Luxurious peonies with roses in premium bouquet. Combines lush pink peonies with garden roses and greenery. Designer arrangement perfect for special occasions and elegant celebrations.', category: 'flowers', color: 'Pink', type: 'Lily', assortment: 'Flowers', sizes: [{ size: 'Small (6 peonies + 8 roses)', price: 64.99 }, { size: 'Medium (8 peonies + 12 roses)', price: 74.99 }, { size: 'Large (10 peonies + 16 roses)', price: 99.99 }, { size: 'Grand (12 peonies + 20 roses)', price: 134.99 }] },
+      { id: 'flower7', name: 'Daisies & Roses Basket', price: 49.99, img: 'assets/images/pink rose arrangement.jpg', images: ['assets/images/pink rose arrangement.jpg', 'assets/images/pink rose arrnagemnt product image.jpg'], desc: 'Cheerful daisies and roses in wicker basket. Fresh white daisies combined with pink roses in rustic basket. Casual elegance perfect for "thinking of you" moments and everyday celebrations.', category: 'flowers', color: 'White', type: 'Other', assortment: 'Flowers', sizes: [{ size: 'Small Basket (8 stems)', price: 39.99 }, { size: 'Medium Basket (12 stems)', price: 49.99 }, { size: 'Large Basket (16 stems)', price: 69.99 }, { size: 'Extra Large (20 stems)', price: 89.99 }] },
+      { id: 'flower8', name: 'Florist\'s Choice Bouquet', price: 59.99, img: 'assets/images/Dozen Long-Stemmed Roses product image.jpg', images: ['assets/images/Dozen Long-Stemmed Roses product image.jpg', 'assets/images/Dozen Long-Stemmed Roses product image (1).jpg'], desc: 'Curated selection by our expert florist using seasonal blooms. Features the freshest flowers available in coordinated colors. Designer arrangement that showcases florist\'s artistic vision.', category: 'flowers', color: 'Assorted', type: 'Florist\'s Choice', assortment: 'Flowers', sizes: [{ size: 'Small Selection (10 stems)', price: 44.99 }, { size: 'Medium Selection (15 stems)', price: 59.99 }, { size: 'Large Selection (20 stems)', price: 79.99 }, { size: 'Premium Selection (25+ stems)', price: 109.99 }] },
+      { id: 'flower9', name: 'Pastel Petals Mix', price: 52.99, img: 'assets/images/blush pink rose box.jpg', images: ['assets/images/blush pink rose box.jpg', 'assets/images/pink rose arrangement.jpg'], desc: 'Soft pastel flower mix in gentle, romantic colors. Features pink roses, lavender, and white blooms with greenery. Dreamy arrangement perfect for romantic gestures and tender moments.', category: 'flowers', color: 'Assorted', type: 'Other', assortment: 'Flowers', sizes: [{ size: 'Small (10 stems)', price: 42.99 }, { size: 'Medium (14 stems)', price: 52.99 }, { size: 'Large (18 stems)', price: 72.99 }, { size: 'Deluxe (24 stems)', price: 97.99 }] },
+      { id: 'flower10', name: 'Blush Pink Florals', price: 62.99, img: 'assets/images/blush pink rose box.jpg', images: ['assets/images/blush pink rose box.jpg', 'assets/images/blush pink rose box (1).jpg', 'assets/images/pink rose arrangement.jpg'], desc: 'Beautiful blush pink flower arrangement with premium blooms. Features roses, ranunculus, and lisianthus in soft pink tones. Elegant and romantic - perfect for weddings, anniversaries, or expressing love.', category: 'flowers', color: 'Pink', type: 'Lily', assortment: 'Flowers', sizes: [{ size: 'Small (12 stems)', price: 49.99 }, { size: 'Medium (16 stems)', price: 62.99 }, { size: 'Large (20 stems)', price: 82.99 }, { size: 'Premium (26 stems)', price: 112.99 }] }
+    ];
+
+    // Get product ID from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id');
+    const product = products.find(p => p.id === productId);
+
+    if (!product) {
+      document.getElementById('product-name').textContent = 'Product Not Found';
+      document.getElementById('product-description').textContent = 'The product you are looking for does not exist.';
+      throw new Error('Product not found');
+    }
+
+    // Populate product details
+    document.getElementById('product-name').textContent = product.name;
+    document.getElementById('product-description').textContent = product.desc;
+    document.getElementById('product-price').textContent = `$${product.price.toFixed(2)}`;
+    document.title = `${product.name} - Heart & Petal`;
+
+    // Set up sizes/variants selector
+    const sizeSelect = document.getElementById('size-select');
+    const variantPriceDisplay = document.getElementById('variant-price');
+    
+    // Check if product has sizes (flowers/roses) or variants (other categories)
+    const hasSizes = product.sizes && product.sizes.length > 0;
+    const hasVariants = product.variants && product.variants.length > 0;
+    
+    if (hasSizes || hasVariants) {
+      const options = hasSizes ? product.sizes : product.variants;
+      const labelKey = hasSizes ? 'size' : 'name';
+      
+      options.forEach(option => {
+        const optionElement = document.createElement('option');
+        optionElement.value = `${option[labelKey]}|${option.price}`;
+        optionElement.textContent = `${option[labelKey]} - $${option.price.toFixed(2)}`;
+        sizeSelect.appendChild(optionElement);
+      });
+
+      // Update price when size is selected
+      sizeSelect.onchange = () => {
+        if (sizeSelect.value) {
+          const [label, price] = sizeSelect.value.split('|');
+          updateTotalPrice();
+        }
+      };
+      
+      // Trigger initial price display
+      if (sizeSelect.value) {
+        updateTotalPrice();
+      }
+    } else {
+      // If no sizes/variants, hide the selector and use base price
+      document.getElementById('variant-selector').style.display = 'none';
+    }
+
+    // Set up images (use product.images if available, otherwise use default)
+    const productImages = product.images || [product.img];
+    let currentImageIndex = 0;
+    const carouselImage = document.getElementById('carousel-image');
+    const thumbnailContainer = document.getElementById('thumbnail-container');
+
+    // Display carousel image
+    carouselImage.src = productImages[currentImageIndex];
+    carouselImage.alt = product.name;
+
+    // Create thumbnails
+    productImages.forEach((imgSrc, idx) => {
+      const thumb = document.createElement('img');
+      thumb.src = imgSrc;
+      thumb.alt = `${product.name} ${idx + 1}`;
+      thumb.className = `w-20 h-20 object-cover rounded cursor-pointer border-2 transition ${
+        idx === 0 ? 'border-deep-red' : 'border-transparent hover:border-champagne-gold'
+      }`;
+      thumb.onclick = () => {
+        currentImageIndex = idx;
+        carouselImage.src = productImages[currentImageIndex];
+        updateThumbnails();
+      };
+      thumbnailContainer.appendChild(thumb);
+    });
+
+    // Carousel navigation
+    document.getElementById('prev-btn').onclick = () => {
+      currentImageIndex = (currentImageIndex - 1 + productImages.length) % productImages.length;
+      carouselImage.src = productImages[currentImageIndex];
+      updateThumbnails();
+    };
+
+    document.getElementById('next-btn').onclick = () => {
+      currentImageIndex = (currentImageIndex + 1) % productImages.length;
+      carouselImage.src = productImages[currentImageIndex];
+      updateThumbnails();
+    };
+
+    function updateThumbnails() {
+      const thumbs = thumbnailContainer.querySelectorAll('img');
+      thumbs.forEach((thumb, idx) => {
+        if (idx === currentImageIndex) {
+          thumb.classList.remove('border-transparent');
+          thumb.classList.add('border-deep-red');
+        } else {
+          thumb.classList.remove('border-deep-red');
+          thumb.classList.add('border-transparent');
+        }
+      });
+    }
+
+    // Product features based on category
+    const features = {
+      roses: ['Hand-selected premium roses', 'Fresh and long-lasting blooms', 'Includes personalized message card', 'Wrapped with elegant ribbon', 'Free delivery across USA'],
+      chocolates: ['Premium quality ingredients', 'Beautifully packaged gift box', 'Perfect for gifting', 'Variety of flavors', 'Free delivery across USA'],
+      teddy: ['Soft and cuddly plush material', 'Safety-tested construction', 'Perfect keepsake gift', 'Suitable for all ages', 'Free delivery across USA'],
+      combo: ['Complete gift package', 'Thoughtfully curated items', 'Elegantly presented', 'Perfect for special occasions', 'Free delivery across USA'],
+      flowers: ['Fresh seasonal blooms', 'Professionally arranged', 'Long vase life', 'Includes care instructions', 'Free delivery across USA']
+    };
+
+    const productFeatures = features[product.category] || features.roses;
+    const featuresContainer = document.getElementById('product-features');
+    productFeatures.forEach(feature => {
+      const li = document.createElement('li');
+      li.textContent = feature;
+      featuresContainer.appendChild(li);
+    });
+
+    // Quantity controls
+    const qtyInput = document.getElementById('qty-input');
+    document.getElementById('qty-minus').onclick = () => {
+      if (qtyInput.value > 1) {
+        qtyInput.value = parseInt(qtyInput.value) - 1;
+        updateTotalPrice();
+      }
+    };
+    document.getElementById('qty-plus').onclick = () => {
+      qtyInput.value = parseInt(qtyInput.value) + 1;
+      updateTotalPrice();
+    };
+    qtyInput.addEventListener('change', () => {
+      if (qtyInput.value < 1) qtyInput.value = 1;
+      updateTotalPrice();
+    });
+    
+    // Function to update total price based on quantity and selected option
+    function updateTotalPrice() {
+      const quantity = parseInt(qtyInput.value) || 1;
+      const sizeSelect = document.getElementById('size-select');
+      const selectedOption = sizeSelect.value;
+      
+      if (selectedOption) {
+        const [label, price] = selectedOption.split('|');
+        const unitPrice = parseFloat(price);
+        const totalPrice = unitPrice * quantity;
+        variantPriceDisplay.textContent = `Price: $${totalPrice.toFixed(2)} (${quantity} × $${unitPrice.toFixed(2)})`;
+      } else {
+        const totalPrice = product.price * quantity;
+        variantPriceDisplay.textContent = `Price: $${totalPrice.toFixed(2)} (${quantity} × $${product.price.toFixed(2)})`;
+      }
+    }
+
+    // Add to cart
+    document.getElementById('add-to-cart').onclick = () => {
+      const quantity = parseInt(document.getElementById('qty-input').value) || 1;
+      const sizeSelect = document.getElementById('size-select');
+      const selectedOption = sizeSelect.value;
+
+      if (!selectedOption) {
+        alert('Please select a size or option before adding to cart');
+        return;
+      }
+
+      // Get the selected size/variant details
+      const [sizeLabel, sizePrice] = selectedOption.split('|');
+      const price = parseFloat(sizePrice);
+
+      // Call the global addToCart function with proper parameters
+      if (window.addToCart) {
+        window.addToCart({
+          id: product.id,
+          name: `${product.name} - ${sizeLabel}`,
+          price: price,
+          quantity: quantity,
+          variant: sizeLabel,
+          baseProduct: product
+        });
+      } else {
+        alert(`Added ${quantity}x ${product.name} to cart!`);
+      }
+      
+      // Reset quantity
+      document.getElementById('qty-input').value = 1;
+    };
+
+    // Load and display reviews (from shop.html review pool)
+    
+    // ===== REVIEW FORM SUBMISSION HANDLER =====
+    const reviewForm = document.getElementById('review-form');
+    const reviewStatus = document.getElementById('review-status');
+    
+    // Load pending reviews from localStorage
+    function getPendingReviews() {
+      const stored = localStorage.getItem('pendingReviews');
+      return stored ? JSON.parse(stored) : [];
+    }
+    
+    function getApprovedReviews() {
+      const stored = localStorage.getItem('approvedReviews');
+      return stored ? JSON.parse(stored) : [];
+    }
+    
+    function savePendingReviews(reviews) {
+      localStorage.setItem('pendingReviews', JSON.stringify(reviews));
+    }
+    
+    function saveApprovedReviews(reviews) {
+      localStorage.setItem('approvedReviews', JSON.stringify(reviews));
+    }
+    
+    // Handle review form submission
+    reviewForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const name = document.getElementById('review-name').value.trim();
+      const email = document.getElementById('review-email').value.trim();
+      const rating = parseInt(document.getElementById('review-rating').value);
+      const text = document.getElementById('review-text').value.trim();
+      
+      if (!name || !email || !rating || !text) {
+        reviewStatus.textContent = '❌ Please fill in all fields';
+        reviewStatus.classList.remove('hidden');
+        return;
+      }
+      
+      if (text.length > 500) {
+        reviewStatus.textContent = '❌ Review must be 500 characters or less';
+        reviewStatus.classList.remove('hidden');
+        return;
+      }
+      
+      // Create review object
+      const newReview = {
+        id: Date.now(),
+        productId: product.id,
+        name,
+        email,
+        rating,
+        text,
+        submitted: new Date().toISOString(),
+        approved: false,
+        status: 'pending'
+      };
+      
+      // Save to pending reviews
+      const pending = getPendingReviews();
+      pending.push(newReview);
+      savePendingReviews(pending);
+      
+      // Clear form and show success message
+      reviewForm.reset();
+      reviewStatus.textContent = '✅ Thank you! Your review will appear after admin approval.';
+      reviewStatus.classList.remove('hidden');
+      
+      // Hide success message after 5 seconds
+      setTimeout(() => {
+        reviewStatus.classList.add('hidden');
+      }, 5000);
+    });
+    
+    // ===== AUTO-GENERATED REVIEWS (kept for demo) =====
+    const firstNames = ['Sarah','John','Emma','Michael','Jessica','David','Ashley','James','Emily','Robert','Jennifer','William','Amanda','Christopher','Melissa','Daniel','Michelle','Matthew','Lisa','Andrew','Angela','Joseph','Kimberly','Ryan','Elizabeth','Joshua','Nicole','Brian','Rebecca','Kevin','Samantha','Anthony','Laura','Mark','Amy','Steven','Stephanie','Thomas','Rachel','Charles','Heather','Paul','Brittany','Donald','Christina','Kenneth','Katherine','Jason','Anna','Richard','Lauren','George','Danielle','Eric','Hannah','Timothy','Victoria','Jeffrey','Megan','Jacob','Kayla','Brandon','Amber','Gary','Olivia','Nicholas','Alexis','Jonathan','Morgan','Gregory','Maria','Scott','Taylor','Raymond','Courtney','Samuel','Madison','Benjamin','Natalie','Patrick','Julia','Frank','Kelly','Alexander','Christine','Jack','Sara','Dennis','Vanessa','Jerry','Mary','Tyler','Kathryn','Aaron','Grace','Jose','Patricia','Adam','Nancy','Henry','Linda','Nathan','Karen','Douglas','Barbara','Zachary','Donna','Peter','Carol','Kyle','Ruth','Walter','Sharon','Ethan','Michelle','Jeremy','Dorothy','Harold','Angela','Keith','Betty','Christian','Sandra','Roger','Ashley','Noah','Kimberly','Gerald','Lisa','Carl','Emily','Terry','Melissa','Sean','Brenda','Austin','Pamela','Arthur','Nicole','Lawrence','Emma','Jesse','Samantha','Dylan','Katherine','Bryan','Christine','Joe','Deborah','Jordan','Rachel','Billy','Carolyn','Albert','Janet','Bruce','Catherine','Willie','Maria','Gabriel','Heather','Logan','Diane','Alan','Julie','Juan','Joyce','Ralph','Virginia','Roy','Alice','Eugene','Frances','Randy','Ann','Vincent','Martha','Russell','Doris','Louis','Jean','Philip','Marie','Bobby','Kathryn','Johnny','Gloria','Bradley','Teresa','Harry','Judith','Howard','Evelyn','Shawn','Hannah','Wayne','Cheryl','Steve','Megan','Antonio','Andrea','Justin','Olivia','Carlos','Ann','Victor','Margaret','Keith','Sara','Roger','Rebecca','Martin','Laura','Eugene','Sharon','Leonard','Cynthia','Lawrence','Kathleen','Philip','Amy','Craig','Shirley','Marcus','Angela','Todd','Helen','Edgar','Anna','Nathan','Brenda','Frederick','Pamela','Fernando','Nicole','Curtis','Emma','Isaac','Samantha','Elijah','Katherine','Gilbert','Christine','Vernon','Deborah','Leslie','Rachel','Erik','Carolyn','Ross','Janet','Francis','Catherine','Allan','Maria','Sidney','Heather','Clarence','Diane','Luis','Julie','Dale','Joyce','Stanley','Victoria','Glen','Christina','Herbert','Lauren','Leon','Frances','Donald','Ann','Brent','Martha','Wesley','Doris','Duane','Jean','Jamie','Marie','Neil','Kathryn','Victor','Gloria','Seth','Teresa','Corey','Judith','Greg','Evelyn','Joel','Hannah','Dean','Cheryl','Oscar','Megan','Ronnie','Andrea','Trevor','Olivia','Kirk','Ann','Lewis','Margaret','Phillip','Sara','Mitchell','Rebecca','Edgar','Laura','Clinton','Sharon','Nathaniel','Cynthia','Ricardo','Kathleen','Lloyd','Amy','Garrett','Shirley','Chester','Angela','Kent','Helen','Vernon','Anna','Pedro','Brenda','Preston','Pamela','Johnathan','Nicole','Roland','Emma','Marco','Samantha','Dominic','Katherine','Edwin','Christine','Raul','Deborah','Maurice','Rachel','Rodney','Carolyn','Warren','Janet','Dwayne','Catherine','Darrell','Maria','Joey','Heather','Lonnie','Diane','Luther','Julie','Tracy','Joyce','Willis','Victoria','Cody','Christina','Terrance','Lauren','Fernando','Frances','Jared','Ann','Clyde','Martha','Rex','Doris','Devin','Jean','Tanner','Marie','Marcus','Kathryn','Vincent','Gloria','Cedric','Teresa','Elias','Judith','Hubert','Evelyn','Salvatore','Hannah','Clayton','Cheryl','Ruben','Megan','Ernesto','Andrea','Marshall','Olivia','Orlando','Ann','Amos','Margaret','Emilio','Sara','Felix','Rebecca'];
+    const lastInitials = ['A.','B.','C.','D.','E.','F.','G.','H.','I.','J.','K.','L.','M.','N.','O.','P.','Q.','R.','S.','T.','U.','V.','W.','X.','Y.','Z.'];
+    const reviewTexts = ['Absolutely beautiful! Exceeded my expectations.','High quality product, very satisfied with my purchase.','Perfect gift for my loved one. They were thrilled!','Exactly as described and arrived on time.','Gorgeous presentation and excellent quality.','Worth every penny! Highly recommend.','Made someone very happy. Thank you!','Beautiful arrangement and fresh quality.','Stunning! Will definitely order again.','Perfect for the special occasion.','Exceeded expectations in every way.','So pleased with this purchase!','Absolutely love it! Five stars.','Great quality and fast delivery.','Couldn\'t be happier with this product.','Beautifully crafted and packaged.','Amazing quality and presentation!','Perfect romantic gift.','Excellent service and product quality.','Highly impressed with everything!','This made their day so special.','Top notch quality all around.','Better than I imagined!','Fantastic product and service.','Will order from here again!','Simply perfect in every way.','Outstanding quality and beauty.','Received so many compliments!','Couldn\'t ask for better quality.','Absolutely stunning product!','Very happy with my order.','Excellent value for the price.','Beautiful and well-made.','Perfect for Valentine\'s Day!','Amazing attention to detail.','So fresh and beautiful!','Exactly what I was hoping for.','Incredible quality and service.','Made the occasion extra special.','Highly recommend to everyone!','Beautiful presentation box.','Fresh and gorgeous blooms.','Perfect size and quality.','Wonderful surprise gift!','Exceeded all expectations!','Absolutely gorgeous!','Great customer service too.','So soft and cuddly!','Perfect romantic gesture.','Love everything about this!','Top quality product.','Beautiful and romantic.','Very impressed!','Perfect anniversary gift.','Stunning arrangement!','Absolutely delightful.','Made someone smile!','Beautiful craftsmanship.','Highly satisfied customer.','Wonderful experience overall.','So pretty and fresh!','Perfect gift idea.','Love the quality!','Beautiful and elegant.','Impressive presentation!','Exactly as pictured.','Will buy again!','Gorgeous quality.','Very romantic!','Absolutely perfect!','Highly recommend this!','Beautiful colors.','Great value.','So happy!','Perfect!','Lovely!','Amazing!','Wonderful!','Excellent!','Beautiful!','Fantastic!','Stunning!','Gorgeous!','Delightful!','Impressive!','Outstanding!','Superb!','Magnificent!','Exquisite!','Splendid!','Marvelous!','Exceptional!','Remarkable!','Fabulous!','Incredible!','Phenomenal!','Spectacular!'];
+
+    // Generate unique reviews for this product
+    const numReviews = 2 + Math.floor(Math.random() * 9); // 2-10 reviews
+    const usedNames = new Set();
+    const reviewsContainer = document.getElementById('reviews-container');
+    const reviewsForProduct = [];
+
+    for (let i = 0; i < numReviews; i++) {
+      let reviewerName;
+      do {
+        const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+        const lastInitial = lastInitials[Math.floor(Math.random() * lastInitials.length)];
+        reviewerName = `${firstName} ${lastInitial}`;
+      } while (usedNames.has(reviewerName));
+      usedNames.add(reviewerName);
+
+      const rating = Math.random() < 0.7 ? 5 : 4; // 70% 5-star, 30% 4-star
+      const reviewText = reviewTexts[Math.floor(Math.random() * reviewTexts.length)];
+      reviewsForProduct.push({ name: reviewerName, rating, text: reviewText });
+    }
+
+    // Calculate average rating
+    const avgRating = (reviewsForProduct.reduce((sum, r) => sum + r.rating, 0) / reviewsForProduct.length).toFixed(1);
+    
+    // Display star rating
+    const starRatingContainer = document.getElementById('star-rating');
+    const fullStars = Math.floor(avgRating);
+    const hasHalfStar = avgRating % 1 >= 0.5;
+    for (let i = 0; i < fullStars; i++) {
+      starRatingContainer.innerHTML += '★';
+    }
+    if (hasHalfStar) starRatingContainer.innerHTML += '☆';
+    starRatingContainer.innerHTML += ` <span class="text-charcoal/80">${avgRating}</span>`;
+    starRatingContainer.className = 'flex items-center gap-1 text-champagne-gold text-xl';
+
+    document.getElementById('review-count').textContent = `(${numReviews} reviews)`;
+
+    // Display reviews
+    reviewsForProduct.forEach(review => {
+      const reviewCard = document.createElement('div');
+      reviewCard.className = 'bg-white p-6 rounded-lg shadow-md';
+      
+      const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+      
+      reviewCard.innerHTML = `
+        <div class="flex items-center gap-4 mb-3">
+          <div class="w-12 h-12 bg-blush-pink rounded-full flex items-center justify-center font-bold text-deep-red">
+            ${review.name.charAt(0)}
+          </div>
+          <div>
+            <p class="font-bold">${review.name}</p>
+            <p class="text-champagne-gold">${stars}</p>
+          </div>
+        </div>
+        <p class="text-charcoal/80">${review.text}</p>
+      `;
+      reviewsContainer.appendChild(reviewCard);
+    });
+
+    // Display approved customer reviews (for this product)
+    const approvedReviews = getApprovedReviews().filter(r => r.productId === product.id);
+    if (approvedReviews.length > 0) {
+      const divider = document.createElement('div');
+      divider.className = 'my-8 border-t-2 border-charcoal/20';
+      divider.innerHTML = '<p class="text-center text-charcoal/60 font-bold mt-4">Verified Customer Reviews</p>';
+      reviewsContainer.appendChild(divider);
+
+      approvedReviews.forEach(review => {
+        const reviewCard = document.createElement('div');
+        reviewCard.className = 'bg-green-50 p-6 rounded-lg shadow-md border-2 border-green-200';
+        
+        const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+        const dateStr = new Date(review.submitted).toLocaleDateString();
+        
+        reviewCard.innerHTML = `
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-green-200 rounded-full flex items-center justify-center font-bold text-green-700">
+                ${review.name.charAt(0)}
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <p class="font-bold">${review.name}</p>
+                  <span class="bg-green-500 text-white text-xs px-2 py-1 rounded-full font-bold">✓ Verified</span>
+                </div>
+                <p class="text-sm text-charcoal/60">${dateStr}</p>
+              </div>
+            </div>
+          </div>
+          <p class="text-champagne-gold mb-3">${stars}</p>
+          <p class="text-charcoal/80">${review.text}</p>
+        `;
+        reviewsContainer.appendChild(reviewCard);
+      });
+    }
+
+    // Related products (same category or random)
+    const relatedProducts = products
+      .filter(p => p.id !== product.id && p.category === product.category)
+      .slice(0, 4);
+    
+    // If not enough in same category, add random products
+    if (relatedProducts.length < 4) {
+      const otherProducts = products.filter(p => p.id !== product.id && p.category !== product.category);
+      while (relatedProducts.length < 4 && otherProducts.length > 0) {
+        const randomIndex = Math.floor(Math.random() * otherProducts.length);
+        relatedProducts.push(otherProducts.splice(randomIndex, 1)[0]);
+      }
+    }
+
+    const relatedContainer = document.getElementById('related-products');
+    relatedProducts.forEach(p => {
+      const card = document.createElement('a');
+      card.href = `product.html?id=${p.id}`;
+      card.className = 'bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition transform hover:scale-105';
+      card.innerHTML = `
+        <img src="${p.img}" alt="${p.name}" class="w-full h-48 object-cover">
+        <div class="p-4">
+          <h3 class="font-bold text-deep-red mb-2">${p.name}</h3>
+          <p class="text-champagne-gold font-bold text-lg">$${p.price.toFixed(2)}</p>
+        </div>
+      `;
+      relatedContainer.appendChild(card);
+    });
+  </script>
+</body>
+</html>

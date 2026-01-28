@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="assets/images/logofile.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Heart & Petal CRM Dashboard for administrators. Manage orders, inventory, and customer data.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="author" content="Heart & Petal Admin">
+  <title>CRM Dashboard - Heart & Petal (Admin Only)</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- Global Error Handler (must load first) -->
+  <script src="js/error-handler.js"></script>
+</head>
+<body class="bg-ivory font-montserrat min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="bg-white/90 shadow sticky top-0 z-50">
+    <div class="container mx-auto flex items-center justify-between py-4 px-6">
+      <a href="index.html" class="flex items-center gap-2">
+        <img src="assets/images/logofile.png" alt="Heart & Petal Logo" class="h-10 w-10 object-contain">
+        <span class="font-playfair text-2xl text-deep-red tracking-wide">Heart & Petal</span>
+      </a>
+      <nav class="space-x-6 text-lg flex items-center">
+        <a href="index.html" class="hover:text-deep-red transition">Home</a>
+        <a href="shop.html" class="hover:text-deep-red transition">Shop</a>
+        <a href="checkout.html" class="hover:text-deep-red transition">Checkout</a>
+        <a href="legal.html" class="hover:text-deep-red transition">Legal</a>
+        <a href="admin.html" class="hover:text-deep-red transition font-bold text-deep-red">CRM</a>
+        <div class="relative group ml-2">
+          <button class="hover:text-champagne-gold transition focus:outline-none">CRM Login/Register</button>
+          <div class="absolute right-0 mt-2 w-48 bg-white border border-charcoal rounded shadow-lg opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition z-50">
+            <a href="admin.html" class="block px-4 py-2 hover:bg-blush-pink/40">Admin Login</a>
+            <a href="customer-login.html" class="block px-4 py-2 hover:bg-blush-pink/40">Customer Login/Register</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-6 py-12 max-w-4xl">
+    <div id="crm-login" class="max-w-md mx-auto bg-white rounded-lg shadow-lg p-8 mt-12">
+      <h1 class="text-3xl font-playfair font-bold mb-6 text-center">CRM Login</h1>
+      <form id="crm-login-form" class="space-y-6">
+        <input type="text" id="crm-username" placeholder="Username" class="w-full border border-charcoal rounded px-4 py-2" required>
+        <input type="password" id="crm-password" placeholder="Password" class="w-full border border-charcoal rounded px-4 py-2" required>
+        <button type="submit" class="bg-deep-red text-ivory px-8 py-3 rounded-lg font-bold text-lg hover:bg-red-700 transition w-full">Login</button>
+        <div id="crm-login-error" class="text-red-600 text-center mt-2 hidden">Invalid credentials.</div>
+      </form>
+    </div>
+    <div id="crm-dashboard" class="hidden">
+      <h2 class="text-2xl font-playfair font-bold mb-4">Order & Customer Management</h2>
+      <div class="flex flex-col md:flex-row gap-8">
+        <!-- Customer Registration -->
+        <section class="flex-1 bg-white rounded-lg shadow p-6 mb-8 md:mb-0">
+          <h3 class="text-lg font-bold mb-2">Register New Customer</h3>
+          <form id="crm-register-form" class="space-y-3">
+            <input type="text" id="reg-name" placeholder="Full Name" class="w-full border border-charcoal rounded px-3 py-2" required>
+            <input type="email" id="reg-email" placeholder="Email" class="w-full border border-charcoal rounded px-3 py-2" required>
+            <input type="text" id="reg-address" placeholder="Address" class="w-full border border-charcoal rounded px-3 py-2" required>
+            <button type="submit" class="bg-blush-pink text-charcoal px-4 py-2 rounded hover:bg-champagne-gold transition">Register</button>
+          </form>
+        </section>
+        <!-- Order Tracking -->
+        <section class="flex-1 bg-white rounded-lg shadow p-6">
+          <h3 class="text-lg font-bold mb-2">Add Order</h3>
+          <form id="crm-order-form" class="space-y-3">
+            <input type="text" id="order-id" placeholder="Order ID" class="w-full border border-charcoal rounded px-3 py-2" required>
+            <input type="email" id="order-email" placeholder="Customer Email" class="w-full border border-charcoal rounded px-3 py-2" required>
+            <input type="text" id="order-address" placeholder="Shipping Address" class="w-full border border-charcoal rounded px-3 py-2" required>
+            <input type="text" id="order-type" placeholder="Order Type (e.g. Roses, Combo)" class="w-full border border-charcoal rounded px-3 py-2" required>
+            <input type="text" id="order-status" placeholder="Status (e.g. Shipped)" class="w-full border border-charcoal rounded px-3 py-2" required>
+            <button type="submit" class="bg-blush-pink text-charcoal px-4 py-2 rounded hover:bg-champagne-gold transition">Add Order</button>
+          </form>
+        </section>
+      </div>
+      <!-- Data Tables -->
+      <div class="mt-10">
+        <h3 class="text-lg font-bold mb-2">Registered Customers</h3>
+        <table class="w-full text-left border-collapse mb-8">
+          <thead>
+            <tr class="bg-blush-pink/30">
+              <th class="p-2">Name</th>
+              <th class="p-2">Email</th>
+              <th class="p-2">Address</th>
+            </tr>
+          </thead>
+          <tbody id="crm-customers"></tbody>
+        </table>
+        <h3 class="text-lg font-bold mb-2">Orders</h3>
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-blush-pink/30">
+              <th class="p-2">Order ID</th>
+              <th class="p-2">Customer Email</th>
+              <th class="p-2">Shipping Address</th>
+              <th class="p-2">Order Type</th>
+              <th class="p-2">Status</th>
+              <th class="p-2">Update</th>
+            </tr>
+          </thead>
+          <tbody id="crm-orders"></tbody>
+        </table>
+
+        <!-- Reviews Management -->
+        <h3 class="text-lg font-bold mb-4 mt-12">Customer Reviews Pending Approval</h3>
+        <div id="reviews-list" class="space-y-4">
+          <p class="text-charcoal/60">No pending reviews</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+    <footer class="bg-white text-black py-8 w-full mt-auto shadow-lg border-t border-gray-200">
+      <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between">
+        <div class="mb-4 md:mb-0">
+          <span class="font-playfair text-lg font-bold tracking-wide">Heart & Petal</span>
+        </div>
+        <div class="space-x-6 text-sm">
+          <a href="legal.html" class="font-bold hover:text-deep-red transition">Privacy & Terms</a>
+          <a href="mailto:contact@heartandpetal.com" class="font-bold hover:text-deep-red transition">Contact</a>
+          <a href="about.html" class="font-bold hover:text-deep-red transition">About</a>
+          <a href="faq.html" class="font-bold hover:text-deep-red transition">FAQ</a>
+        </div>
+        <div class="text-xs mt-4 md:mt-0">&copy; 2026 Heart & Petal. All rights reserved.</div>
+      </div>
+    </footer>
+  <script src="js/crm.js"></script>
+  <script>
+    // Review Management System
+    function getPendingReviews() {
+      const stored = localStorage.getItem('pendingReviews');
+      return stored ? JSON.parse(stored) : [];
+    }
+    
+    function getApprovedReviews() {
+      const stored = localStorage.getItem('approvedReviews');
+      return stored ? JSON.parse(stored) : [];
+    }
+    
+    function savePendingReviews(reviews) {
+      localStorage.setItem('pendingReviews', JSON.stringify(reviews));
+    }
+    
+    function saveApprovedReviews(reviews) {
+      localStorage.setItem('approvedReviews', JSON.stringify(reviews));
+    }
+    
+    function loadReviewsList() {
+      const pending = getPendingReviews();
+      const reviewsList = document.getElementById('reviews-list');
+      reviewsList.innerHTML = '';
+      
+      if (pending.length === 0) {
+        reviewsList.innerHTML = '<p class="text-charcoal/60">No pending reviews</p>';
+        return;
+      }
+      
+      pending.forEach((review, index) => {
+        const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+        const dateStr = new Date(review.submitted).toLocaleDateString();
+        
+        const reviewCard = document.createElement('div');
+        reviewCard.className = 'bg-yellow-50 border-2 border-yellow-300 p-6 rounded-lg';
+        reviewCard.innerHTML = `
+          <div class="flex justify-between items-start mb-4">
+            <div>
+              <p class="font-bold text-lg">${review.name}</p>
+              <p class="text-sm text-charcoal/60">${review.email}</p>
+              <p class="text-sm text-charcoal/60 mt-1">Product ID: ${review.productId}</p>
+              <p class="text-sm text-charcoal/60">Submitted: ${dateStr}</p>
+            </div>
+            <div class="text-champagne-gold font-bold">${stars}</div>
+          </div>
+          <p class="text-charcoal/80 mb-4 italic">"${review.text}"</p>
+          <div class="flex gap-2">
+            <button onclick="approveReview(${index})" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">✓ Approve</button>
+            <button onclick="rejectReview(${index})" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">✗ Reject</button>
+          </div>
+        `;
+        reviewsList.appendChild(reviewCard);
+      });
+    }
+    
+    function approveReview(index) {
+      const pending = getPendingReviews();
+      const approved = getApprovedReviews();
+      
+      const review = pending[index];
+      review.approved = true;
+      approved.push(review);
+      
+      pending.splice(index, 1);
+      savePendingReviews(pending);
+      saveApprovedReviews(approved);
+      
+      alert(`✓ Review from ${review.name} approved!`);
+      loadReviewsList();
+    }
+    
+    function rejectReview(index) {
+      const pending = getPendingReviews();
+      const review = pending[index];
+      
+      pending.splice(index, 1);
+      savePendingReviews(pending);
+      
+      alert(`✗ Review from ${review.name} rejected.`);
+      loadReviewsList();
+    }
+    
+    // Load reviews list when dashboard is visible
+    const observer = setInterval(() => {
+      const dashboard = document.getElementById('crm-dashboard');
+      if (dashboard && !dashboard.classList.contains('hidden')) {
+        loadReviewsList();
+        clearInterval(observer);
+      }
+    }, 100);
+  </script>
+</body>
+</html>

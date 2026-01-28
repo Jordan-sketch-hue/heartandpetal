@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="assets/images/logofile.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Secure checkout for Heart & Petal gifts. Complete your order for flowers, chocolates, and teddy bears with fast, safe delivery.">
+  <meta name="keywords" content="checkout, order flowers, payment, delivery, flower gift order, secure payment">
+  <meta name="author" content="Heart & Petal">
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Secure Checkout - Heart & Petal">
+  <meta property="og:description" content="Complete your order for premium gifts with secure payment.">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://heartandpetal.com/checkout.html">
+  <title>Secure Checkout - Heart & Petal Gifts</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- Global Error Handler (must load first) -->
+  <script src="js/error-handler.js"></script>
+</head>
+<body class="bg-ivory font-montserrat min-h-screen flex flex-col">
+  <!-- Free Delivery Banner -->
+  <div class="bg-deep-red text-ivory text-center py-2 text-sm font-bold">
+    FREE DELIVERY ON ALL ORDERS ACROSS THE USA!
+  </div>
+  <!-- Header -->
+  <header class="bg-white/90 shadow sticky top-0 z-50">
+    <div class="container mx-auto flex items-center justify-between py-4 px-6">
+      <a href="index.html" class="flex items-center gap-2">
+        <img src="assets/images/logofile.png" alt="Heart & Petal Logo" class="h-10 w-10 object-contain">
+        <span class="font-playfair text-2xl text-deep-red tracking-wide">Heart & Petal</span>
+      </a>
+      <nav class="space-x-6 text-lg flex items-center">
+        <a href="index.html" class="hover:text-deep-red transition">Home</a>
+        <a href="shop.html" class="hover:text-deep-red transition">Shop</a>
+        <a href="about.html" class="hover:text-deep-red transition">About</a>
+        <a href="faq.html" class="hover:text-deep-red transition">FAQ</a>
+        <a href="checkout.html" class="hover:text-deep-red transition font-bold text-deep-red">Checkout</a>
+        <a href="legal.html" class="hover:text-deep-red transition">Legal</a>
+        <div class="relative group ml-2">
+          <button class="hover:text-champagne-gold transition focus:outline-none">CRM Login/Register</button>
+          <div class="absolute right-0 mt-2 w-48 bg-white border border-charcoal rounded shadow-lg opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition z-50">
+            <a href="admin.html" class="block px-4 py-2 hover:bg-blush-pink/40">Admin Login</a>
+            <a href="customer-login.html" class="block px-4 py-2 hover:bg-blush-pink/40">Customer Login/Register</a>
+          </div>
+        </div>
+      </nav>
+      <a href="checkout.html" class="ml-4 bg-deep-red text-ivory px-4 py-2 rounded-lg font-great-vibes text-xl shadow hover:bg-red-700 transition flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+        Cart
+      </a>
+    </div>
+  </header>
+
+
+  <!-- Checkout Main Section -->
+  <main class="container mx-auto px-6 py-12 max-w-2xl">
+    <h1 class="text-3xl font-playfair font-bold mb-8 text-center">Secure Checkout</h1>
+    <!-- Cart Summary -->
+    <section id="cart-summary" class="mb-10 bg-white/80 rounded shadow p-6">
+      <h2 class="text-xl font-playfair mb-4">Your Cart</h2>
+      <div id="cart-items"></div>
+      <div class="mt-4 text-right font-bold text-lg">Total: $<span id="cart-total">0.00</span></div>
+    </section>
+    <form class="space-y-8" id="checkout-form">
+      <div id="form-errors" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"></div>
+      <div id="form-success" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4"></div>
+      
+      <!-- Customer Info -->
+      <section>
+        <h2 class="text-xl font-playfair mb-4">Customer Information</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <input type="text" id="checkout-name" placeholder="Full Name" class="border border-charcoal rounded px-4 py-2 w-full" required>
+            <span class="text-xs text-red-600 hidden" id="name-error"></span>
+          </div>
+          <div>
+            <input type="email" id="checkout-email" placeholder="Email Address" class="border border-charcoal rounded px-4 py-2 w-full" required>
+            <span class="text-xs text-red-600 hidden" id="email-error"></span>
+          </div>
+          <div>
+            <input type="tel" id="checkout-phone" placeholder="Phone Number" class="border border-charcoal rounded px-4 py-2 w-full" required>
+            <span class="text-xs text-red-600 hidden" id="phone-error"></span>
+          </div>
+          <div class="md:col-span-2">
+            <input type="text" id="checkout-address" placeholder="Shipping Address" class="border border-charcoal rounded px-4 py-2 w-full" required>
+            <span class="text-xs text-red-600 hidden" id="address-error"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Shipping Options -->
+      <section>
+        <h2 class="text-xl font-playfair mb-4">Shipping & Delivery</h2>
+        <div class="bg-deep-red/10 border border-deep-red rounded p-4 mb-4">
+          <p class="text-sm font-bold text-deep-red">✓ FREE Standard Delivery on all orders across the USA!</p>
+          <p class="text-xs text-gray-700 mt-1">Standard delivery takes 3-5 business days. Upgrade to express shipping if needed.</p>
+        </div>
+        <div class="flex flex-col md:flex-row md:items-center gap-4">
+          <select id="checkout-shipping" class="border border-charcoal rounded px-4 py-2 w-full md:w-auto">
+            <option value="Standard Delivery (3-5 days)">Standard Delivery (3-5 days) - FREE ✓</option>
+            <option value="Express Delivery (1-2 days)">Express Delivery (1-2 days) - FREE ✓</option>
+            <option value="Valentine's Day Guaranteed">Valentine's Day Guaranteed - FREE ✓</option>
+          </select>
+          <input type="date" id="checkout-delivery-date" class="border border-charcoal rounded px-4 py-2 w-full md:w-auto" placeholder="Select delivery date">
+        </div>
+      </section>
+
+      <!-- Gift Note -->
+      <section>
+        <h2 class="text-xl font-playfair mb-4">Gift Note (Optional)</h2>
+        <textarea rows="3" id="checkout-gift-note" class="w-full border border-charcoal rounded px-4 py-2" placeholder="Write a personal message..."></textarea>
+      </section>
+
+      <!-- Discount Code -->
+      <section>
+        <h2 class="text-xl font-playfair mb-4">Discount Code</h2>
+        <div class="flex gap-2">
+          <input type="text" id="discount-code-input" placeholder="Enter code (e.g., LOVE20, HEART10)" class="border border-charcoal rounded px-4 py-2 flex-1">
+          <button type="button" id="apply-discount-btn" class="bg-deep-red text-ivory px-4 py-2 rounded hover:bg-red-700 transition font-bold">Apply</button>
+        </div>
+        <div id="discount-status" class="text-xs mt-2"></div>
+        <p class="text-xs text-gray-500 mt-1">Try: LOVE20, HEART10, SAVE15, CUPID5</p>
+      </section>
+      
+      <!-- Order Summary & Pricing -->
+      <section class="bg-champagne-gold/20 rounded p-6 border-2 border-champagne-gold">
+        <h3 class="font-bold text-lg mb-4 text-deep-red">Order Summary & Pricing</h3>
+        
+        <!-- Subtotal and Calculations -->
+        <div class="space-y-2 mb-4 pb-4 border-b border-champagne-gold">
+          <div class="flex justify-between text-sm">
+            <span class="text-gray-700">Subtotal:</span>
+            <span class="font-semibold">$<span id="checkout-subtotal">0.00</span></span>
+          </div>
+          <div class="flex justify-between text-sm">
+            <span class="text-gray-700">Shipping:</span>
+            <span class="font-semibold text-green-700">FREE ✓</span>
+          </div>
+          <div class="flex justify-between text-sm">
+            <span class="text-gray-700">Discount Applied:</span>
+            <span class="font-semibold text-deep-red">-$<span id="checkout-discount">0.00</span></span>
+          </div>
+        </div>
+        
+        <!-- Final Total -->
+        <div class="flex justify-between items-center mb-4 p-3 bg-white rounded">
+          <span class="text-lg font-bold text-deep-red">Total Due:</span>
+          <span class="text-2xl font-bold text-deep-red">$<span id="checkout-total-display">0.00</span></span>
+        </div>
+        
+        <!-- Order Info -->
+        <div class="text-xs text-gray-600 space-y-1">
+          <p>✓ All orders include FREE shipping to the USA</p>
+          <p>✓ Secure PayPal payment processing</p>
+          <p>✓ 7-day freshness guarantee on flowers</p>
+        </div>
+      </section>
+
+      <!-- Payment Section (PayPal Integration) -->
+      <section>
+        <h2 class="text-xl font-playfair mb-4">Payment</h2>
+        <div class="bg-white border border-champagne-gold rounded p-6 text-center">
+          <p class="mb-4 font-semibold text-lg">Complete Your Payment</p>
+          <div class="bg-blue-50 border border-blue-200 rounded p-4 mb-4 text-left text-sm">
+            <p class="font-bold mb-2">🔒 Secure PayPal Checkout</p>
+            <p class="text-gray-700">Your payment is processed securely through PayPal. No credit card information is stored on our servers.</p>
+          </div>
+          <div id="paypal-button-container" class="flex justify-center mb-4"></div>
+          <p class="text-xs text-gray-500 mt-4">Powered by PayPal for Heart & Petal | SSL Secure Checkout</p>
+        </div>
+      </section>
+        <script src="js/auth.js"></script>
+        <script src="js/inventory.js"></script>
+        <script src="js/discounts.js"></script>
+        <script src="js/orders.js"></script>
+        <script src="js/cart.js"></script>
+        <script>
+          // Product data with sizes for checkout size selection
+          const products = [
+            { id: 'flower1', name: 'Tulip Spring Mix', price: 44.99, img: 'assets/images/{ id_ \'flower1\', name_ \'Tulip Spring Mix\', price_ 44.99, img_ \'assets_images_roses.jpg\', images_ [\'assets_images_roses.jpg\', \'assets_images_roses.jpg\'], desc_ \'Fresh tulips in spring colors for cheerful gifting. Fe.jpg', sizes: [{ size: 'Small (8 stems)', price: 34.99 }, { size: 'Medium (12 stems) + VASE', price: 44.99 }, { size: 'Large (16 stems) + VASE', price: 59.99 }, { size: 'Deluxe (20 stems) + VASE', price: 79.99 }] },
+            { id: 'flower2', name: 'Lily & Rose Bouquet', price: 64.99, img: 'assets/images/white rose arrangement product image.jpg', sizes: [{ size: 'Small (6L+6R)', price: 54.99 }, { size: 'Medium (8L+10R) + VASE', price: 64.99 }, { size: 'Large (10L+14R) + VASE', price: 84.99 }, { size: 'Premium (12L+18R) + VASE', price: 109.99 }] },
+            { id: 'flower3', name: 'Sunflower Smile Bunch', price: 39.99, img: 'assets/images/{ id_ \'flower3\', name_ \'Sunflower Smile Bunch\', price_ 39.99, img_ \'assets_images_roses.jpg\', images_ [\'assets_images_roses.jpg\', \'assets_images_roses.jpg\'], desc_ \'Bright sunflowers to brighten anyone_\'s day. Larg.jpg', sizes: [{ size: 'Small (5)', price: 29.99 }, { size: 'Medium (7) + VASE', price: 39.99 }, { size: 'Large (10) + VASE', price: 54.99 }, { size: 'Jumbo (15) + VASE', price: 74.99 }] },
+            { id: 'flower4', name: 'Mixed Wildflower Jar', price: 34.99, img: 'assets/images/{ id_ \'flower4\', name_ \'Mixed Wildflower Jar\', price_ 34.99, img_ \'assets_images_roses.jpg\', images_ [\'assets_images_roses.jpg\'], desc_ \'Charming wildflowers in rustic mason jar. Features daisies, baby_\'s breath, a.jpg', sizes: [{ size: 'Small (8) + MASON JAR', price: 24.99 }, { size: 'Medium (12) + MASON JAR', price: 34.99 }, { size: 'Large (16) + MASON JAR', price: 49.99 }, { size: 'Extra Large (20) + MASON JAR', price: 64.99 }] },
+            { id: 'flower5', name: 'Orchid Elegance', price: 54.99, img: 'assets/images/pink rose arrangement.jpg', variants: [{ name: 'Single Stem (3 blooms) + POT', price: 54.99 }, { name: 'Double Stem (6 blooms) + POT', price: 74.99 }, { name: 'Triple Stem (9 blooms) + POT', price: 99.99 }, { name: 'Premium Display (12+ blooms) + POT', price: 129.99 }] },
+            { id: 'flower6', name: 'Peony & Rose Arrangement', price: 74.99, img: 'assets/images/blush pink rose box.jpg', sizes: [{ size: 'Small (6P+8R)', price: 64.99 }, { size: 'Medium (8P+12R) + VASE', price: 74.99 }, { size: 'Large (10P+16R) + VASE', price: 99.99 }, { size: 'Grand (12P+20R) + VASE', price: 134.99 }] },
+            { id: 'flower7', name: 'Daisies & Roses Basket', price: 49.99, img: 'assets/images/{ id_ \'flower7\', name_ \'Daisies & Roses Basket\', price_ 49.99, img_ \'assets_images_roses.jpg\', images_ [\'assets_images_roses.jpg\'], desc_ \'Cheerful daisies and roses in wicker basket. Fresh white daisies combined w.jpg', sizes: [{ size: 'Small (8) + WICKER BASKET', price: 39.99 }, { size: 'Medium (12) + WICKER BASKET', price: 49.99 }, { size: 'Large (16) + WICKER BASKET', price: 69.99 }, { size: 'Extra Large (20) + WICKER BASKET', price: 89.99 }] },
+            { id: 'flower8', name: 'Florist\'s Choice Bouquet', price: 59.99, img: 'assets/images/Dozen Long-Stemmed Roses product image.jpg', sizes: [{ size: 'Small (10 stems)', price: 44.99 }, { size: 'Medium (15 stems) + VASE', price: 59.99 }, { size: 'Large (20 stems) + VASE', price: 79.99 }, { size: 'Premium (25+ stems) + VASE', price: 109.99 }] },
+            { id: 'flower9', name: 'Pastel Petals Mix', price: 52.99, img: 'assets/images/pink rose arrnagemnt product image.jpg', sizes: [{ size: 'Small (10 stems) + VASE', price: 42.99 }, { size: 'Medium (14 stems) + VASE', price: 52.99 }, { size: 'Large (18 stems) + VASE', price: 72.99 }, { size: 'Deluxe (24 stems) + VASE', price: 97.99 }] },
+            { id: 'flower10', name: 'Blush Pink Florals', price: 62.99, img: 'assets/images/{ id_ \'flower10\', name_ \'Blush Pink Florals\', price_ 62.99, img_ \'assets_images_roses.jpg\', images_ [\'assets_images_roses.jpg\', \'assets_images_roses.jpg\'], desc_ \'Beautiful blush pink flower arrangement with premiu.jpg', sizes: [{ size: 'Small (12 stems)', price: 49.99 }, { size: 'Medium (16 stems) + VASE', price: 62.99 }, { size: 'Large (20 stems) + VASE', price: 82.99 }, { size: 'Premium (26 stems) + VASE', price: 112.99 }] }
+          ];
+        </script>
+            <script>
+              let appliedDiscount = null;
+              
+              // Render cart summary on checkout page
+              function renderCartSummary() {
+                if (typeof getCart !== 'function') return;
+                const cart = getCart();
+                const itemsDiv = document.getElementById('cart-items');
+                const totalSpan = document.getElementById('cart-total');
+                
+                if (!cart.length) {
+                  itemsDiv.innerHTML = '<div class="text-center text-gray-500 py-6">Your cart is empty. <a href="shop.html" class="text-deep-red underline">Continue shopping</a></div>';
+                  totalSpan.textContent = '0.00';
+                  return;
+                }
+                
+                itemsDiv.innerHTML = cart.map(item => {
+                  const imgSrc = item.img || '';
+                  // Find product to get available sizes
+                  const product = typeof products !== 'undefined' ? products.find(p => p.id === item.id) : null;
+                  const availableSizes = product ? (product.sizes || product.variants || []) : [];
+                  
+                  let sizeSelector = '';
+                  let variantDisplay = '';
+                  if (availableSizes.length > 0) {
+                    const sizeOptions = availableSizes.map((s, idx) => {
+                      const sizeLabel = s.size || s.name;
+                      const sizePrice = s.price;
+                      const selected = (idx === 0 || item.price === sizePrice) ? 'selected' : '';
+                      return `<option value="${sizePrice}" ${selected}>${sizeLabel} - $${sizePrice.toFixed(2)}</option>`;
+                    }).join('');
+                    sizeSelector = `
+                      <div class='flex items-center gap-2 mt-2'>
+                        <label class='text-xs font-semibold text-deep-red'>Size & Vase Option:</label>
+                        <select class='size-selector border-2 border-deep-red rounded px-3 py-1 text-sm font-medium' data-id='${item.id}'>
+                          ${sizeOptions}
+                        </select>
+                      </div>
+                    `;
+                  } else if (item.variant) {
+                    variantDisplay = `<div class='text-xs text-charcoal mt-1'><strong>Option:</strong> ${item.variant}</div>`;
+                  }
+                  
+                  return `
+                    <div class='flex items-center justify-between border-b border-champagne-gold py-4'>
+                      <div class='flex items-center gap-4'>
+                        <div class='relative'>
+                          <img src='${imgSrc}' 
+                               alt='${item.name}' 
+                               class='h-16 w-16 object-cover rounded shadow border border-champagne-gold'>
+                        </div>
+                        <div>
+                          <div class='font-bold text-sm'>${item.name}</div>
+                          <div class='text-xs text-gray-500 mt-1'>Unit Price: $${item.price.toFixed(2)}</div>
+                          ${variantDisplay}
+                          ${sizeSelector}
+                          <div class='flex items-center gap-2 mt-2'>
+                            <label class='text-xs font-semibold'>Qty:</label>
+                            <input type='number' min='1' value='${item.quantity}' data-id='${item.id}' class='cart-qty-input border border-charcoal rounded w-12 px-1 py-0.5 text-center text-xs'>
+                            <button type='button' class='cart-remove-btn text-xs text-red-700 font-bold hover:underline ml-2' data-id='${item.id}'>Remove</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class='font-bold text-right'>
+                        <div class='text-sm'>$${(item.price * item.quantity).toFixed(2)}</div>
+                        <div class='text-xs text-gray-400'>${item.quantity} items</div>
+                      </div>
+                    </div>
+                  `;
+                }).join('');
+                
+                updateCheckoutTotals();
+              }
+              
+              function updateCheckoutTotals() {
+                const cart = getCart();
+                const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                const subtotalSpan = document.getElementById('checkout-subtotal');
+                const discountSpan = document.getElementById('checkout-discount');
+                const totalSpan = document.getElementById('cart-total');
+                
+                if (subtotalSpan) subtotalSpan.textContent = subtotal.toFixed(2);
+                
+                let finalTotal = subtotal;
+                if (appliedDiscount) {
+                  const discountAmount = appliedDiscount.discount;
+                  finalTotal = subtotal - discountAmount;
+                  if (discountSpan) {
+                    discountSpan.innerHTML = `-$${discountAmount.toFixed(2)} <span class='text-xs'>(${appliedDiscount.code})</span>`;
+                  }
+                } else {
+                  if (discountSpan) discountSpan.textContent = '$0.00';
+                }
+                
+                totalSpan.textContent = Math.max(0, finalTotal).toFixed(2);
+              }
+              
+              document.addEventListener('DOMContentLoaded', function() {
+                renderCartSummary();
+                
+                // Remove item logic
+                document.getElementById('cart-items').addEventListener('click', function(e) {
+                  if (e.target.classList.contains('cart-remove-btn')) {
+                    const id = e.target.getAttribute('data-id');
+                    if (typeof removeFromCart === 'function') {
+                      if (window.releaseStock) window.releaseStock(id, 1);
+                      removeFromCart(id);
+                      renderCartSummary();
+                      if (window.updateCartDisplay) window.updateCartDisplay();
+                    }
+                  }
+                });
+                
+                // Update quantity logic
+                document.getElementById('cart-items').addEventListener('change', function(e) {
+                  if (e.target.classList.contains('cart-qty-input')) {
+                    const id = e.target.getAttribute('data-id');
+                    let qty = parseInt(e.target.value);
+                    if (isNaN(qty) || qty < 1) qty = 1;
+                    if (typeof updateQuantity === 'function') {
+                      updateQuantity(id, qty);
+                      renderCartSummary();
+                      if (window.updateCartDisplay) window.updateCartDisplay();
+                    }
+                  }
+                  
+                  // Handle size/vase option changes
+                  if (e.target.classList.contains('size-selector')) {
+                    const id = e.target.getAttribute('data-id');
+                    const newPrice = parseFloat(e.target.value);
+                    const selectedOption = e.target.options[e.target.selectedIndex];
+                    const variantLabel = selectedOption.text;
+                    
+                    // Update cart item with new price and variant
+                    const cart = getCart();
+                    const itemIndex = cart.findIndex(item => item.id === id);
+                    if (itemIndex !== -1) {
+                      cart[itemIndex].price = newPrice;
+                      cart[itemIndex].variant = variantLabel;
+                      saveCart(cart);
+                      renderCartSummary();
+                      if (window.updateCartDisplay) window.updateCartDisplay();
+                    }
+                  }
+                });
+                
+                // Discount code application
+                const discountBtn = document.querySelector('button[type="button"]:contains("Apply")');
+                if (discountBtn) {
+                  discountBtn.onclick = function(e) {
+                    e.preventDefault();
+                    const codeInput = document.querySelector('input[placeholder="Enter code"]');
+                    const code = (codeInput.value || '').trim();
+                    
+                    if (!code) {
+                      alert('Please enter a discount code');
+                      return;
+                    }
+                    
+                    const cart = getCart();
+                    const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                    
+                    if (typeof applyDiscountToCart === 'function') {
+                      const result = applyDiscountToCart(code, subtotal);
+                      if (result.applied) {
+                        appliedDiscount = result;
+                        updateCheckoutTotals();
+                        alert(`✅ Discount applied! You save $${result.discount.toFixed(2)}`);
+                        codeInput.value = '';
+                      } else {
+                        alert(`❌ ${result.error}`);
+                      }
+                    }
+                  };
+                }
+              });
+            </script>
+        <script src="https://www.paypal.com/sdk/js?client-id=AdWIvS7X-9N8DPm8AaykS9bGuO3TVbnQjjwCsdyGjbRCa-h3qh_x-DMKncejUKv6x1FZu6gJ-Ez4shWg&currency=USD&locale=en_GB&components=buttons"></script>
+        <script>
+          // Validate form fields
+          function validateCheckoutForm() {
+            const errors = [];
+            const form = document.getElementById('checkout-form');
+            
+            const name = document.getElementById('checkout-name').value.trim();
+            const email = document.getElementById('checkout-email').value.trim();
+            const phone = document.getElementById('checkout-phone').value.trim();
+            const address = document.getElementById('checkout-address').value.trim();
+            
+            if (!window.validateName || !window.validateName(name)) {
+              errors.push('Invalid name');
+            }
+            
+            if (!window.validateEmail || !window.validateEmail(email)) {
+              errors.push('Invalid email address');
+            }
+            
+            if (!window.validatePhoneNumber || !window.validatePhoneNumber(phone)) {
+              errors.push('Invalid phone number (10+ digits required)');
+            }
+            
+            if (!window.validateAddress || !window.validateAddress(address)) {
+              errors.push('Invalid address');
+            }
+            
+            return errors;
+          }
+          
+          function formatAmount(num) {
+            return (Math.round(num * 100) / 100).toFixed(2);
+          }
+          
+          function getCheckoutTotal() {
+            const totalSpan = document.getElementById('cart-total');
+            return parseFloat(totalSpan.textContent) || 0;
+          }
+          
+          function showError(message) {
+            const errorDiv = document.getElementById('form-errors');
+            errorDiv.textContent = message;
+            errorDiv.classList.remove('hidden');
+            window.scrollTo(0, 0);
+          }
+          
+          function showSuccess(message) {
+            const successDiv = document.getElementById('form-success');
+            successDiv.textContent = message;
+            successDiv.classList.remove('hidden');
+            window.scrollTo(0, 0);
+          }
+          
+          document.addEventListener('DOMContentLoaded', function() {
+            // Discount button handler
+            document.getElementById('apply-discount-btn').onclick = function(e) {
+              e.preventDefault();
+              const codeInput = document.getElementById('discount-code-input');
+              const code = (codeInput.value || '').trim();
+              
+              if (!code) {
+                alert('Please enter a discount code');
+                return;
+              }
+              
+              if (typeof getCart !== 'function') {
+                alert('Error: Cart not loaded');
+                return;
+              }
+              
+              const cart = getCart();
+              const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+              
+              if (typeof applyDiscountToCart === 'function') {
+                const result = applyDiscountToCart(code, subtotal);
+                if (result.applied) {
+                  appliedDiscount = result;
+                  updateCheckoutTotals();
+                  document.getElementById('discount-status').innerHTML = `✅ Discount applied: ${result.description}`;
+                  codeInput.value = '';
+                } else {
+                  document.getElementById('discount-status').innerHTML = `❌ ${result.error}`;
+                }
+              }
+            };
+            
+            // Render PayPal button
+            if (window.paypal) {
+              paypal.Buttons({
+                style: {
+                  color: 'gold',
+                  shape: 'pill',
+                  label: 'pay',
+                  height: 45,
+                  layout: 'vertical',
+                  tagline: false
+                },
+                
+                createOrder: function(data, actions) {
+                  // Get cart total from DOM
+                  const totalSpan = document.getElementById('cart-total');
+                  let total = totalSpan ? parseFloat(totalSpan.textContent) : 0;
+                  
+                  // For testing - use a small amount
+                  if (total <= 0) {
+                    total = 49.99; // Test amount
+                  }
+                  
+                  const amount = parseFloat(total).toFixed(2);
+                  console.log('PayPal order amount:', amount);
+                  
+                  return actions.order.create({
+                    purchase_units: [{
+                      amount: { 
+                        value: amount,
+                        currency_code: 'USD'
+                      }
+                    }]
+                  });
+                },
+                
+                onApprove: function(data, actions) {
+                  return actions.order.capture().then(function(details) {
+                    try {
+                      // Gather customer info
+                      const name = document.getElementById('checkout-name')?.value.trim() || 'Guest';
+                      const email = document.getElementById('checkout-email')?.value.trim() || 'guest@example.com';
+                      const phone = document.getElementById('checkout-phone')?.value.trim() || 'N/A';
+                      const address = document.getElementById('checkout-address')?.value.trim() || 'N/A';
+                      const shipping = document.getElementById('checkout-shipping')?.value || 'Standard Delivery';
+                      const deliveryDate = document.getElementById('checkout-delivery-date')?.value || '';
+                      const giftNote = document.getElementById('checkout-gift-note')?.value || '';
+                      
+                      // Get cart
+                      const cart = (typeof getCart === 'function') ? getCart() : [];
+                      if (!cart.length) {
+                        alert('Cart is empty');
+                        return;
+                      }
+                      
+                      // Create order object
+                      const orderData = {
+                        name: name,
+                        email: email,
+                        phone: phone,
+                        address: address,
+                        shipping: shipping,
+                        deliveryDate: deliveryDate,
+                        giftNote: giftNote,
+                        items: cart,
+                        subtotal: parseFloat(document.getElementById('checkout-subtotal')?.textContent || '0'),
+                        discountCode: appliedDiscount ? appliedDiscount.code : null,
+                        discountAmount: appliedDiscount ? appliedDiscount.discount : 0,
+                        total: getCheckoutTotal(),
+                        paymentMethod: 'PayPal',
+                        paymentId: details.id
+                      };
+                      
+                      const orderResult = window.createOrder(orderData);
+                      
+                      if (!orderResult || !orderResult.success) {
+                        alert('❌ Failed to create order');
+                        return;
+                      }
+                      
+                      const order = orderResult.order;
+                      
+                      // Send confirmation email
+                      if (typeof simulateEmailConfirmation === 'function') {
+                        window.simulateEmailConfirmation(order);
+                      }
+                      
+                      // Clear cart
+                      if (typeof saveCart === 'function') saveCart([]);
+                      
+                      // Show success message
+                      alert(`✅ Thank you for your order, ${name}!\n\nOrder ID: ${order.id}\nPayment ID: ${details.id}\n\nYou'll receive a confirmation email shortly.`);
+                      
+                      // Redirect after short delay
+                      setTimeout(() => {
+                        window.location.href = 'index.html';
+                      }, 1000);
+                      
+                      return true;
+                    } catch (e) {
+                      console.error('❌ Order processing error:', e);
+                      alert('❌ Error processing order: ' + e.message);
+                      return;
+                    }
+                  }).catch(function(err) {
+                    console.error('Capture error:', err);
+                    alert('❌ Payment capture failed. Please try again.');
+                  });
+                },
+                
+                onError: function(err) {
+                  console.error('❌ PayPal error:', err);
+                  showError('❌ Payment error. Please try again.');
+                },
+                
+                onCancel: function(data) {
+                  console.log('⚠️ Payment cancelled');
+                  showError('⚠️ Payment cancelled. Your cart is still saved.');
+                }
+              }).render('#paypal-button-container');
+            }
+          });
+        </script>
+      </section>
+
+      <!-- Trust Badges -->
+      <section class="flex flex-col md:flex-row items-center justify-center gap-4 mt-8">
+        <div class="flex items-center gap-2">
+          <span class="text-champagne-gold text-2xl">&#x1F512;</span>
+          <span class="text-sm">Secure SSL Checkout</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-champagne-gold text-2xl">&#x1F4B3;</span>
+          <span class="text-sm">100% Payment Protection</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-champagne-gold text-2xl">&#x1F381;</span>
+          <span class="text-sm">Satisfaction Guaranteed</span>
+        </div>
+      </section>
+
+      <!-- Submit Button -->
+      <button type="submit" class="bg-deep-red text-ivory px-8 py-4 rounded-lg font-bold text-lg hover:bg-red-700 transition w-full mt-8">Complete Order</button>
+    </form>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white text-black py-8 w-full mt-auto shadow-lg border-t border-gray-200">
+    <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between">
+      <div class="mb-4 md:mb-0">
+        <span class="font-playfair text-lg font-bold tracking-wide">Heart & Petal</span>
+      </div>
+      <div class="space-x-6 text-sm">
+        <a href="legal.html" class="font-bold hover:text-deep-red transition">Privacy & Terms</a>
+        <a href="mailto:contact@heartandpetal.com" class="font-bold hover:text-deep-red transition">Contact</a>
+        <a href="about.html" class="font-bold hover:text-deep-red transition">About</a>
+        <a href="faq.html" class="font-bold hover:text-deep-red transition">FAQ</a>
+      </div>
+      <div class="text-xs mt-4 md:mt-0">&copy; 2026 Heart & Petal. All rights reserved.</div>
+    </div>
+  </footer>
+
+</body>
+</html>

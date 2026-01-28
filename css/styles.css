@@ -1,0 +1,348 @@
+/* Sticky footer utility */
+.sticky-footer {
+	margin-top: auto !important;
+	width: 100%;
+	position: relative;
+	bottom: 0;
+}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Heart & Petal Brand Colors */
+:root {
+	--deep-red: #C21807;
+	--blush-pink: #FFD1DC;
+	--champagne-gold: #ECD9B0;
+	--ivory: #FFF8F0;
+	--charcoal: #333333;
+}
+
+.bg-ivory { background-color: var(--ivory) !important; }
+.text-charcoal { color: var(--charcoal) !important; }
+.bg-deep-red { background-color: var(--deep-red) !important; }
+.text-deep-red { color: var(--deep-red) !important; }
+.text-ivory { color: var(--ivory) !important; }
+.hover\:bg-red-700:hover { background-color: #A10D05 !important; }
+.border-champagne-gold { border-color: var(--champagne-gold) !important; }
+.bg-blush-pink { background-color: var(--blush-pink) !important; }
+.text-blush-pink { color: var(--blush-pink) !important; }
+.text-champagne-gold { color: var(--champagne-gold) !important; }
+
+/* Font utility classes for brand */
+.font-playfair { font-family: 'Playfair Display', serif !important; }
+.font-montserrat { font-family: 'Montserrat', Arial, sans-serif !important; }
+.font-greatvibes { font-family: 'Great Vibes', cursive !important; }
+
+/* ===== BUY NOW BUTTON REDESIGN - ALWAYS VISIBLE ===== */
+.buy-now-btn {
+	background-color: var(--champagne-gold) !important;
+	color: var(--charcoal) !important;
+	padding: 0.75rem 1.5rem !important;
+	border-radius: 0.5rem !important;
+	font-weight: 700 !important;
+	text-transform: uppercase !important;
+	letter-spacing: 0.05em !important;
+	transition: all 0.3s ease !important;
+	display: inline-block !important;
+	text-decoration: none !important;
+	border: 2px solid var(--champagne-gold) !important;
+	cursor: pointer !important;
+	min-width: 140px !important;
+	text-align: center !important;
+	white-space: nowrap !important;
+	visibility: visible !important;
+	opacity: 1 !important;
+}
+
+.buy-now-btn:hover {
+	background-color: #D4C19D !important;
+	border-color: #D4C19D !important;
+	transform: scale(1.05) !important;
+	box-shadow: 0 4px 12px rgba(193, 24, 7, 0.2) !important;
+}
+
+.buy-now-btn:active {
+	transform: scale(0.98) !important;
+}
+
+/* Smaller Buy Now button for shop page */
+.buy-now-btn-sm {
+	background-color: var(--champagne-gold) !important;
+	color: var(--charcoal) !important;
+	padding: 0.5rem 0.75rem !important;
+	border-radius: 0.375rem !important;
+	font-weight: 600 !important;
+	text-transform: uppercase !important;
+	letter-spacing: 0.03em !important;
+	font-size: 0.875rem !important;
+	transition: all 0.3s ease !important;
+	display: inline-block !important;
+	text-decoration: none !important;
+	border: 2px solid var(--champagne-gold) !important;
+	cursor: pointer !important;
+	min-width: 100px !important;
+	text-align: center !important;
+	white-space: nowrap !important;
+	visibility: visible !important;
+	opacity: 1 !important;
+}
+
+.buy-now-btn-sm:hover {
+	background-color: #D4C19D !important;
+	border-color: #D4C19D !important;
+	transform: scale(1.05) !important;
+	box-shadow: 0 4px 12px rgba(193, 24, 7, 0.2) !important;
+}
+
+.buy-now-btn-sm:active {
+	transform: scale(0.98) !important;
+}
+
+/* ===== PRODUCT CARD REDESIGN ===== */
+.product-card {
+	display: flex !important;
+	flex-direction: column !important;
+	height: 100% !important;
+	background: var(--ivory) !important;
+	border: 1px solid #E8D4C4 !important;
+	border-radius: 0.5rem !important;
+	overflow: hidden !important;
+	transition: all 0.3s ease !important;
+}
+
+.product-card:hover {
+	box-shadow: 0 10px 30px rgba(193, 24, 7, 0.15) !important;
+	transform: translateY(-5px) !important;
+	border-color: var(--champagne-gold) !important;
+}
+
+.product-image-container {
+	position: relative !important;
+	width: 100% !important;
+	height: 200px !important;
+	overflow: hidden !important;
+	background: #F5F5F5 !important;
+}
+
+.product-image {
+	width: 100% !important;
+	height: 100% !important;
+	object-fit: cover !important;
+	transition: transform 0.3s ease !important;
+}
+
+.product-card:hover .product-image {
+	transform: scale(1.05) !important;
+}
+
+.product-content {
+	padding: 1rem !important;
+	flex: 1 !important;
+	display: flex !important;
+	flex-direction: column !important;
+}
+
+.product-title {
+	font-size: 1.1rem !important;
+	font-weight: 700 !important;
+	color: var(--charcoal) !important;
+	margin-bottom: 0.5rem !important;
+	line-height: 1.3 !important;
+}
+
+.product-description {
+	font-size: 0.875rem !important;
+	color: #666 !important;
+	margin-bottom: 0.5rem !important;
+	line-height: 1.4 !important;
+	flex: 1 !important;
+}
+
+.product-rating {
+	font-size: 0.75rem !important;
+	color: var(--champagne-gold) !important;
+	margin-bottom: 0.5rem !important;
+}
+
+.product-price {
+	font-size: 1.5rem !important;
+	color: var(--deep-red) !important;
+	font-weight: 700 !important;
+	margin-bottom: 0.75rem !important;
+}
+
+.product-actions {
+	display: grid !important;
+	grid-template-columns: 1fr auto !important;
+	gap: 0.5rem !important;
+	align-items: stretch !important;
+	margin-bottom: 0.75rem !important;
+}
+
+.add-to-cart-btn {
+	background-color: var(--deep-red) !important;
+	color: var(--ivory) !important;
+	padding: 0.75rem 1rem !important;
+	border-radius: 0.375rem !important;
+	font-weight: 600 !important;
+	border: none !important;
+	cursor: pointer !important;
+	transition: all 0.3s ease !important;
+	text-align: center !important;
+}
+
+.add-to-cart-btn:hover {
+	background-color: #A10D05 !important;
+	box-shadow: 0 4px 8px rgba(193, 24, 7, 0.2) !important;
+	transform: translateY(-2px) !important;
+}
+
+.add-to-cart-btn:active {
+	transform: translateY(0) !important;
+}
+
+/* ===== MORE DETAILS DROPDOWN ===== */
+.more-details {
+	width: 100% !important;
+	margin-top: 0.5rem !important;
+	border: none !important;
+	border-radius: 0.375rem !important;
+	background: #F9F5F0 !important;
+	cursor: pointer !important;
+}
+
+.more-details summary {
+	padding: 0.5rem !important;
+	font-weight: 600 !important;
+	color: var(--deep-red) !important;
+	cursor: pointer !important;
+	user-select: none !important;
+	list-style: none !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: space-between !important;
+	font-size: 0.875rem !important;
+	text-transform: uppercase !important;
+	letter-spacing: 0.05em !important;
+}
+
+.more-details summary::-webkit-details-marker {
+	display: none !important;
+}
+
+.more-details summary::before {
+	content: '▼' !important;
+	margin-right: 0.5rem !important;
+	font-size: 0.7rem !important;
+	transition: transform 0.3s ease !important;
+}
+
+.more-details[open] summary::before {
+	transform: rotate(180deg) !important;
+}
+
+.more-details summary:hover {
+	background: rgba(193, 24, 7, 0.05) !important;
+	text-decoration: underline !important;
+}
+
+.details-content {
+	padding: 0.75rem !important;
+	font-size: 0.8rem !important;
+	color: #555 !important;
+	background: rgba(255, 209, 220, 0.1) !important;
+	border-top: 1px solid #E8D4C4 !important;
+	max-height: 300px !important;
+	overflow-y: auto !important;
+}
+
+.custom-version-item {
+	padding: 0.5rem 0 !important;
+	border-bottom: 1px solid #E8D4C4 !important;
+	margin-bottom: 0.5rem !important;
+}
+
+.custom-version-item:last-child {
+	border-bottom: none !important;
+	margin-bottom: 0 !important;
+}
+
+.version-name {
+	font-weight: 600 !important;
+	color: var(--deep-red) !important;
+	margin-bottom: 0.25rem !important;
+}
+
+.version-price {
+	color: var(--champagne-gold) !important;
+	font-weight: 600 !important;
+	margin-bottom: 0.25rem !important;
+}
+
+.version-description {
+	color: #666 !important;
+	font-style: italic !important;
+	font-size: 0.75rem !important;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+	.product-actions {
+		grid-template-columns: 1fr 1fr !important;
+		gap: 0.5rem !important;
+	}
+
+	.buy-now-btn {
+		min-width: auto !important;
+		padding: 0.5rem 0.75rem !important;
+		font-size: 0.875rem !important;
+	}
+
+	.product-card {
+		border-radius: 0.375rem !important;
+	}
+
+	.product-image-container {
+		height: 180px !important;
+	}
+
+	.product-title {
+		font-size: 1rem !important;
+	}
+
+	.product-price {
+		font-size: 1.25rem !important;
+	}
+
+	.add-to-cart-btn {
+		padding: 0.5rem 0.75rem !important;
+		font-size: 0.875rem !important;
+	}
+}
+
+@media (max-width: 480px) {
+	.product-actions {
+		grid-template-columns: 1fr !important;
+	}
+
+	.buy-now-btn {
+		width: 100% !important;
+	}
+
+	.product-content {
+		padding: 0.75rem !important;
+	}
+
+	.product-image-container {
+		height: 150px !important;
+	}
+
+	.product-title {
+		font-size: 0.95rem !important;
+	}
+
+	.product-description {
+		font-size: 0.8rem !important;
+	}
+}

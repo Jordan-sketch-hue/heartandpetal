@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ - Heart & Petal</title>
+  <meta name="description" content="Frequently Asked Questions about Heart & Petal flower delivery, ordering, and customer service.">
+  <meta name="keywords" content="FAQ, questions, help, flower delivery, customer service, Heart & Petal">
+  <meta name="author" content="Heart & Petal">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="FAQ - Heart & Petal">
+  <meta property="og:description" content="Find answers to common questions about our flower delivery service.">
+  <meta property="og:url" content="https://heartandpetal.com/faq.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://heartandpetal.com/faq.html">
+  <link rel="icon" type="image/png" href="assets/images/logofile.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'deep-red': '#8B0000',
+            'blush-pink': '#FFC0CB',
+            'champagne-gold': '#F7E7CE',
+            'ivory': '#FFFFF0',
+            'charcoal': '#36454F'
+          },
+          fontFamily: {
+            'playfair': ['Playfair Display', 'serif'],
+            'poppins': ['Poppins', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="font-poppins bg-ivory text-charcoal min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="bg-white shadow-md sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="index.html" class="font-playfair text-2xl font-bold text-deep-red">Heart & Petal</a>
+      <nav class="hidden md:flex space-x-6 items-center">
+        <a href="index.html" class="font-semibold hover:text-deep-red transition">Home</a>
+        <a href="shop.html" class="font-semibold hover:text-deep-red transition">Shop</a>
+        <a href="about.html" class="font-semibold hover:text-deep-red transition">About</a>
+        <a href="faq.html" class="font-semibold text-deep-red transition">FAQ</a>
+        <a href="customer-login.html" class="font-semibold hover:text-deep-red transition">Account</a>
+        <a href="checkout.html" id="cart-link" class="relative font-semibold bg-deep-red text-white px-4 py-2 rounded-lg hover:bg-red-700 transition">
+          🛒 Cart <span id="cart-count" class="absolute -top-2 -right-2 bg-champagne-gold text-charcoal text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">0</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow">
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-deep-red to-blush-pink text-white py-12 text-center relative">
+      <div class="absolute inset-0 bg-black/40"></div>
+      <div class="relative z-10">
+        <h1 class="font-playfair text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">Frequently Asked Questions</h1>
+        <p class="text-lg md:text-xl drop-shadow-lg">Find answers to common questions about our services</p>
+      </div>
+    </section>
+
+    <!-- FAQ Content -->
+    <section class="container mx-auto px-6 py-12 max-w-4xl">
+      
+      <!-- Ordering & Delivery -->
+      <div class="mb-8">
+        <h2 class="font-playfair text-3xl font-bold text-deep-red mb-6">Ordering & Delivery</h2>
+        
+        <div class="bg-white rounded-lg shadow-md mb-4 overflow-hidden">
+          <button class="faq-question w-full text-left px-6 py-4 font-semibold text-lg hover:bg-blush-pink/10 transition flex justify-between items-center">
+            <span>How do I place an order?</span>
+            <span class="text-2xl">+</span>
+          </button>
+          <div class="faq-answer hidden px-6 py-4 bg-gray-50">
+            <p>Simply browse our collection, select your desired arrangement, choose your size and vase option, add to cart, and proceed to checkout. You'll enter your delivery details and complete payment through our secure PayPal checkout.</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md mb-4 overflow-hidden">
+          <button class="faq-question w-full text-left px-6 py-4 font-semibold text-lg hover:bg-blush-pink/10 transition flex justify-between items-center">
+            <span>Do you offer same-day delivery?</span>
+            <span class="text-2xl">+</span>
+          </button>
+          <div class="faq-answer hidden px-6 py-4 bg-gray-50">
+            <p>Yes! We offer Express Delivery (1-2 days) and Standard Delivery (3-5 days). For Valentine's Day orders, we guarantee delivery on February 14th. All delivery options are FREE!</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md mb-4 overflow-hidden">
+          <button class="faq-question w-full text-left px-6 py-4 font-semibold text-lg hover:bg-blush-pink/10 transition flex justify-between items-center">
+            <span>How much is delivery?</span>
+            <span class="text-2xl">+</span>
+          </button>
+          <div class="faq-answer hidden px-6 py-4 bg-gray-50">
+            <p>All delivery is FREE! We offer complimentary shipping on all orders, including Standard Delivery (3-5 days), Express Delivery (1-2 days), and Valentine's Day Guaranteed delivery.</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md mb-4 overflow-hidden">
+          <button class="faq-question w-full text-left px-6 py-4 font-semibold text-lg hover:bg-blush-pink/10 transition flex justify-between items-center">
+            <span>Can I schedule a delivery for a specific date?</span>
+            <span class="text-2xl">+</span>
+          </button>
+          <div class="faq-answer hidden px-6 py-4 bg-gray-50">
+            <p>Absolutely! During checkout, you can select your preferred delivery date. We'll ensure your flowers arrive fresh and beautiful on the date you choose.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Products & Quality -->
+      <div class="mb-8">
+        <h2 class="font-playfair text-3xl font-bold text-deep-red mb-6">Products & Quality</h2>
+        
+        <div class="bg-white rounded-lg shadow-md mb-4 overflow-hidden">
+          <button class="faq-question w-full text-left px-6 py-4 font-semibold text-lg hover:bg-blush-pink/10 transition flex justify-between items-center">
+            <span>Are your flowers fresh?</span>
+            <span class="text-2xl">+</span>
+          </button>
+          <div class="faq-answer hidden px-6 py-4 bg-gray-50">
+            <p>Yes! We source only the freshest flowers from premium growers. All arrangements are hand-crafted by our expert florists and delivered at peak freshness to ensure maximum vase life.</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md mb-4 overflow-hidden">
+          <button class="faq-question w-full text-left px-6 py-4 font-semibold text-lg hover:bg-blush-pink/10 transition flex justify-between items-center">
+            <span>What sizes come with a vase?</span>
+            <span class="text-2xl">+</span>
+          </button>
+          <div class="faq-answer hidden px-6 py-4 bg-gray-50">
+            <p>For most flower arrangements, Small sizes come wrapped only. Medium, Large, Deluxe, and Premium sizes include a complimentary vase. Some specialty items like mason jar arrangements, wicker baskets, and potted plants come with their containers at all sizes.</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md mb-4 overflow-hidden">
+          <button class="faq-question w-full text-left px-6 py-4 font-semibold text-lg hover:bg-blush-pink/10 transition flex justify-between items-center">
+            <span>Can I customize my arrangement?</span>
+            <span class="text-2xl">+</span>
+          </button>
+          <div class="faq-answer hidden px-6 py-4 bg-gray-50">
+            <p>You can select from multiple size options and add a personalized gift note at checkout. For special requests or custom arrangements, please contact us at contact@heartandpetal.com.</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md mb-4 overflow-hidden">
+          <button class="faq-question w-full text-left px-6 py-4 font-semibold text-lg hover:bg-blush-pink/10 transition flex justify-between items-center">
+            <span>What if I'm not satisfied with my order?</span>
+            <span class="text-2xl">+</span>
+          </button>
+          <div class="faq-answer hidden px-6 py-4 bg-gray-50">
+            <p>We guarantee 100% satisfaction! If you're not completely happy with your order, contact us within 24 hours and we'll make it right with a replacement or full refund.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment & Security -->
+      <div class="mb-8">
+        <h2 class="font-playfair text-3xl font-bold text-deep-red mb-6">Payment & Security</h2>
+        
+        <div class="bg-white rounded-lg shadow-md mb-4 overflow-hidden">
+          <button class="faq-question w-full text-left px-6 py-4 font-semibold text-lg hover:bg-blush-pink/10 transition flex justify-between items-center">
+            <span>What payment methods do you accept?</span>
+            <span class="text-2xl">+</span>
+          </button>
+          <div class="faq-answer hidden px-6 py-4 bg-gray-50">
+            <p>We accept all major credit and debit cards through our secure PayPal checkout. You don't need a PayPal account - simply select "Pay with Debit or Credit Card" at checkout.</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md mb-4 overflow-hidden">
+          <button class="faq-question w-full text-left px-6 py-4 font-semibold text-lg hover:bg-blush-pink/10 transition flex justify-between items-center">
+            <span>Is my payment information secure?</span>
+            <span class="text-2xl">+</span>
+          </button>
+          <div class="faq-answer hidden px-6 py-4 bg-gray-50">
+            <p>Absolutely! All payments are processed through PayPal's secure servers with SSL encryption. We never store your credit card information on our servers.</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md mb-4 overflow-hidden">
+          <button class="faq-question w-full text-left px-6 py-4 font-semibold text-lg hover:bg-blush-pink/10 transition flex justify-between items-center">
+            <span>Do you offer discount codes?</span>
+            <span class="text-2xl">+</span>
+          </button>
+          <div class="faq-answer hidden px-6 py-4 bg-gray-50">
+            <p>Yes! We periodically offer discount codes for special occasions. You can apply your discount code at checkout. Sign up for our newsletter to receive exclusive offers.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gift Options -->
+      <div class="mb-8">
+        <h2 class="font-playfair text-3xl font-bold text-deep-red mb-6">Gift Options</h2>
+        
+        <div class="bg-white rounded-lg shadow-md mb-4 overflow-hidden">
+          <button class="faq-question w-full text-left px-6 py-4 font-semibold text-lg hover:bg-blush-pink/10 transition flex justify-between items-center">
+            <span>Can I include a gift message?</span>
+            <span class="text-2xl">+</span>
+          </button>
+          <div class="faq-answer hidden px-6 py-4 bg-gray-50">
+            <p>Yes! You can add a personalized gift note during checkout. Your message will be beautifully printed on a card and included with the delivery.</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md mb-4 overflow-hidden">
+          <button class="faq-question w-full text-left px-6 py-4 font-semibold text-lg hover:bg-blush-pink/10 transition flex justify-between items-center">
+            <span>Do you offer gift combos with chocolates and teddy bears?</span>
+            <span class="text-2xl">+</span>
+          </button>
+          <div class="faq-answer hidden px-6 py-4 bg-gray-50">
+            <p>Absolutely! Browse our Gift Combos section for complete packages featuring flowers, premium chocolates, teddy bears, and more. Perfect for making a lasting impression!</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md mb-4 overflow-hidden">
+          <button class="faq-question w-full text-left px-6 py-4 font-semibold text-lg hover:bg-blush-pink/10 transition flex justify-between items-center">
+            <span>Can I send flowers anonymously?</span>
+            <span class="text-2xl">+</span>
+          </button>
+          <div class="faq-answer hidden px-6 py-4 bg-gray-50">
+            <p>Yes! Simply leave the gift note field blank or write "From a Secret Admirer" and we'll deliver your gift without revealing the sender.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact -->
+      <div class="bg-blush-pink/20 rounded-lg p-6 text-center">
+        <h3 class="font-playfair text-2xl font-bold text-deep-red mb-3">Still Have Questions?</h3>
+        <p class="mb-4">We're here to help! Contact our customer service team.</p>
+        <a href="mailto:contact@heartandpetal.com" class="inline-block bg-deep-red text-white px-8 py-3 rounded-lg font-semibold hover:bg-red-700 transition">
+          Email Us
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white text-black py-8 w-full mt-auto shadow-lg border-t border-gray-200">
+    <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between">
+      <div class="mb-4 md:mb-0">
+        <span class="font-playfair text-lg font-bold tracking-wide">Heart & Petal</span>
+      </div>
+      <div class="space-x-6 text-sm">
+        <a href="legal.html" class="font-bold hover:text-deep-red transition">Privacy & Terms</a>
+        <a href="mailto:contact@heartandpetal.com" class="font-bold hover:text-deep-red transition">Contact</a>
+        <a href="about.html" class="font-bold hover:text-deep-red transition">About</a>
+        <a href="faq.html" class="font-bold hover:text-deep-red transition">FAQ</a>
+      </div>
+      <div class="text-xs mt-4 md:mt-0">&copy; 2026 Heart & Petal. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script>
+    // FAQ Accordion functionality
+    document.querySelectorAll('.faq-question').forEach(button => {
+      button.addEventListener('click', () => {
+        const answer = button.nextElementSibling;
+        const icon = button.querySelector('span:last-child');
+        
+        // Toggle current answer
+        answer.classList.toggle('hidden');
+        icon.textContent = answer.classList.contains('hidden') ? '+' : '−';
+      });
+    });
+
+    // Update cart count on page load
+    if (window.updateCartDisplay) window.updateCartDisplay();
+  </script>
+</body>
+</html>
