@@ -252,10 +252,10 @@
       // Display cart items
       itemsContainer.innerHTML = cart.map(item => `
         <div class="flex items-center gap-3 pb-3 border-b">
-          <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded">
+          <img src="${item.img || item.image || ''}" alt="${item.name}" class="w-16 h-16 object-cover rounded" onerror="this.src='https://via.placeholder.com/64x64?text=No+Image'">
           <div class="flex-1">
             <p class="font-semibold text-sm">${item.name}</p>
-            ${item.size ? `<p class="text-xs text-gray-500">${item.size}</p>` : ''}
+            ${item.variant ? `<p class="text-xs text-gray-500">${typeof item.variant === 'object' ? item.variant.name : item.variant}</p>` : ''}
             <p class="text-xs text-gray-600">Qty: ${item.quantity} × $${item.price.toFixed(2)}</p>
           </div>
           <p class="font-bold text-sm">$${(item.price * item.quantity).toFixed(2)}</p>
