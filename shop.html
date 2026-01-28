@@ -38,11 +38,10 @@
       <!-- Close Button -->
       <button id="close-promo-modal" class="absolute top-4 right-4 text-gray-400 hover:text-deep-red text-3xl font-bold z-10">&times;</button>
       
-      <!-- Header with gradient -->
-      <div class="bg-gradient-to-r from-deep-red to-pink-600 text-white text-center py-8 px-6 relative">
-        <div class="text-6xl mb-2">💐</div>
-        <h2 class="font-playfair text-3xl font-bold mb-2">Valentine's Day Special!</h2>
-        <p class="text-xl font-great-vibes">Limited Time Offer</p>
+      <!-- Header with rose pattern background -->
+      <div class="hp-promo-header text-white text-center py-8 px-6 relative">
+        <h2 class="font-playfair text-3xl font-bold mb-2">Valentine's Day Special</h2>
+        <p class="text-lg">Limited Time Offer</p>
       </div>
       
       <!-- Content -->
@@ -50,18 +49,18 @@
         <div class="mb-6">
           <p class="text-2xl font-bold text-deep-red mb-2">FREE DELIVERY</p>
           <p class="text-gray-600 text-sm mb-1">on ALL orders across the USA</p>
-          <p class="text-xs text-gray-500">Includes Express & Valentine's Day Guaranteed shipping!</p>
+          <p class="text-xs text-gray-500">Includes Express & Valentine's Day Guaranteed shipping</p>
         </div>
         
         <div class="bg-blush-pink/30 rounded-lg p-4 mb-6">
-          <p class="text-sm font-semibold text-gray-700 mb-2">🌹 Save up to $29.99 on shipping</p>
+          <p class="text-sm font-semibold text-gray-700 mb-2">Save up to $29.99 on shipping</p>
           <p class="text-xs text-gray-600">Order now to guarantee Valentine's Day delivery</p>
         </div>
         
         <!-- CTA Buttons -->
         <div class="space-y-3">
           <button id="shop-now-btn" class="w-full bg-deep-red text-white py-4 rounded-lg font-bold text-lg hover:bg-red-700 transition shadow-lg">
-            💝 Shop Now & Save
+            Shop Now & Save
           </button>
           <button id="remind-later-btn" class="w-full text-gray-600 text-sm hover:text-deep-red transition">
             Remind me later
@@ -738,13 +737,13 @@ document.addEventListener('DOMContentLoaded', function() {
   shopNowBtn.addEventListener('click', function() {
     closeModal();
     document.querySelector('#product-grid')?.scrollIntoView({behavior:'smooth', block: 'start'});
-    showSuccess('🌹 Amazing! Browse our collection below');
+    showSuccess('Great choice! Browse our collection below');
   });
   
   // Remind Later button - close and remind tomorrow
   remindLaterBtn.addEventListener('click', function() {
     closeModal();
-    showInfo('We\'ll remind you next time! 💐');
+    showInfo('We\'ll remind you next time!');
   });
   
   // Close on outside click
@@ -758,7 +757,7 @@ document.addEventListener('DOMContentLoaded', function() {
   setTimeout(() => {
     const wishlist = JSON.parse(localStorage.getItem('hp_wishlist') || '[]');
     if (wishlist.length > 0) {
-      showInfo(`💝 You have ${wishlist.length} item${wishlist.length > 1 ? 's' : ''} in your wishlist! Don't forget to check out before they're gone.`);
+      showInfo(`You have ${wishlist.length} item${wishlist.length > 1 ? 's' : ''} in your wishlist! Don't forget to check out before they're gone.`);
     }
   }, 300000); // 5 minutes
   
@@ -766,7 +765,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const viewedItems = JSON.parse(localStorage.getItem('hp_viewed_items') || '[]');
   if (viewedItems.length > 0) {
     setTimeout(() => {
-      showInfo(`🌸 Welcome back! You recently viewed ${viewedItems.length} item${viewedItems.length > 1 ? 's' : ''}. Want to take another look?`);
+      showInfo(`Welcome back! You recently viewed ${viewedItems.length} item${viewedItems.length > 1 ? 's' : ''}. Want to take another look?`);
     }, 180000); // 3 minutes
   }
 });

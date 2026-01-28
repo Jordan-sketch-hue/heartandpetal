@@ -19,12 +19,12 @@
   
   // FAQ knowledge
   const faqResponses = {
-    delivery: 'We offer FREE DELIVERY on all orders across the USA! Choose from Standard (3-5 days), Express (1-2 days), or Valentine\'s Day Guaranteed shipping - all FREE for a limited time! 💐',
-    shipping: 'We offer FREE DELIVERY on all orders across the USA! Choose from Standard (3-5 days), Express (1-2 days), or Valentine\'s Day Guaranteed shipping - all FREE for a limited time! 💐',
+    delivery: 'We offer FREE DELIVERY on all orders across the USA! Choose from Standard (3-5 days), Express (1-2 days), or Valentine\'s Day Guaranteed shipping - all FREE for a limited time!',
+    shipping: 'We offer FREE DELIVERY on all orders across the USA! Choose from Standard (3-5 days), Express (1-2 days), or Valentine\'s Day Guaranteed shipping - all FREE for a limited time!',
     payment: 'We accept secure PayPal payments for all orders. Your payment information is fully encrypted and protected.',
     track: 'You can track your order from your customer profile dashboard. Just log in and go to the "Track Order" tab!',
     returns: 'Due to the perishable nature of our products, we don\'t accept returns. However, if you\'re not satisfied, please contact us at support@heartandpetal.com and we\'ll make it right!',
-    valentine: 'Valentine\'s Day is our busiest time! Order now to guarantee delivery. We offer special Valentine\'s Day Guaranteed shipping - completely FREE! 💝',
+    valentine: 'Valentine\'s Day is our busiest time! Order now to guarantee delivery. We offer special Valentine\'s Day Guaranteed shipping - completely FREE!',
     sizes: 'Most of our flower arrangements come in multiple sizes (small, medium, large, deluxe) with optional vases. Select your preference at checkout!',
     custom: 'For custom orders or special requests, please call us at (555) PETAL-01 or email custom@heartandpetal.com',
     account: 'Create a customer account to track orders, save favorites to your wishlist, and get exclusive offers! Click "Login | Register" in the top menu.'
@@ -36,7 +36,7 @@
     
     // Greeting detection
     if (msg.match(/^(hi|hello|hey|good morning|good afternoon|good evening)/)) {
-      return 'Hello! 🌹 Welcome to Heart & Petal! I\'m here to help you find the perfect gift. What can I help you with today?';
+      return 'Hello! Welcome to Heart & Petal. I\'m here to help you find the perfect gift. What can I help you with today?';
     }
     
     // FAQ detection
@@ -49,27 +49,27 @@
     // Product category detection
     for (const [category, description] of Object.entries(productCategories)) {
       if (msg.includes(category) || msg.includes(description.split(' ')[0])) {
-        return `We have beautiful ${description}! You can browse our ${category} collection on our shop page. Would you like me to direct you there? 🌸`;
+        return `We have beautiful ${description}. You can browse our ${category} collection on our shop page. Would you like me to direct you there?`;
       }
     }
     
     // Price inquiry
     if (msg.includes('price') || msg.includes('cost') || msg.includes('how much')) {
-      return 'Our products range from $9.99 to $224.99 depending on the item and size. Plus, all shipping is FREE right now! Browse our shop to see our full collection and pricing. 💐';
+      return 'Our products range from $9.99 to $224.99 depending on the item and size. Plus, all shipping is FREE right now! Browse our shop to see our full collection and pricing.';
     }
     
     // Occasion detection
     if (msg.includes('valentine') || msg.includes('anniversary') || msg.includes('birthday') || msg.includes('wedding')) {
-      return 'Perfect timing! We specialize in gifts for special occasions. I recommend checking out our gift combos - they include flowers, chocolates, and a teddy bear. Very romantic! 💝';
+      return 'Perfect timing! We specialize in gifts for special occasions. I recommend checking out our gift combos - they include flowers, chocolates, and a teddy bear. Very romantic!';
     }
     
     // Contact/Support
     if (msg.includes('contact') || msg.includes('phone') || msg.includes('email') || msg.includes('support')) {
-      return 'You can reach us at:\n📞 Phone: (555) PETAL-01\n📧 Email: support@heartandpetal.com\n\nOr I can help you right here! What do you need? 😊';
+      return 'You can reach us at:\nPhone: (555) PETAL-01\nEmail: support@heartandpetal.com\n\nOr I can help you right here! What do you need?';
     }
     
     // Default helpful response
-    return 'I\'d be happy to help! Here are some things I can assist with:\n\n🌹 Browse products (roses, chocolates, teddy bears)\n🚚 Delivery information\n📦 Track your order\n💳 Payment & checkout\n💝 Gift recommendations\n\nWhat would you like to know?';
+    return 'I\'d be happy to help! Here are some things I can assist with:\n\nBrowse products (roses, chocolates, teddy bears)\nDelivery information\nTrack your order\nPayment & checkout\nGift recommendations\n\nWhat would you like to know?';
   }
   
   // Create chatbot UI
@@ -86,7 +86,7 @@
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
-          <span class="hp-chat-badge">💬</span>
+          <span class="hp-chat-badge"></span>
         </button>
         
         <!-- Chat Window -->
@@ -94,10 +94,14 @@
           <!-- Header -->
           <div class="hp-chat-header">
             <div class="flex items-center gap-2">
-              <div class="hp-chat-avatar">🌹</div>
+              <div class="hp-chat-avatar">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                  <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/>
+                </svg>
+              </div>
               <div>
                 <div class="font-bold text-white text-sm">Heart & Petal Assistant</div>
-                <div class="text-xs text-pink-100">Online • Here to help!</div>
+                <div class="text-xs text-pink-100">Online • Here to help</div>
               </div>
             </div>
             <button id="hp-chat-close" class="hp-chat-header-close">✕</button>
@@ -106,9 +110,13 @@
           <!-- Messages -->
           <div id="hp-chat-messages" class="hp-chat-messages">
             <div class="hp-chat-message hp-chat-bot">
-              <div class="hp-chat-avatar-small">🌹</div>
+              <div class="hp-chat-avatar-small">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                </svg>
+              </div>
               <div class="hp-chat-bubble">
-                Hello! 👋 I'm your Heart & Petal assistant. How can I help you today?
+                Hello! I'm your Heart & Petal assistant. How can I help you today?
               </div>
             </div>
           </div>
@@ -126,9 +134,9 @@
           
           <!-- Quick Actions -->
           <div class="hp-chat-quick-actions">
-            <button class="hp-quick-btn" data-message="Tell me about delivery">📦 Delivery</button>
-            <button class="hp-quick-btn" data-message="Show me roses">🌹 Roses</button>
-            <button class="hp-quick-btn" data-message="Track my order">📍 Track Order</button>
+            <button class="hp-quick-btn" data-message="Tell me about delivery">Delivery</button>
+            <button class="hp-quick-btn" data-message="Show me roses">Roses</button>
+            <button class="hp-quick-btn" data-message="Track my order">Track Order</button>
           </div>
         </div>
       </div>
@@ -146,7 +154,11 @@
     
     if (isBot) {
       messageDiv.innerHTML = `
-        <div class="hp-chat-avatar-small">🌹</div>
+        <div class="hp-chat-avatar-small">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+          </svg>
+        </div>
         <div class="hp-chat-bubble">${message}</div>
       `;
     } else {
@@ -181,7 +193,11 @@
     const typingDiv = document.createElement('div');
     typingDiv.className = 'hp-chat-message hp-chat-bot hp-typing';
     typingDiv.innerHTML = `
-      <div class="hp-chat-avatar-small">🌹</div>
+      <div class="hp-chat-avatar-small">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+        </svg>
+      </div>
       <div class="hp-chat-bubble">
         <span class="hp-typing-dot"></span>
         <span class="hp-typing-dot"></span>

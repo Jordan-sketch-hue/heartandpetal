@@ -388,9 +388,26 @@
 }
 
 .hp-notification-icon {
-	font-size: 20px;
+	width: 20px;
+	height: 20px;
 	flex-shrink: 0;
-	animation: bounce 0.4s ease;
+	color: #666;
+}
+
+.hp-notification-error .hp-notification-icon {
+	color: #ef4444;
+}
+
+.hp-notification-success .hp-notification-icon {
+	color: #10b981;
+}
+
+.hp-notification-info .hp-notification-icon {
+	color: var(--deep-red);
+}
+
+.hp-notification-warning .hp-notification-icon {
+	color: #f59e0b;
 }
 
 .hp-notification-message {
@@ -438,6 +455,26 @@
 .hp-notification-warning {
 	border-left: 3px solid #f59e0b;
 	background: #fff;
+}
+
+/* Rose pattern background for promo header */
+.hp-promo-header {
+	background: linear-gradient(135deg, #C21807 0%, #e63946 100%);
+	position: relative;
+	overflow: hidden;
+}
+
+.hp-promo-header::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M30 15c-3.5 0-6 2-6 5 0 5 6 10 6 10s6-5 6-10c0-3-2.5-5-6-5zm0 7c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" fill="rgba(255,255,255,0.1)"/%3E%3C/svg%3E');
+	background-size: 60px 60px;
+	opacity: 0.4;
+	pointer-events: none;
 }
 
 @keyframes bounce {
@@ -502,9 +539,13 @@
 
 .hp-chat-badge {
 	position: absolute;
-	top: -5px;
-	right: -5px;
-	font-size: 18px;
+	top: 5px;
+	right: 5px;
+	width: 12px;
+	height: 12px;
+	background: #10b981;
+	border-radius: 50%;
+	border: 2px solid white;
 	animation: pulse 2s infinite;
 }
 
