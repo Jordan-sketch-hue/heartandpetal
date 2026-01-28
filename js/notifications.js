@@ -39,7 +39,8 @@ function showNotification(message, type = 'info') {
   }, 5000);
 }
 
-// Convenience functions
+// Convenience functions - Export all to window for global access
+window.showNotification = showNotification;
 window.showError = (message) => showNotification(message, 'error');
 window.showSuccess = (message) => showNotification(message, 'success');
 window.showInfo = (message) => showNotification(message, 'info');

@@ -93,12 +93,14 @@ function addToCart(product) {
 		// Validate cart item
 		if (!validateCartItem(cartItem)) {
 			console.error('❌ Cart item validation failed', cartItem);
+			if (window.showError) window.showError('Invalid product details. Please try again.');
 			return false;
 		}
 		
 		// Check inventory if function exists
 		if (window.isProductInStock && !window.isProductInStock(cartItem.id, cartItem.quantity)) {
 			console.error('❌ Insufficient stock for product:', cartItem.id);
+			if (window.showError) window.showError('Sorry, this item is out of stock.');
 			return false;
 		}
 		
@@ -117,6 +119,7 @@ function addToCart(product) {
 			// Validate total quantity doesn't exceed stock
 			if (window.isProductInStock && !window.isProductInStock(cartItem.id, newQuantity)) {
 				console.error('❌ Total quantity exceeds available stock');
+				if (window.showError) window.showError('Sorry, we don\'t have enough stock for this quantity.');
 				return false;
 			}
 			
@@ -130,7 +133,12 @@ function addToCart(product) {
 		}
 		
 		if (saveCart(cart)) {
-			showCartPopup(cartItem);
+			// Use cute notification system if available, fallback to old popup
+			if (window.showSuccess) {
+				window.showSuccess(`Added ${cartItem.name} to cart! 💐`);
+			} else {
+				showCartPopup(cartItem);
+			}
 			updateCartDisplay();
 			return true;
 		}
