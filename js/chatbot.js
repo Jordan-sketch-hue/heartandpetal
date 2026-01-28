@@ -30,46 +30,72 @@
     account: 'Create a customer account to track orders, save favorites to your wishlist, and get exclusive offers! Click "Login | Register" in the top menu.'
   };
   
-  // AI Response Generator
+  // AI Response Generator with Intelligent Categorization
   function generateResponse(userMessage) {
-    const msg = userMessage.toLowerCase();
+    const msg = userMessage.toLowerCase().trim();
     
-    // Greeting detection
-    if (msg.match(/^(hi|hello|hey|good morning|good afternoon|good evening)/)) {
-      return 'Hello! Welcome to Heart & Petal. I\'m here to help you find the perfect gift. What can I help you with today?';
+    // === CATEGORY 1: GREETINGS ===
+    if (msg.match(/^(hi|hello|hey|good morning|good afternoon|good evening|greetings)$/i)) {
+      return '<strong>Hello! Welcome to Heart & Petal</strong>\n\nI\'m your personal gift assistant. Here\'s how I can help:\n\n<strong>🛍️ SHOP & BROWSE</strong>\n• View roses, chocolates, teddy bears\n• Get gift recommendations\n\n<strong>📦 ORDERS & DELIVERY</strong>\n• Track your order\n• Delivery information (FREE shipping!)\n\n<strong>💳 CHECKOUT & SUPPORT</strong>\n• Payment options\n• Contact customer service\n\nWhat are you looking for today?';
     }
     
-    // FAQ detection
-    for (const [keyword, response] of Object.entries(faqResponses)) {
-      if (msg.includes(keyword)) {
-        return response;
+    // === CATEGORY 2: BROWSE & SHOPPING ===
+    if (msg.match(/browse|shop|view|see|show|look|products|catalog|selection|available/)) {
+      // Check for specific product mentions
+      if (msg.includes('rose')) {
+        return '<strong>🌹 ROSE COLLECTION</strong>\n\nOur premium rose bouquets include:\n• Classic Red Roses - $29.99-$89.99\n• Pink Romance Roses - $34.99-$94.99\n• White Elegance Roses - $39.99-$99.99\n• Rainbow Roses - $49.99-$124.99\n\n<strong>💡 SUGGESTION:</strong> Pair with chocolates for the perfect gift!\n\n<a href="shop.html" style="color:#C21807;font-weight:bold;">→ Browse All Roses</a>';
       }
-    }
-    
-    // Product category detection
-    for (const [category, description] of Object.entries(productCategories)) {
-      if (msg.includes(category) || msg.includes(description.split(' ')[0])) {
-        return `We have beautiful ${description}. You can browse our ${category} collection on our shop page. Would you like me to direct you there?`;
+      if (msg.includes('chocolate')) {
+        return '<strong>🍫 CHOCOLATE COLLECTION</strong>\n\nGourmet chocolate options:\n• Chocolate Truffles Box - $19.99-$49.99\n• Chocolate-Dipped Strawberries - $24.99-$54.99\n• Premium Chocolate Assortment - $29.99-$69.99\n\n<strong>💡 SUGGESTION:</strong> Add roses for a complete romantic gift!\n\n<a href="shop.html" style="color:#C21807;font-weight:bold;">→ Browse All Chocolates</a>';
       }
+      if (msg.includes('teddy') || msg.includes('bear') || msg.includes('plush')) {
+        return '<strong>🧸 TEDDY BEAR COLLECTION</strong>\n\nCute & cuddly teddy bears:\n• Small Teddy Bear - $14.99\n• Medium Teddy Bear - $24.99\n• Large Teddy Bear - $39.99\n• Giant Teddy Bear - $69.99\n\n<strong>💡 SUGGESTION:</strong> Create a gift combo with flowers!\n\n<a href="shop.html" style="color:#C21807;font-weight:bold;">→ Browse All Teddy Bears</a>';
+      }
+      if (msg.includes('combo') || msg.includes('package') || msg.includes('bundle')) {
+        return '<strong>🎁 GIFT COMBO PACKAGES</strong>\n\nComplete gift sets:\n• Romance Package (Roses + Chocolates) - $54.99\n• Love Bundle (Roses + Teddy) - $64.99\n• Ultimate Gift (All 3!) - $89.99\n\n<strong>💡 BEST VALUE:</strong> Save 20% with combos!\n\n<a href="shop.html" style="color:#C21807;font-weight:bold;">→ Browse All Combos</a>';
+      }
+      
+      // General browse request
+      return '<strong>🛍️ OUR PRODUCT CATEGORIES</strong>\n\n<strong>1. ROSES</strong>\nPremium bouquets in red, pink, white, rainbow\n\n<strong>2. CHOCOLATES</strong>\nGourmet truffles, strawberries, assortments\n\n<strong>3. TEDDY BEARS</strong>\nCute plush bears in all sizes\n\n<strong>4. GIFT COMBOS</strong>\nComplete romantic packages (best value!)\n\n<strong>💡 SUGGESTION:</strong> Gift combos are most popular for Valentine\'s Day!\n\n<a href="shop.html" style="color:#C21807;font-weight:bold;">→ Visit Shop Page</a>';
     }
     
-    // Price inquiry
-    if (msg.includes('price') || msg.includes('cost') || msg.includes('how much')) {
-      return 'Our products range from $9.99 to $224.99 depending on the item and size. Plus, all shipping is FREE right now! Browse our shop to see our full collection and pricing.';
+    // === CATEGORY 3: DELIVERY & SHIPPING ===
+    if (msg.match(/deliver|shipping|ship|send|arrive|when|how long|free/)) {
+      return '<strong>📦 DELIVERY INFORMATION</strong>\n\n<strong>✓ ALL SHIPPING IS FREE!</strong>\n\n<strong>OPTIONS:</strong>\n• Standard Delivery: 3-5 business days\n• Express Delivery: 1-2 business days\n• Valentine\'s Day Guaranteed: On-time delivery\n\n<strong>COVERAGE:</strong> Nationwide USA delivery\n\n<strong>💡 SUGGESTION:</strong> Order now for Valentine\'s Day guaranteed delivery!\n\n<a href="checkout.html" style="color:#C21807;font-weight:bold;">→ Complete Your Order</a>';
     }
     
-    // Occasion detection
-    if (msg.includes('valentine') || msg.includes('anniversary') || msg.includes('birthday') || msg.includes('wedding')) {
-      return 'Perfect timing! We specialize in gifts for special occasions. I recommend checking out our gift combos - they include flowers, chocolates, and a teddy bear. Very romantic!';
+    // === CATEGORY 4: ORDER TRACKING ===
+    if (msg.match(/track|where|order|status|check|find|my order|locate/)) {
+      return '<strong>📍 TRACK YOUR ORDER</strong>\n\nTo track your order:\n\n<strong>METHOD 1:</strong> Login to your account\n→ Go to "Track Orders" section\n→ View real-time updates\n\n<strong>METHOD 2:</strong> Check confirmation email\n→ Click tracking link\n\n<strong>💡 NOT LOGGED IN?</strong>\n<a href="customer-login.html" style="color:#C21807;font-weight:bold;">→ Login Here</a>\n\n<strong>NEED HELP?</strong>\nEmail: orders@heartandpetal.com';
     }
     
-    // Contact/Support
-    if (msg.includes('contact') || msg.includes('phone') || msg.includes('email') || msg.includes('support')) {
-      return 'You can reach us at:\nPhone: (555) PETAL-01\nEmail: support@heartandpetal.com\n\nOr I can help you right here! What do you need?';
+    // === CATEGORY 5: PAYMENT & CHECKOUT ===
+    if (msg.match(/pay|payment|checkout|credit|card|paypal|buy|purchase/)) {
+      return '<strong>💳 PAYMENT & CHECKOUT</strong>\n\n<strong>ACCEPTED PAYMENT:</strong>\n• PayPal (Secure & Fast)\n• All major credit/debit cards via PayPal\n\n<strong>SECURITY:</strong>\n✓ 256-bit SSL encryption\n✓ Secure payment gateway\n✓ No data stored on our servers\n\n<strong>💡 READY TO CHECKOUT?</strong>\n<a href="checkout.html" style="color:#C21807;font-weight:bold;">→ Go to Cart</a>';
     }
     
-    // Default helpful response
-    return 'I\'d be happy to help! Here are some things I can assist with:\n\nBrowse products (roses, chocolates, teddy bears)\nDelivery information\nTrack your order\nPayment & checkout\nGift recommendations\n\nWhat would you like to know?';
+    // === CATEGORY 6: PRICING ===
+    if (msg.match(/price|cost|how much|expensive|cheap|dollar/)) {
+      return '<strong>💰 PRICING OVERVIEW</strong>\n\n<strong>ROSES:</strong> $29.99 - $124.99\n<strong>CHOCOLATES:</strong> $19.99 - $69.99\n<strong>TEDDY BEARS:</strong> $14.99 - $69.99\n<strong>GIFT COMBOS:</strong> $54.99 - $224.99\n\n<strong>✓ FREE SHIPPING on all orders!</strong>\n<strong>✓ Save 20% with combos!</strong>\n\n<strong>💡 BEST VALUE:</strong> Ultimate Gift Combo (All 3 items) - $89.99\n\n<a href="shop.html" style="color:#C21807;font-weight:bold;">→ View All Prices</a>';
+    }
+    
+    // === CATEGORY 7: OCCASIONS & RECOMMENDATIONS ===
+    if (msg.match(/valentine|anniversary|birthday|wedding|occasion|recommend|suggest|gift idea/)) {
+      return '<strong>💝 GIFT RECOMMENDATIONS</strong>\n\n<strong>VALENTINE\'S DAY:</strong>\nRed roses + chocolates combo (Most popular!)\n\n<strong>ANNIVERSARY:</strong>\nPink roses + teddy bear bundle\n\n<strong>BIRTHDAY:</strong>\nRainbow roses + chocolate strawberries\n\n<strong>WEDDING:</strong>\nWhite roses + premium chocolates\n\n<strong>💡 TOP PICK:</strong> Ultimate Gift Combo includes everything!\n\n<a href="shop.html" style="color:#C21807;font-weight:bold;">→ Browse Gift Ideas</a>';
+    }
+    
+    // === CATEGORY 8: CONTACT & SUPPORT ===
+    if (msg.match(/contact|support|help|phone|email|call|reach|customer service/)) {
+      return '<strong>📞 CUSTOMER SUPPORT</strong>\n\n<strong>EMAIL:</strong> support@heartandpetal.com\n<strong>PHONE:</strong> (555) PETAL-01\n\n<strong>RESPONSE TIME:</strong>\n• Email: Within 24 hours\n• Phone: Mon-Sat, 9am-6pm EST\n\n<strong>💡 QUICK HELP:</strong>\nI can answer most questions right here!\n\nWhat do you need help with?';
+    }
+    
+    // === CATEGORY 9: ACCOUNT & PROFILE ===
+    if (msg.match(/account|profile|login|register|sign up|sign in|password/)) {
+      return '<strong>👤 ACCOUNT MANAGEMENT</strong>\n\n<strong>BENEFITS OF CREATING AN ACCOUNT:</strong>\n• Track all your orders\n• Save items to wishlist\n• Faster checkout\n• Exclusive offers\n\n<strong>💡 GET STARTED:</strong>\n<a href="customer-login.html" style="color:#C21807;font-weight:bold;">→ Login / Create Account</a>\n\n<strong>NEED HELP?</strong>\nEmail: accounts@heartandpetal.com';
+    }
+    
+    // === DEFAULT: SMART MENU ===
+    return '<strong>🌹 How Can I Help You?</strong>\n\nChoose a category:\n\n<strong>1️⃣ BROWSE PRODUCTS</strong>\nView roses, chocolates, teddy bears, combos\n\n<strong>2️⃣ DELIVERY INFO</strong>\nShipping options (FREE nationwide!)\n\n<strong>3️⃣ TRACK ORDER</strong>\nCheck your order status\n\n<strong>4️⃣ PAYMENT & CHECKOUT</strong>\nSecure PayPal checkout\n\n<strong>5️⃣ GIFT RECOMMENDATIONS</strong>\nFind the perfect gift for any occasion\n\n<strong>6️⃣ CONTACT SUPPORT</strong>\nGet help from our team\n\nType a keyword or ask me anything!';
   }
   
   // Create chatbot UI
@@ -134,9 +160,10 @@
           
           <!-- Quick Actions -->
           <div class="hp-chat-quick-actions">
-            <button class="hp-quick-btn" data-message="Tell me about delivery">Delivery</button>
-            <button class="hp-quick-btn" data-message="Show me roses">Roses</button>
-            <button class="hp-quick-btn" data-message="Track my order">Track Order</button>
+            <button class="hp-quick-btn" data-message="browse">Browse Products</button>
+            <button class="hp-quick-btn" data-message="delivery">Delivery Info</button>
+            <button class="hp-quick-btn" data-message="track order">Track Order</button>
+            <button class="hp-quick-btn" data-message="gift recommendations">Gift Ideas</button>
           </div>
         </div>
       </div>

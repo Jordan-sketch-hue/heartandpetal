@@ -648,17 +648,40 @@
 
 .hp-chat-bubble {
 	max-width: 70%;
-	padding: 10px 14px;
+	padding: 12px 16px;
 	border-radius: 16px;
 	font-size: 14px;
-	line-height: 1.4;
+	line-height: 1.5;
 	white-space: pre-wrap;
 }
 
+/* Formatting for structured bot responses */
 .hp-chat-bot .hp-chat-bubble {
 	background: white;
 	color: #333;
 	border-bottom-left-radius: 4px;
+}
+
+.hp-chat-bot .hp-chat-bubble strong {
+	color: #C21807;
+	font-weight: 700;
+	display: block;
+	margin-bottom: 6px;
+}
+
+.hp-chat-bot .hp-chat-bubble a {
+	color: #C21807;
+	font-weight: 600;
+	text-decoration: none;
+	border-bottom: 1px solid #C21807;
+	transition: all 0.2s;
+}
+
+.hp-chat-bot .hp-chat-bubble a:hover {
+	background: #C21807;
+	color: white;
+	padding: 2px 4px;
+	border-radius: 3px;
 }
 
 .hp-chat-user .hp-chat-bubble {
