@@ -479,9 +479,9 @@ function renderProducts(list) {
       const product = products.find(p => p.id === id);
       const availableOptions = product ? (product.sizes || product.variants || []) : [];
       
-      // Determine if this is a rose product (has vase options) or chocolate/other
-      const isRoses = product && product.category === 'roses';
-      const optionLabel = isRoses ? 'Size & Vase Option:' : 'Select Size:';
+      // Check if product has vase options (any option with "+ VASE" in the name)
+      const hasVaseOptions = availableOptions.some(opt => (opt.size || opt.name || '').includes('+ VASE'));
+      const optionLabel = hasVaseOptions ? 'Size & Vase Option:' : 'Select Size:';
       
       // Build modal content
       let optionsHtml = '';
