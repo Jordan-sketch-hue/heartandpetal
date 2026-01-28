@@ -492,7 +492,7 @@ function renderProducts(list) {
     
     // Get urgency message for low-stock items
     const urgency = window.getUrgencyMessage ? window.getUrgencyMessage(prod.id) : null;
-    const urgencyBadge = urgency ? `<div class="urgency-badge ${urgency.class}" style="background-color: ${urgency.color}; color: white; padding: 6px 12px; border-radius: 6px; font-size: 13px; font-weight: bold; text-align: center; margin: 8px 0;">${urgency.text}</div>` : '';
+    const urgencyBadge = urgency ? `<div class="urgency-badge ${urgency.class}">${urgency.text}</div>` : '';
     
     return `
     <div class="product-card" data-category="${prod.category}" data-product-id="${prod.id}">

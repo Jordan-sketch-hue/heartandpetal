@@ -310,7 +310,7 @@
     if (window.getUrgencyMessage) {
       const urgency = window.getUrgencyMessage(productId);
       if (urgency) {
-        urgencyContainer.innerHTML = `<div class="urgency-badge ${urgency.class}" style="background-color: ${urgency.color}; color: white; padding: 10px 16px; border-radius: 8px; font-size: 14px; font-weight: bold; text-align: center; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);">${urgency.text}</div>`;
+        urgencyContainer.innerHTML = `<div class="urgency-badge ${urgency.class}">${urgency.text}</div>`;
         urgencyContainer.style.display = 'block';
       }
     }
