@@ -292,12 +292,12 @@
       // Give cart.js time to initialize
       setTimeout(function() {
         var script = document.createElement('script');
-        script.src = 'js/paypal.js';
+        script.src = 'js/paypal.js?v=' + Date.now(); // Cache buster
         document.body.appendChild(script);
       }, 500);
     }
   </script>
 
-  <script src="js/chatbot.js"></script>
+  <script src="js/chatbot.js?v=2"></script>
 </body>
 </html>
