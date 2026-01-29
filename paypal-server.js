@@ -6,7 +6,7 @@ app.use(express.json());
 
 const PAYPAL_CLIENT_ID = process.env.PAYPAL_SANDBOX_CLIENT_ID;
 const PAYPAL_CLIENT_SECRET = process.env.PAYPAL_SANDBOX_CLIENT_SECRET;
-const PAYPAL_API_BASE = 'https://api-m.sandbox.paypal.com';
+const PAYPAL_API_BASE = 'https://api-m.paypal.com';
 
 // Get client token for JS SDK
 app.get('/paypal-api/client-token', async (req, res) => {

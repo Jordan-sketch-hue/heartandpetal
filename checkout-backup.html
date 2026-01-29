@@ -42,7 +42,7 @@
   <header class="bg-white/90 shadow sticky top-0 z-50">
     <div class="container mx-auto flex items-center justify-between py-3 px-4 md:px-6">
       <a href="index.html" class="flex items-center gap-1 md:gap-2 flex-shrink-0">
-        <img src="assets/logofile.png" alt="Heart & Petal Logo" class="h-8 md:h-10 w-8 md:w-10 object-contain">
+        <img src="https://res.cloudinary.com/dij2fdtw4/image/upload/v1769602073/give_a_rosebud_favicon_in_red_please_xqnp4v.jpg" alt="Heart & Petal Rose Icon" class="h-8 md:h-10 w-8 md:w-10 object-contain">
         <span class="font-playfair text-xl md:text-2xl text-deep-red tracking-wide hidden sm:inline">Heart & Petal</span>
       </a>
       <!-- Desktop Nav - Hidden on mobile -->
@@ -250,7 +250,7 @@
               <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
               </svg>
-              🔒 Secure PayPal Checkout
+              <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0-1.657 1.343-3 3-3s3 1.343 3 3v2a3 3 0 01-3 3h-2a3 3 0 01-3-3v-2c0-1.657 1.343-3 3-3z" /></svg> Secure PayPal Checkout
             </p>
             <p class="text-gray-700 text-sm">Your payment is processed securely through PayPal. No credit card information is stored on our servers. All transactions are encrypted and protected.</p>
           </div>
@@ -671,10 +671,10 @@
               console.log('🔄 Attempting to initialize PayPal button... (attempt ' + (paypalRetryCount + 1) + ')');
               
               const cart = getCart();
-              console.log('📦 Cart contents:', cart);
+              console.log('[Cart contents]:', cart);
               
               if (!cart || cart.length === 0) {
-                console.warn('⚠️ Cart is empty, not rendering PayPal button');
+                console.warn('[Cart is empty, not rendering PayPal button]');
                 document.getElementById('paypal-button-container').innerHTML = 
                   '<div class="text-center py-6"><p class="text-gray-600 text-lg mb-4">Your cart is empty</p><a href="shop.html" class="bg-deep-red text-white px-6 py-3 rounded-lg hover:bg-red-700 transition inline-block">Continue Shopping</a></div>';
                 return;
