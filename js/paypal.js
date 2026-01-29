@@ -4,7 +4,7 @@
 // Backend API URL - update this with your deployed backend URL
 const API_BASE_URL = window.location.hostname === 'localhost' 
   ? 'http://localhost:3000' 
-  : 'https://YOUR-BACKEND-URL.onrender.com'; // Replace with your actual Render URL
+  : 'https://heartandpetal-api.onrender.com';
 
 // Render PayPal button as soon as page loads
 paypal.Buttons({
