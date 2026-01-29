@@ -192,12 +192,8 @@
             </div>
           </div>
 
-          <!-- PayPal v6 Web Components -->
-          <div class="buttons-container mt-6">
-            <paypal-button type="pay" hidden></paypal-button>
-            <paypal-pay-later-button hidden></paypal-pay-later-button>
-            <paypal-credit-button hidden></paypal-credit-button>
-          </div>
+          <!-- PayPal Button Container -->
+          <div id="paypal-button-container" class="mt-6"></div>
           <div id="paypal-error" class="hidden mt-4 p-4 bg-red-50 border-2 border-red-300 rounded-lg text-center">
             <p class="text-red-600 font-bold">❌ Payment System Error</p>
             <p class="text-gray-700 text-sm mt-2">PayPal failed to load. Please refresh the page.</p>
@@ -280,10 +276,9 @@
   </footer>
 
 
-  <!-- PayPal JS SDK v6 -->
-  <script async src="https://www.paypal.com/web-sdk/v6/core" onload="onPayPalWebSdkLoaded()"></script>
+  <!-- PayPal JS SDK -->
+  <script src="https://www.paypal.com/sdk/js?client-id=ATV1zuqmwzmcXCuDMfIm9QqD67aFGQ_Xfx3EGH7N2re-6OAj_d_Ax1mBS-dJH0hxlK9GZkmmaKqwnKEc&currency=USD"></script>
   <script src="js/paypal.js"></script>
-  <!-- ...existing code... -->
 
   <script src="js/chatbot.js"></script>
 </body>
