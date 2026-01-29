@@ -52,7 +52,9 @@ app.get('/paypal-api/client-token', async (req, res) => {
 app.post('/paypal-api/checkout/orders/create', async (req, res) => {
   try {
     console.log('📦 Creating PayPal order...');
+    console.log('Full request body:', JSON.stringify(req.body));
     console.log('Cart items:', req.body.cart?.length || 0);
+    console.log('Cart data:', JSON.stringify(req.body.cart));
     
     const accessToken = await getAccessToken();
     console.log('✅ Access token obtained');
@@ -61,6 +63,7 @@ app.post('/paypal-api/checkout/orders/create', async (req, res) => {
     
     // Validate cart items
     if (!cart || cart.length === 0) {
+      console.error('❌ Cart is empty!');
       throw new Error('Cart is empty');
     }
     
@@ -69,6 +72,8 @@ app.post('/paypal-api/checkout/orders/create', async (req, res) => {
     const validatedItems = [];
     
     for (const item of cart) {
+      console.log(`📋 Processing item:`, JSON.stringify(item));
+      
       const price = parseFloat(item.price) || 0;
       const quantity = parseInt(item.quantity) || 1;
       
@@ -81,10 +86,13 @@ app.post('/paypal-api/checkout/orders/create', async (req, res) => {
       total += itemTotal;
       
       validatedItems.push({
-        name: item.name || 'Unknown Item',
+        name: item.name || 'Product',
+        description: item.description || item.name || 'Product',
+        sku: item.sku || 'SKU-' + Date.now(),
         price: price,
         quantity: quantity,
-        total: itemTotal
+        total: itemTotal,
+        category: 'PHYSICAL_GOODS'
       });
     }
     
@@ -104,16 +112,29 @@ app.post('/paypal-api/checkout/orders/create', async (req, res) => {
           amount: {
             currency_code: 'USD',
             value: total.toFixed(2),
+            breakdown: {
+              item_total: {
+                currency_code: 'USD',
+                value: total.toFixed(2)
+              }
+            }
           },
           items: validatedItems.map(item => ({
             name: item.name,
-            unit_amount: { currency_code: 'USD', value: item.price.toFixed(2) },
+            description: item.description,
+            sku: item.sku,
+            unit_amount: { 
+              currency_code: 'USD', 
+              value: item.price.toFixed(2) 
+            },
             quantity: String(item.quantity),
-            category: 'PHYSICAL_GOODS',
+            category: 'PHYSICAL_GOODS'
           })),
         },
       ],
     };
+    
+    console.log('📤 Sending to PayPal:', JSON.stringify(orderPayload, null, 2));
     
     const response = await fetch(`${PAYPAL_API_BASE}/v2/checkout/orders`, {
       method: 'POST',
