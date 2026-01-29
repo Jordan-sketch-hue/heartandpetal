@@ -1,0 +1,54 @@
+HEART & PETAL - AUTOMATED TEST REPORT
+Generated: 1/29/2026, 4:34:55 PM
+========================================
+
+SUMMARY:
+--------
+Passed: 30
+Failed: 9
+Warnings: 0
+Pass Rate: 76.9%
+
+DETAILED RESULTS:
+-----------------
+✓ Script: auth.js
+✓ Script: cart.js
+✓ Script: inventory.js
+✓ Script: mobile-menu.js
+✓ Script: nav-manager.js
+✓ Script: system-monitor.js
+✓ Login function
+✓ Registration function
+✓ Logout function
+✓ Login check function
+✓ Urgency message function
+✓ Popular item check
+✓ Add to cart function
+✓ Cart display update
+✓ Error logging function
+✓ Success logging function
+✓ localStorage read/write
+✓ Email validation
+✓ Password validation
+✓ Session management
+✓ Urgency message system
+✓ Popular item detection
+✓ Add to cart functionality
+✓ Remove from cart
+✗ Mobile menu button exists - Button not found
+✗ Mobile menu container exists - Menu container not found
+✗ Navigation to index.html - Link to index.html not found
+✗ Navigation to shop.html - Link to shop.html not found
+✗ Navigation to checkout.html - Link to checkout.html not found
+✗ Navigation to customer-login.html - Link to customer-login.html not found
+✗ Navigation to admin.html - Link to admin.html not found
+✓ System monitor loaded
+✓ Error logging functionality
+✓ Success logging functionality
+✗ Mobile menu button visible on mobile - Mobile menu button should be visible
+✓ Error handler script loaded
+✗ Global error listener - No global error handler
+✓ Page load time measurement
+✓ Page load speed (< 3s)
+
+========================================

@@ -12,8 +12,8 @@ function getCartSafely() {
     if (typeof getCart === 'function') {
       return getCart();
     }
-    // Fallback: get cart directly from localStorage
-    const cart = localStorage.getItem('cart');
+    // Fallback: get cart directly from localStorage - use correct key
+    const cart = localStorage.getItem('heartAndPetalCart');
     return cart ? JSON.parse(cart) : [];
   } catch (error) {
     console.error('Error getting cart:', error);
@@ -100,7 +100,7 @@ function initPayPalButtons() {
       }
       
       // Clear cart
-      localStorage.removeItem('cart');
+      localStorage.removeItem('heartAndPetalCart');
       
       // Show success message
       alert('✅ Payment successful! Order confirmation sent to your email.');
