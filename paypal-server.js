@@ -15,15 +15,16 @@ app.use((req, res, next) => {
   next();
 });
 
-const PAYPAL_CLIENT_ID = process.env.PAYPAL_SANDBOX_CLIENT_ID;
-const PAYPAL_CLIENT_SECRET = process.env.PAYPAL_SANDBOX_CLIENT_SECRET;
-const PAYPAL_API_BASE = 'https://api-m.paypal.com';
+// Use PRODUCTION credentials for live payments
+const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
+const PAYPAL_CLIENT_SECRET = process.env.PAYPAL_CLIENT_SECRET;
+const PAYPAL_API_BASE = 'https://api-m.paypal.com'; // Production API
 
 // Validate environment variables on startup
 if (!PAYPAL_CLIENT_ID || !PAYPAL_CLIENT_SECRET) {
   console.error('❌ MISSING PAYPAL CREDENTIALS!');
-  console.error('PAYPAL_SANDBOX_CLIENT_ID:', PAYPAL_CLIENT_ID ? 'SET' : 'MISSING');
-  console.error('PAYPAL_SANDBOX_CLIENT_SECRET:', PAYPAL_CLIENT_SECRET ? 'SET' : 'MISSING');
+  console.error('PAYPAL_CLIENT_ID:', PAYPAL_CLIENT_ID ? 'SET' : 'MISSING');
+  console.error('PAYPAL_CLIENT_SECRET:', PAYPAL_CLIENT_SECRET ? 'SET' : 'MISSING');
   process.exit(1);
 }
 
