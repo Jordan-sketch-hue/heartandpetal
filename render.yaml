@@ -2,6 +2,7 @@ services:
   - type: web
     name: heartandpetal-api
     env: node
+    plan: free
     buildCommand: npm install
     startCommand: node paypal-server.js
     envVars:
