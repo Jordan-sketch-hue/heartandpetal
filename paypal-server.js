@@ -58,13 +58,43 @@ app.post('/paypal-api/checkout/orders/create', async (req, res) => {
     console.log('✅ Access token obtained');
     
     const cart = req.body.cart || [];
-    // Calculate total from cart
-    let total = 0;
-    for (const item of cart) {
-      total += (item.price * item.quantity);
+    
+    // Validate cart items
+    if (!cart || cart.length === 0) {
+      throw new Error('Cart is empty');
     }
+    
+    // Calculate total from cart with validation
+    let total = 0;
+    const validatedItems = [];
+    
+    for (const item of cart) {
+      const price = parseFloat(item.price) || 0;
+      const quantity = parseInt(item.quantity) || 1;
+      
+      if (price <= 0) {
+        console.warn(`⚠️ Item ${item.name} has invalid price: ${price}`);
+        continue;
+      }
+      
+      const itemTotal = price * quantity;
+      total += itemTotal;
+      
+      validatedItems.push({
+        name: item.name || 'Unknown Item',
+        price: price,
+        quantity: quantity,
+        total: itemTotal
+      });
+    }
+    
+    if (validatedItems.length === 0) {
+      throw new Error('No valid items in cart');
+    }
+    
     if (total < 0.01) total = 0.01;
     
+    console.log('✅ Validated items:', validatedItems.length);
     console.log('💰 Order total:', total.toFixed(2), 'USD');
     
     const orderPayload = {
@@ -75,7 +105,7 @@ app.post('/paypal-api/checkout/orders/create', async (req, res) => {
             currency_code: 'USD',
             value: total.toFixed(2),
           },
-          items: cart.map(item => ({
+          items: validatedItems.map(item => ({
             name: item.name,
             unit_amount: { currency_code: 'USD', value: item.price.toFixed(2) },
             quantity: String(item.quantity),
