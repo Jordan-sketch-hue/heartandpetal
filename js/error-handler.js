@@ -99,12 +99,17 @@
   window.addEventListener('load', () => {
     if (window.performance && window.performance.timing) {
       const timing = window.performance.timing;
-      const loadTime = timing.loadEventEnd - timing.navigationStart;
-      console.info(`Page loaded in ${loadTime}ms`);
-      
-      if (loadTime > 5000) {
-        logError('PERFORMANCE_WARNING', 'Page took too long to load', { time: loadTime });
-      }
+      // Wait a bit for loadEventEnd to be set
+      setTimeout(() => {
+        const loadTime = timing.loadEventEnd - timing.navigationStart;
+        if (loadTime > 0) {
+          console.info(`Page loaded in ${loadTime}ms`);
+          
+          if (loadTime > 5000) {
+            logError('PERFORMANCE_WARNING', 'Page took too long to load', { time: loadTime });
+          }
+        }
+      }, 100);
     }
   });
 
