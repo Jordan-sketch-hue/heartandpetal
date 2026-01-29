@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: heartandpetal-api
+    env: node
+    buildCommand: npm install
+    startCommand: node paypal-server.js
+    envVars:
+      - key: PAYPAL_SANDBOX_CLIENT_ID
+        value: ATV1zuqmwzmcXCuDMfIm9QqD67aFGQ_Xfx3EGH7N2re-6OAj_d_Ax1mBS-dJH0hxlK9GZkmmaKqwnKEc
+      - key: PAYPAL_SANDBOX_CLIENT_SECRET
+        value: EMEN_wapBZHCcpUjXp_IlQjitGWnLMXnDZEy8ILA01u_UTAuYacH4y7YNE6UG_gSkkMQ6hMLQxgt3oHa
+      - key: NODE_ENV
+        value: production
