@@ -1,7 +1,7 @@
 // PayPal Standard SDK integration for Heart & Petal
 // Instant render approach - buttons appear immediately
 
-// Backend API URL - update this with your deployed backend URL
+// Backend API URL
 const API_BASE_URL = window.location.hostname === 'localhost' 
   ? 'http://localhost:3000' 
   : 'https://heartandpetal-api.onrender.com';
@@ -21,8 +21,19 @@ function getCartSafely() {
   }
 }
 
-// Render PayPal button as soon as page loads
-paypal.Buttons({
+// Wait for container to exist before rendering
+function initPayPalButtons() {
+  const container = document.getElementById('paypal-button-container');
+  if (!container) {
+    console.error('PayPal container not found!');
+    document.getElementById('paypal-error')?.classList.remove('hidden');
+    return;
+  }
+
+  console.log('Initializing PayPal buttons...');
+
+  // Render PayPal button
+  paypal.Buttons({
   // Create order on backend
   createOrder: function(data, actions) {
     const cart = getCartSafely();
@@ -100,7 +111,7 @@ paypal.Buttons({
   // Handle errors
   onError: function(err) {
     console.error("PayPal error:", err);
-    document.getElementById('paypal-error').classList.remove('hidden');
+    document.getElementById('paypal-error')?.classList.remove('hidden');
   },
   
   // Handle cancellation
@@ -108,4 +119,20 @@ paypal.Buttons({
     console.log("Payment cancelled:", data);
     alert('Payment cancelled. You can try again when ready.');
   }
-}).render('#paypal-button-container');
+  }).render('#paypal-button-container')
+    .then(function() {
+      console.log('PayPal buttons rendered successfully!');
+    })
+    .catch(function(err) {
+      console.error('PayPal render error:', err);
+      document.getElementById('paypal-error')?.classList.remove('hidden');
+    });
+}
+
+// Initialize when script loads
+if (typeof paypal !== 'undefined') {
+  initPayPalButtons();
+} else {
+  console.error('PayPal SDK not loaded!');
+  document.getElementById('paypal-error')?.classList.remove('hidden');
+}

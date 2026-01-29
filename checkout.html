@@ -277,8 +277,26 @@
 
 
   <!-- PayPal JS SDK -->
-  <script src="https://www.paypal.com/sdk/js?client-id=ATV1zuqmwzmcXCuDMfIm9QqD67aFGQ_Xfx3EGH7N2re-6OAj_d_Ax1mBS-dJH0hxlK9GZkmmaKqwnKEc&currency=USD"></script>
-  <script src="js/paypal.js"></script>
+  <script src="https://www.paypal.com/sdk/js?client-id=ATV1zuqmwzmcXCuDMfIm9QqD67aFGQ_Xfx3EGH7N2re-6OAj_d_Ax1mBS-dJH0hxlK9GZkmmaKqwnKEc&currency=USD" data-partner-attribution-id="HeartAndPetal_SP"></script>
+  
+  <!-- Load PayPal integration after DOM is ready -->
+  <script>
+    // Wait for DOM and PayPal SDK to be ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initPayPal);
+    } else {
+      initPayPal();
+    }
+    
+    function initPayPal() {
+      // Give cart.js time to initialize
+      setTimeout(function() {
+        var script = document.createElement('script');
+        script.src = 'js/paypal.js';
+        document.body.appendChild(script);
+      }, 500);
+    }
+  </script>
 
   <script src="js/chatbot.js"></script>
 </body>
