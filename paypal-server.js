@@ -19,6 +19,14 @@ const PAYPAL_CLIENT_ID = process.env.PAYPAL_SANDBOX_CLIENT_ID;
 const PAYPAL_CLIENT_SECRET = process.env.PAYPAL_SANDBOX_CLIENT_SECRET;
 const PAYPAL_API_BASE = 'https://api-m.paypal.com';
 
+// Validate environment variables on startup
+if (!PAYPAL_CLIENT_ID || !PAYPAL_CLIENT_SECRET) {
+  console.error('❌ MISSING PAYPAL CREDENTIALS!');
+  console.error('PAYPAL_SANDBOX_CLIENT_ID:', PAYPAL_CLIENT_ID ? 'SET' : 'MISSING');
+  console.error('PAYPAL_SANDBOX_CLIENT_SECRET:', PAYPAL_CLIENT_SECRET ? 'SET' : 'MISSING');
+  process.exit(1);
+}
+
 // Get client token for JS SDK
 app.get('/paypal-api/client-token', async (req, res) => {
   try {
@@ -41,7 +49,12 @@ app.get('/paypal-api/client-token', async (req, res) => {
 // Create order
 app.post('/paypal-api/checkout/orders/create', async (req, res) => {
   try {
+    console.log('📦 Creating PayPal order...');
+    console.log('Cart items:', req.body.cart?.length || 0);
+    
     const accessToken = await getAccessToken();
+    console.log('✅ Access token obtained');
+    
     const cart = req.body.cart || [];
     // Calculate total from cart
     let total = 0;
@@ -49,6 +62,9 @@ app.post('/paypal-api/checkout/orders/create', async (req, res) => {
       total += (item.price * item.quantity);
     }
     if (total < 0.01) total = 0.01;
+    
+    console.log('💰 Order total:', total.toFixed(2), 'USD');
+    
     const orderPayload = {
       intent: 'CAPTURE',
       purchase_units: [
@@ -66,6 +82,7 @@ app.post('/paypal-api/checkout/orders/create', async (req, res) => {
         },
       ],
     };
+    
     const response = await fetch(`${PAYPAL_API_BASE}/v2/checkout/orders`, {
       method: 'POST',
       headers: {
@@ -74,10 +91,22 @@ app.post('/paypal-api/checkout/orders/create', async (req, res) => {
       },
       body: JSON.stringify(orderPayload),
     });
+    
     const data = await response.json();
-    if (!data.id) throw new Error('Order creation failed');
+    console.log('PayPal response status:', response.status);
+    
+    if (!response.ok) {
+      console.error('❌ PayPal API error:', JSON.stringify(data, null, 2));
+      throw new Error(data.message || 'Order creation failed');
+    }
+    
+    if (!data.id) throw new Error('Order creation failed - no order ID');
+    
+    console.log('✅ Order created:', data.id);
     res.json({ id: data.id });
   } catch (err) {
+    console.error('❌ Order creation error:', err.message);
+    console.error(err.stack);
     res.status(500).json({ error: err.message });
   }
 });
@@ -104,6 +133,7 @@ app.post('/paypal-api/checkout/orders/:orderId/capture', async (req, res) => {
 
 // Helper: Get PayPal access token
 async function getAccessToken() {
+  console.log('🔑 Getting PayPal access token...');
   const auth = Buffer.from(`${PAYPAL_CLIENT_ID}:${PAYPAL_CLIENT_SECRET}`).toString('base64');
   const response = await fetch(`${PAYPAL_API_BASE}/v1/oauth2/token`, {
     method: 'POST',
@@ -114,7 +144,15 @@ async function getAccessToken() {
     body: 'grant_type=client_credentials',
   });
   const data = await response.json();
+  
+  if (!response.ok) {
+    console.error('❌ PayPal auth failed:', response.status);
+    console.error(JSON.stringify(data, null, 2));
+    throw new Error(`PayPal auth failed: ${data.error_description || data.error}`);
+  }
+  
   if (!data.access_token) throw new Error('Failed to get access token');
+  console.log('✅ Access token obtained');
   return data.access_token;
 }
 
@@ -122,4 +160,9 @@ async function getAccessToken() {
 app.use(express.static('.'));
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+app.listen(PORT, () => {
+  console.log('🚀 PayPal server starting...');
+  console.log(`📍 Server running on http://localhost:${PORT}`);
+  console.log('💳 PayPal API:', PAYPAL_API_BASE);
+  console.log('✅ Environment variables loaded');
+});
