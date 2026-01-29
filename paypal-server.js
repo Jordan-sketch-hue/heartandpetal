@@ -29,6 +29,15 @@ if (!PAYPAL_CLIENT_ID || !PAYPAL_CLIENT_SECRET) {
   process.exit(1);
 }
 
+// Test endpoint to verify deployment
+app.get('/paypal-api/test', (req, res) => {
+  res.json({ 
+    status: 'ok', 
+    timestamp: new Date().toISOString(),
+    deployment: 'fe35f94 - Enhanced logging'
+  });
+});
+
 // Get client token for JS SDK
 app.get('/paypal-api/client-token', async (req, res) => {
   try {
