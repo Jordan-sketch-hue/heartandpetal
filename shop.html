@@ -849,29 +849,23 @@ if (filterForm) {
   filterForm.onchange = filterProducts;
 }
 
-  // Close on outside click
-  modal.addEventListener('click', function(e) {
-    if (e.target === modal) {
-      closeModal();
-    }
-  });
-  
-  // Wishlist reminder - show after 5 minutes if user has wishlist items
-  setTimeout(() => {
-    const wishlist = JSON.parse(localStorage.getItem('hp_wishlist') || '[]');
-    if (wishlist.length > 0) {
-      showInfo(`You have ${wishlist.length} item${wishlist.length > 1 ? 's' : ''} in your wishlist! Don't forget to check out before they're gone.`);
-    }
-  }, 300000); // 5 minutes
-  
-  // Viewed items reminder - track product views
-  const viewedItems = JSON.parse(localStorage.getItem('hp_viewed_items') || '[]');
-  if (viewedItems.length > 0) {
-    setTimeout(() => {
-      showInfo(`Welcome back! You recently viewed ${viewedItems.length} item${viewedItems.length > 1 ? 's' : ''}. Want to take another look?`);
-    }, 180000); // 3 minutes
+// Wishlist reminder - show after 5 minutes if user has wishlist items
+setTimeout(() => {
+  const wishlist = JSON.parse(localStorage.getItem('hp_wishlist') || '[]');
+  if (wishlist.length > 0 && typeof showInfo === 'function') {
+    showInfo(`You have ${wishlist.length} item${wishlist.length > 1 ? 's' : ''} in your wishlist! Don't forget to check out before they're gone.`);
   }
-});
+}, 300000); // 5 minutes
+
+// Viewed items reminder - track product views
+const viewedItems = JSON.parse(localStorage.getItem('hp_viewed_items') || '[]');
+if (viewedItems.length > 0) {
+  setTimeout(() => {
+    if (typeof showInfo === 'function') {
+      showInfo(`Welcome back! You recently viewed ${viewedItems.length} item${viewedItems.length > 1 ? 's' : ''}. Want to take another look?`);
+    }
+  }, 180000); // 3 minutes
+}
 </script>
 <script src="js/free-delivery-popup.js"></script>
 <script src="js/chatbot.js"></script><script src="js/code-protection.js"></script></body>
