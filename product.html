@@ -227,7 +227,7 @@
           <p class="text-xs text-charcoal/60 mt-1">Max 500 characters. Review will be moderated before posting.</p>
         </div>
 
-        <button type="submit" class="bg-gradient-to-r from-deep-red to-red-700 text-ivory px-10 py-4 rounded-xl font-bold hover:shadow-2xl hover:scale-105 transition-all duration-300 shadow-lg">Submit Review for Approval</button>
+        <button type="submit" class="w-full bg-gradient-to-r from-deep-red to-red-700 text-ivory px-10 py-4 rounded-xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 shadow-lg">Submit Review for Approval</button>
         <p id="review-status" class="text-sm text-champagne-gold hidden mt-2"></p>
       </form>
     </div>
@@ -253,28 +253,6 @@
     </div>
   </section>
 
-  <!-- Branded Cart Confirm Modal -->
-  <div id="cart-confirm-modal" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-blush-pink">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="text-xl font-bold text-deep-red">Added to Cart</h2>
-        <button id="cart-confirm-close" class="text-gray-500 hover:text-charcoal text-2xl font-bold">&times;</button>
-      </div>
-      <div class="flex items-start gap-3 mb-5">
-        <div class="bg-blush-pink/40 rounded-full w-10 h-10 flex items-center justify-center">
-          <span class="text-deep-red font-bold">✓</span>
-        </div>
-        <div class="text-gray-700">
-          <p class="font-semibold" id="cart-confirm-product">Item</p>
-          <p class="text-sm text-gray-600">Would you like to go to checkout now?</p>
-        </div>
-      </div>
-      <div class="flex gap-3">
-        <button id="cart-confirm-go" class="flex-1 bg-deep-red text-white px-6 py-3 rounded-lg font-bold hover:bg-red-700 transition">Go to Checkout</button>
-        <button id="cart-confirm-stay" class="px-6 py-3 rounded-lg border-2 border-charcoal font-bold hover:bg-gray-100 transition">Continue Shopping</button>
-      </div>
-    </div>
-  </div>
 
   <!-- Branded Alert Modal -->
   <div id="branded-modal-alert" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center p-4">
@@ -558,25 +536,7 @@
     }
 
     // Branded confirm modal for cart redirect
-    function showCartConfirmModal(productName) {
-      const modal = document.getElementById('cart-confirm-modal');
-      const nameEl = document.getElementById('cart-confirm-product');
-      const goBtn = document.getElementById('cart-confirm-go');
-      const stayBtn = document.getElementById('cart-confirm-stay');
-      const closeBtn = document.getElementById('cart-confirm-close');
-      if (!modal || !nameEl || !goBtn || !stayBtn || !closeBtn) return;
-
-      nameEl.textContent = productName || 'Item';
-
-      const close = () => modal.classList.add('hidden');
-      goBtn.onclick = () => { window.location.href = 'checkout.html'; };
-      stayBtn.onclick = close;
-      closeBtn.onclick = close;
-
-      modal.classList.remove('hidden');
-    }
-
-    // Add to cart
+// Add to cart
     document.getElementById('add-to-cart').onclick = () => {
       const quantity = parseInt(document.getElementById('qty-input').value) || 1;
       const sizeSelect = document.getElementById('size-select');
@@ -603,11 +563,9 @@
           baseProduct: product
         });
         
-        // If successfully added, show "Go to Cart" option
+        // If successfully added, show success message
         if (success) {
-          setTimeout(() => {
-            showCartConfirmModal(`${product.name} - ${sizeLabel}`);
-          }, 600);
+          showSuccess(`Added ${sizeLabel} to cart!`, product.img);
         }
       } else {
         showSuccess(`Added ${quantity}x ${product.name} to cart!`, product.img);
@@ -782,7 +740,7 @@
     
     function renderReview(review, isVerified = false) {
       const reviewCard = document.createElement('div');
-      reviewCard.className = isVerified ? 'review-card bg-green-50 p-6 rounded-lg shadow-md border-2 border-green-200' : 'review-card bg-white p-6 rounded-lg shadow-md';
+      reviewCard.className = isVerified ? 'review-card bg-green-50 p-6 rounded-lg shadow-md border-2 border-green-300' : 'review-card bg-white p-6 rounded-lg shadow-md border border-gray-200';
       
       const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
       
@@ -791,33 +749,33 @@
         reviewCard.innerHTML = `
           <div class="flex items-center justify-between mb-3">
             <div class="flex items-center gap-4">
-              <div class="w-12 h-12 bg-green-200 rounded-full flex items-center justify-center font-bold text-green-700">
+              <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center font-bold text-white">
                 ${review.name.charAt(0)}
               </div>
               <div>
                 <div class="flex items-center gap-2">
-                  <p class="font-bold">${review.name}</p>
+                  <p class="font-bold text-charcoal">${review.name}</p>
                   <span class="bg-green-500 text-white text-xs px-2 py-1 rounded-full font-bold">✓ Verified</span>
                 </div>
-                <p class="text-sm text-charcoal/60">${dateStr}</p>
+                <p class="text-sm text-charcoal/70 font-medium">${dateStr}</p>
               </div>
             </div>
           </div>
-          <p class="text-champagne-gold mb-3">${stars}</p>
-          <p class="text-charcoal/80">${review.text}</p>
+          <p class="text-deep-red mb-3 font-bold text-lg">${stars}</p>
+          <p class="text-charcoal font-medium leading-relaxed">${review.text}</p>
         `;
       } else {
         reviewCard.innerHTML = `
           <div class="flex items-center gap-4 mb-3">
-            <div class="w-12 h-12 bg-blush-pink rounded-full flex items-center justify-center font-bold text-deep-red">
+            <div class="w-12 h-12 bg-deep-red rounded-full flex items-center justify-center font-bold text-ivory">
               ${review.name.charAt(0)}
             </div>
             <div>
-              <p class="font-bold">${review.name}</p>
-              <p class="text-champagne-gold">${stars}</p>
+              <p class="font-bold text-charcoal">${review.name}</p>
+              <p class="text-deep-red font-bold">${stars}</p>
             </div>
           </div>
-          ${review.text ? `<p class="text-charcoal/80">${review.text}</p>` : '<p class="text-charcoal/60 text-sm italic">Rating only</p>'}
+          ${review.text ? `<p class="text-charcoal font-medium leading-relaxed">${review.text}</p>` : '<p class="text-charcoal/70 text-sm italic">Rating only</p>'}
         `;
       }
       return reviewCard;
