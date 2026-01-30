@@ -103,10 +103,19 @@ function initPayPalButtons() {
         });
       }
       
-      // 🔥 Track Google Ads conversion
+      // 🔥 Track Google Ads conversion with complete data
       const orderTotal = typeof calculateTotal === 'function' ? calculateTotal() : 0;
+      const cartItems = getCartSafely().map(item => ({
+        'item_id': item.id || 'unknown',
+        'item_name': item.name || 'Unknown Product',
+        'price': parseFloat(item.price) || 0,
+        'quantity': parseInt(item.quantity) || 1
+      }));
+      
       if (typeof gtag_report_conversion === 'function') {
-        gtag_report_conversion(orderTotal, data.orderID);
+        gtag_report_conversion(orderTotal, data.orderID, cartItems);
+      } else {
+        console.warn('⚠️ Google Ads conversion tracking function not found');
       }
       
       // Clear cart

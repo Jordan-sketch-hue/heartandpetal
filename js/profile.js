@@ -154,20 +154,145 @@ function setupTracking() {
       
       if (order) {
         trackingResult.classList.remove('hidden');
+        trackingResult.className = 'mt-6 bg-green-50 border-2 border-green-300 rounded-lg p-4';
+        
+        // Generate tracking timeline
+        const statusTimeline = generateStatusTimeline(order.status || order.paymentStatus);
+        
         trackingDetails.innerHTML = `
-          <p><strong>Order ID:</strong> ${order.orderId || order.id}</p>
-          <p><strong>Status:</strong> ${order.status || order.paymentStatus}</p>
-          <p><strong>Delivery Service:</strong> ${order.deliveryService || 'Standard Delivery'}</p>
-          ${order.deliveryDate ? `<p><strong>Expected Date:</strong> ${order.deliveryDate}</p>` : ''}
-          <p><strong>Shipping Address:</strong> ${order.shippingAddress || order.address}</p>
+          <div class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="bg-white rounded p-3 border border-green-200">
+                <p class="text-sm text-gray-600">Order Number</p>
+                <p class="text-xl font-bold text-deep-red">#${order.orderId || order.id}</p>
+              </div>
+              <div class="bg-white rounded p-3 border border-green-200">
+                <p class="text-sm text-gray-600">Order Date</p>
+                <p class="text-lg font-semibold text-gray-800">${order.timestamp ? new Date(order.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'N/A'}</p>
+              </div>
+              <div class="bg-white rounded p-3 border border-green-200">
+                <p class="text-sm text-gray-600">Current Status</p>
+                <p class="text-lg font-bold text-green-700">${order.status || order.paymentStatus || 'Processing'}</p>
+              </div>
+              <div class="bg-white rounded p-3 border border-green-200">
+                <p class="text-sm text-gray-600">Total Amount</p>
+                <p class="text-lg font-bold text-deep-red">$${parseFloat(order.total || 0).toFixed(2)}</p>
+              </div>
+            </div>
+
+            <div class="bg-white rounded p-4 border border-green-200">
+              <p class="font-bold text-gray-800 mb-3">📦 Package Timeline</p>
+              <div class="space-y-3">
+                ${statusTimeline}
+              </div>
+            </div>
+
+            <div class="bg-white rounded p-4 border border-green-200">
+              <p class="font-bold text-gray-800 mb-2">🚚 Shipping Information</p>
+              <div class="space-y-2 text-sm">
+                <div><span class="font-semibold">Delivery Service:</span> ${order.deliveryService || 'Standard Delivery (3-5 business days)'}</div>
+                <div><span class="font-semibold">Tracking Number:</span> ${order.trackingNumber || 'Will be provided once shipped'}</div>
+                ${order.deliveryDate ? `<div><span class="font-semibold">Expected Delivery:</span> ${new Date(order.deliveryDate).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}</div>` : '<div><span class="font-semibold">Expected Delivery:</span> To be determined</div>'}
+              </div>
+            </div>
+
+            <div class="bg-white rounded p-4 border border-green-200">
+              <p class="font-bold text-gray-800 mb-2">📍 Shipping Address</p>
+              <p class="text-sm text-gray-700">${order.shippingAddress || order.address || 'N/A'}</p>
+            </div>
+
+            ${order.items ? `
+              <div class="bg-white rounded p-4 border border-green-200">
+                <p class="font-bold text-gray-800 mb-3">📋 Items in Order</p>
+                <div class="space-y-2">
+                  ${order.items.map(item => `
+                    <div class="flex justify-between items-center py-2 border-b border-gray-200">
+                      <div>
+                        <p class="font-semibold text-gray-800">${item.name}</p>
+                        <p class="text-xs text-gray-600">Quantity: ${item.quantity}</p>
+                      </div>
+                      <p class="font-semibold text-deep-red">$${(item.price * item.quantity).toFixed(2)}</p>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            ` : ''}
+
+            <div class="bg-blue-50 border border-blue-200 rounded p-3 text-sm text-blue-800">
+              <p class="font-semibold mb-1">💡 Tip:</p>
+              <p>Your order is being carefully prepared. You'll receive email updates at each stage of shipping.</p>
+            </div>
+          </div>
         `;
+        
+        // Track page view in Google Analytics if available
+        if (typeof gtag === 'function') {
+          gtag('event', 'view_order_details', {
+            order_id: order.orderId || order.id,
+            value: parseFloat(order.total || 0),
+            currency: 'USD'
+          });
+        }
       } else {
         trackingResult.classList.remove('hidden');
         trackingResult.className = 'mt-6 bg-red-50 border-2 border-red-300 rounded-lg p-4';
-        trackingDetails.innerHTML = '<p class="text-red-800">Order not found. Please check your order ID.</p>';
+        trackingDetails.innerHTML = '<p class="text-red-800 font-semibold">❌ Order not found</p><p class="text-red-700 text-sm mt-2">Please check your order ID and try again. Order IDs typically look like "HP123456".</p>';
       }
     });
+    
+    // Allow Enter key to submit
+    if (trackInput) {
+      trackInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') trackBtn.click();
+      });
+    }
   }
+}
+
+function generateStatusTimeline(status) {
+  const timeline = [
+    { label: 'Order Confirmed', status: 'Processing', icon: '✅', completed: true },
+    { label: 'Preparing Items', status: ['Processing', 'Packing'], icon: '📦', completed: false },
+    { label: 'Ready to Ship', status: ['Packing', 'Ready to Ship'], icon: '📬', completed: false },
+    { label: 'Shipped', status: ['Shipped', 'In Transit'], icon: '🚚', completed: false },
+    { label: 'Delivered', status: 'Delivered', icon: '✨', completed: false }
+  ];
+  
+  let html = '';
+  let foundCurrent = false;
+  
+  timeline.forEach((step, idx) => {
+    const isCompleted = Array.isArray(step.completed) ? step.completed.includes(status) : step.completed;
+    const isCurrent = Array.isArray(step.status) ? step.status.includes(status) : step.status === status;
+    
+    // Determine actual completion based on status
+    const completionStages = {
+      'Processing': 0,
+      'Packing': 1,
+      'Ready to Ship': 2,
+      'Shipped': 3,
+      'In Transit': 3,
+      'Delivered': 4
+    };
+    const currentStage = completionStages[status] || 0;
+    const stepCompleted = idx <= currentStage;
+    
+    html += `
+      <div class="flex items-center ${stepCompleted ? 'opacity-100' : 'opacity-50'}">
+        <div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-full ${stepCompleted ? 'bg-green-500 text-white' : 'bg-gray-300 text-gray-600'} font-bold">
+          ${step.icon}
+        </div>
+        <div class="ml-4 flex-1">
+          <p class="text-sm font-semibold text-gray-800">${step.label}</p>
+          ${isCurrent && !stepCompleted ? `<p class="text-xs text-green-600 font-semibold">Currently at this stage</p>` : ''}
+          ${stepCompleted && idx < currentStage ? `<p class="text-xs text-gray-600">Completed</p>` : ''}
+        </div>
+        ${idx < timeline.length - 1 ? `<div class="w-0.5 h-6 bg-${stepCompleted ? 'green-500' : 'gray-300'} ml-4"></div>` : ''}
+      </div>
+    `;
+  });
+  
+  return html;
 }
 
 function setupLogout() {

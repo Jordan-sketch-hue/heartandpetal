@@ -150,6 +150,7 @@ if (regForm) {
 // Order tracking
 const orderForm = document.getElementById('crm-order-form');
 const ordersTable = document.getElementById('crm-orders');
+
 function loadOrders() {
   if (!ordersTable) return;
   const orders = JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]');
@@ -167,6 +168,7 @@ function loadOrders() {
       </td>
     </tr>
   `).join('');
+  
   // Add event listeners for update buttons
   document.querySelectorAll('.update-status-btn').forEach(btn => {
     btn.onclick = function() {
@@ -176,10 +178,97 @@ function loadOrders() {
       orders[idx].status = statusInput.value;
       localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
       showSuccess('Order status updated!');
+      
+      // Track order status update in Google Analytics
+      if (typeof gtag === 'function') {
+        gtag('event', 'update_order_status', {
+          order_id: orders[idx].id,
+          new_status: statusInput.value
+        });
+      }
+      
       loadOrders();
+      loadAnalytics();
     };
   });
+  
+  // Reload analytics when orders change
+  loadAnalytics();
 }
+
+function loadAnalytics() {
+  // Get all orders from both checkout and CRM
+  const checkoutOrders = JSON.parse(localStorage.getItem('hp_orders') || '[]');
+  const crmOrders = JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]');
+  const allOrders = [...checkoutOrders, ...crmOrders];
+  
+  // Get all customers
+  const crmCustomers = JSON.parse(localStorage.getItem(CUSTOMERS_KEY) || '[]');
+  const authCustomers = JSON.parse(localStorage.getItem('hp_customers') || '[]');
+  const allCustomers = [...new Map([...crmCustomers, ...authCustomers].map(c => [c.email, c])).values()];
+  
+  // Calculate metrics
+  const totalOrders = allOrders.length;
+  const totalCustomers = allCustomers.length;
+  const totalRevenue = allOrders.reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
+  const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+  
+  // Update dashboard cards
+  const totalOrdersEl = document.getElementById('total-orders');
+  const totalCustomersEl = document.getElementById('total-customers');
+  const totalRevenueEl = document.getElementById('total-revenue');
+  const avgOrderValueEl = document.getElementById('avg-order-value');
+  
+  if (totalOrdersEl) totalOrdersEl.textContent = totalOrders;
+  if (totalCustomersEl) totalCustomersEl.textContent = totalCustomers;
+  if (totalRevenueEl) totalRevenueEl.textContent = '$' + totalRevenue.toFixed(2);
+  if (avgOrderValueEl) avgOrderValueEl.textContent = '$' + avgOrderValue.toFixed(2);
+  
+  // Calculate status distribution
+  const statusDist = {};
+  allOrders.forEach(o => {
+    const status = o.status || o.paymentStatus || 'Unknown';
+    statusDist[status] = (statusDist[status] || 0) + 1;
+  });
+  
+  // Display status distribution
+  const statusDistEl = document.getElementById('status-distribution');
+  if (statusDistEl) {
+    statusDistEl.innerHTML = Object.entries(statusDist)
+      .sort((a, b) => b[1] - a[1])
+      .map(([status, count]) => {
+        const percentage = totalOrders > 0 ? ((count / totalOrders) * 100).toFixed(1) : 0;
+        const colors = {
+          'Processing': 'bg-yellow-100 border-yellow-400 text-yellow-800',
+          'Shipped': 'bg-blue-100 border-blue-400 text-blue-800',
+          'Delivered': 'bg-green-100 border-green-400 text-green-800',
+          'Completed': 'bg-green-100 border-green-400 text-green-800',
+          'Pending': 'bg-gray-100 border-gray-400 text-gray-800',
+          'Cancelled': 'bg-red-100 border-red-400 text-red-800'
+        };
+        const colorClass = colors[status] || 'bg-gray-100 border-gray-400 text-gray-800';
+        
+        return `
+          <div class="border-2 rounded p-4 text-center ${colorClass}">
+            <p class="font-bold text-lg">${count}</p>
+            <p class="text-sm font-semibold">${status}</p>
+            <p class="text-xs mt-1">${percentage}%</p>
+          </div>
+        `;
+      })
+      .join('');
+  }
+  
+  // Track analytics view in Google Analytics
+  if (typeof gtag === 'function') {
+    gtag('event', 'view_admin_analytics', {
+      total_orders: totalOrders,
+      total_customers: totalCustomers,
+      total_revenue: totalRevenue
+    });
+  }
+}
+
 if (orderForm) {
   orderForm.onsubmit = function(e) {
     e.preventDefault();
@@ -188,12 +277,25 @@ if (orderForm) {
     const address = document.getElementById('order-address').value.trim();
     const type = document.getElementById('order-type').value.trim();
     const status = document.getElementById('order-status').value.trim();
+    
     if (id && email && status) {
       const orders = JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]');
-      orders.push({ id, email, address, type, status });
+      const newOrder = { id, email, address, type, status };
+      orders.push(newOrder);
       localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
       loadOrders();
       orderForm.reset();
+      
+      // Track new order in Google Analytics
+      if (typeof gtag === 'function') {
+        gtag('event', 'add_order_admin', {
+          order_id: id,
+          customer_email: email,
+          order_type: type,
+          status: status
+        });
+      }
+      
       // Simulate confirmation/follow-up email
       setTimeout(() => {
         showSuccess('Order confirmation/follow-up email sent to ' + email + ' (simulated).');

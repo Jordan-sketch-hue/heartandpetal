@@ -114,6 +114,91 @@
           </form>
         </section>
       </div>
+      <!-- Analytics & Insights Dashboard -->
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="bg-gradient-to-br from-green-50 to-emerald-100 border-2 border-green-400 rounded-lg p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-semibold text-green-700">Total Orders</p>
+              <p class="text-3xl font-bold text-green-900" id="total-orders">0</p>
+            </div>
+            <div class="text-4xl">📦</div>
+          </div>
+          <p class="text-xs text-green-700 mt-2">All-time orders</p>
+        </div>
+
+        <div class="bg-gradient-to-br from-blue-50 to-cyan-100 border-2 border-blue-400 rounded-lg p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-semibold text-blue-700">Total Customers</p>
+              <p class="text-3xl font-bold text-blue-900" id="total-customers">0</p>
+            </div>
+            <div class="text-4xl">👥</div>
+          </div>
+          <p class="text-xs text-blue-700 mt-2">Registered customers</p>
+        </div>
+
+        <div class="bg-gradient-to-br from-purple-50 to-pink-100 border-2 border-purple-400 rounded-lg p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-semibold text-purple-700">Total Revenue</p>
+              <p class="text-3xl font-bold text-purple-900" id="total-revenue">$0</p>
+            </div>
+            <div class="text-4xl">💰</div>
+          </div>
+          <p class="text-xs text-purple-700 mt-2">All-time sales</p>
+        </div>
+
+        <div class="bg-gradient-to-br from-yellow-50 to-orange-100 border-2 border-yellow-400 rounded-lg p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-semibold text-yellow-700">Avg Order Value</p>
+              <p class="text-3xl font-bold text-yellow-900" id="avg-order-value">$0</p>
+            </div>
+            <div class="text-4xl">📊</div>
+          </div>
+          <p class="text-xs text-yellow-700 mt-2">Per transaction</p>
+        </div>
+      </div>
+
+      <!-- Order Status Analytics -->
+      <div class="mt-8 bg-white rounded-lg shadow p-6 mb-8">
+        <h3 class="text-lg font-bold mb-4 text-gray-800">📈 Order Status Distribution</h3>
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4" id="status-distribution">
+          <p class="text-gray-500">Loading...</p>
+        </div>
+      </div>
+
+      <!-- Google Analytics Integration -->
+      <div class="mt-8 bg-blue-50 border-2 border-blue-300 rounded-lg p-6 mb-8">
+        <h3 class="text-lg font-bold mb-3 text-blue-900">🔍 Google Analytics Integration</h3>
+        <p class="text-sm text-blue-800 mb-4">Track customer behavior, conversion rates, and insights in Google Analytics Dashboard</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-white rounded p-4 border border-blue-200">
+            <p class="font-semibold text-gray-800 mb-2">📊 View Analytics Dashboard</p>
+            <a href="https://analytics.google.com" target="_blank" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-sm">
+              Open Google Analytics
+            </a>
+          </div>
+          <div class="bg-white rounded p-4 border border-blue-200">
+            <p class="font-semibold text-gray-800 mb-2">🔑 Tracking Code</p>
+            <div class="bg-gray-100 rounded p-2 font-mono text-xs text-gray-700 overflow-x-auto">
+              AW-11161550773
+            </div>
+          </div>
+          <div class="bg-white rounded p-4 border border-blue-200 md:col-span-2">
+            <p class="font-semibold text-gray-800 mb-2">✅ Active Tracking Events</p>
+            <ul class="text-sm text-gray-700 space-y-1">
+              <li>✓ Page Views - All pages tracked</li>
+              <li>✓ Purchase Conversions - PayPal integration</li>
+              <li>✓ Order Status Updates - Customer tracking views</li>
+              <li>✓ Cart Actions - Add to cart, remove from cart</li>
+              <li>✓ Customer Events - Login, registration, profile updates</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
       <!-- Data Tables -->
       <div class="mt-10">
         <h3 class="text-lg font-bold mb-2">Registered Customers</h3>

@@ -49,6 +49,11 @@ function validateCartItem(item) {
 		return false;
 	}
 	
+	// Track add to cart in Google Ads
+	if (typeof gtag_track_add_to_cart === 'function' && item.price) {
+		gtag_track_add_to_cart(item.price, item.name, item.id);
+	}
+	
 	if (typeof item.price !== 'number' || item.price < 0) {
 		console.error('❌ Invalid price:', item.price);
 		return false;

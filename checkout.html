@@ -13,14 +13,79 @@
   
   <!-- Google Ads Conversion Tracking for Purchases -->
   <script>
-    function gtag_report_conversion(transaction_value, transaction_id) {
-      gtag('event', 'conversion', {
-        'send_to': 'AW-11161550773/w6gbCNj03e8bELX_nsop',
-        'value': transaction_value,
-        'currency': 'USD',
-        'transaction_id': transaction_id
-      });
-      console.log('✅ Google Ads conversion tracked:', { value: transaction_value, id: transaction_id });
+    // Track completed purchase conversion
+    function gtag_report_conversion(transaction_value, transaction_id, items) {
+      if (typeof gtag !== 'function') {
+        console.error('❌ Google Ads gtag not loaded');
+        return false;
+      }
+      
+      try {
+        gtag('event', 'conversion', {
+          'send_to': 'AW-11161550773/w6gbCNj03e8bELX_nsop',
+          'value': parseFloat(transaction_value) || 0,
+          'currency': 'USD',
+          'transaction_id': transaction_id || 'unknown'
+        });
+        
+        // Enhanced ecommerce purchase event
+        gtag('event', 'purchase', {
+          'send_to': 'AW-11161550773',
+          'transaction_id': transaction_id,
+          'value': parseFloat(transaction_value) || 0,
+          'currency': 'USD',
+          'items': items || []
+        });
+        
+        console.log('✅ Google Ads conversion tracked:', { 
+          value: transaction_value, 
+          id: transaction_id,
+          items_count: (items || []).length 
+        });
+        return true;
+      } catch (error) {
+        console.error('❌ Conversion tracking error:', error);
+        return false;
+      }
+    }
+    
+    // Track begin checkout event
+    function gtag_track_begin_checkout(cart_value, items) {
+      if (typeof gtag !== 'function') return;
+      
+      try {
+        gtag('event', 'begin_checkout', {
+          'send_to': 'AW-11161550773',
+          'value': parseFloat(cart_value) || 0,
+          'currency': 'USD',
+          'items': items || []
+        });
+        console.log('✅ Begin checkout tracked:', cart_value);
+      } catch (error) {
+        console.error('❌ Begin checkout tracking error:', error);
+      }
+    }
+    
+    // Track add to cart event
+    function gtag_track_add_to_cart(item_value, item_name, item_id) {
+      if (typeof gtag !== 'function') return;
+      
+      try {
+        gtag('event', 'add_to_cart', {
+          'send_to': 'AW-11161550773',
+          'value': parseFloat(item_value) || 0,
+          'currency': 'USD',
+          'items': [{
+            'item_id': item_id,
+            'item_name': item_name,
+            'price': parseFloat(item_value) || 0,
+            'quantity': 1
+          }]
+        });
+        console.log('✅ Add to cart tracked:', item_name);
+      } catch (error) {
+        console.error('❌ Add to cart tracking error:', error);
+      }
     }
   </script>
   
@@ -133,6 +198,23 @@
         dropdown.innerHTML = '<a href="profile.html" class="block px-4 py-2 hover:bg-blush-pink/40 text-sm">My Profile</a><button onclick="logoutCustomer()" class="block w-full text-left px-4 py-2 hover:bg-blush-pink/40 text-sm text-red-600 font-bold">Logout</button>';
       }
     }
+    
+    // Track begin checkout event on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof getCart === 'function' && typeof calculateTotal === 'function' && typeof gtag_track_begin_checkout === 'function') {
+        const cart = getCart();
+        if (cart && cart.length > 0) {
+          const total = calculateTotal();
+          const items = cart.map(item => ({
+            'item_id': item.id || 'unknown',
+            'item_name': item.name || 'Unknown Product',
+            'price': parseFloat(item.price) || 0,
+            'quantity': parseInt(item.quantity) || 1
+          }));
+          gtag_track_begin_checkout(total, items);
+        }
+      }
+    });
     
     function logoutAdmin() {
       localStorage.removeItem('hp_crm_admin_logged_in');
