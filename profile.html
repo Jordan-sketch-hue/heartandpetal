@@ -25,6 +25,10 @@
   <script src="js/notifications.js"></script>
 </head>
 <body class="bg-ivory font-montserrat min-h-screen flex flex-col">
+  <!-- Free Delivery Banner -->
+  <div class="bg-deep-red text-ivory text-center py-2 text-sm font-bold">
+    FREE DELIVERY ON ALL ORDERS ACROSS THE USA!
+  </div>
   <!-- Header -->
   <header class="bg-white/90 shadow sticky top-0 z-50">
     <div class="container mx-auto flex items-center justify-between py-4 px-6">
@@ -54,11 +58,11 @@
         </svg>
       </button>
       <!-- Cart Button -->
-      <a href="checkout.html" class="ml-4 bg-deep-red text-ivory px-4 py-2 rounded-lg font-great-vibes text-xl shadow hover:bg-red-700 transition flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <a href="checkout.html" class="ml-1 md:ml-2 lg:ml-4 bg-deep-red text-ivory px-1.5 md:px-4 py-1.5 md:py-2 rounded-lg font-great-vibes text-sm md:text-xl shadow hover:bg-red-700 transition flex items-center gap-0.5 md:gap-2 flex-shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
         </svg>
-        Cart
+        <span class="hidden sm:inline">Cart</span>
       </a>
     </div>
     <!-- Mobile Menu - Hidden on desktop -->
@@ -73,6 +77,27 @@
       <a href="customer-login.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Customer Login</a>
     </div>
   </header>
+
+  <!-- Auth Status Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const isAdminLoggedIn = localStorage.getItem('hp_crm_admin_logged_in') === 'true';
+      const btn = document.querySelector('.relative.group button');
+      const dropdown = document.querySelector('.relative.group > div');
+      
+      if (isAdminLoggedIn && btn && dropdown) {
+        btn.textContent = '👤 Logout Admin';
+        btn.style.color = '#388e3c';
+        btn.style.fontWeight = 'bold';
+        dropdown.innerHTML = '<button onclick="logoutAdmin()" class="block w-full text-left px-4 py-2 hover:bg-blush-pink/40 text-sm text-red-600 font-bold">Logout</button>';
+      }
+    });
+
+    function logoutAdmin() {
+      localStorage.removeItem('hp_crm_admin_logged_in');
+      window.location.reload();
+    }
+  </script>
 
   <main class="container mx-auto px-6 py-8 max-w-5xl flex-1">
     <!-- Welcome Section -->

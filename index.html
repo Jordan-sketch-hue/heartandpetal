@@ -88,6 +88,27 @@
     </div>
   </header>
 
+  <!-- Auth Status Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const isAdminLoggedIn = localStorage.getItem('hp_crm_admin_logged_in') === 'true';
+      const btn = document.querySelector('.relative.group button');
+      const dropdown = document.querySelector('.relative.group > div');
+      
+      if (isAdminLoggedIn && btn && dropdown) {
+        btn.textContent = '👤 Logout Admin';
+        btn.style.color = '#388e3c';
+        btn.style.fontWeight = 'bold';
+        dropdown.innerHTML = '<button onclick="logoutAdmin()" class="block w-full text-left px-4 py-2 hover:bg-blush-pink/40 text-sm text-red-600 font-bold">Logout</button>';
+      }
+    });
+
+    function logoutAdmin() {
+      localStorage.removeItem('hp_crm_admin_logged_in');
+      window.location.reload();
+    }
+  </script>
+
   <!-- Hero Section -->
   <section class="relative bg-ivory min-h-[70vh] flex items-center justify-center text-center">
     <img src="https://res.cloudinary.com/dij2fdtw4/image/upload/red_roses_bouquet_gxs5w7.jpg" alt="Valentine's Day Gift" class="absolute inset-0 w-full h-full object-cover opacity-70" />

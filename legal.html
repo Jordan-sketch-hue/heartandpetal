@@ -73,6 +73,27 @@
     </div>
   </header>
 
+  <!-- Auth Status Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const isAdminLoggedIn = localStorage.getItem('hp_crm_admin_logged_in') === 'true';
+      const btn = document.querySelector('.relative.group button');
+      const dropdown = document.querySelector('.relative.group > div');
+      
+      if (isAdminLoggedIn && btn && dropdown) {
+        btn.textContent = '👤 Logout Admin';
+        btn.style.color = '#388e3c';
+        btn.style.fontWeight = 'bold';
+        dropdown.innerHTML = '<button onclick="logoutAdmin()" class="block w-full text-left px-4 py-2 hover:bg-blush-pink/40 text-sm text-red-600 font-bold">Logout</button>';
+      }
+    });
+
+    function logoutAdmin() {
+      localStorage.removeItem('hp_crm_admin_logged_in');
+      window.location.reload();
+    }
+  </script>
+
   <!-- 
   <header class="py-4 px-8 flex justify-between items-center shadow-md bg-white">
     <a href="index.html"><img src="https://res.cloudinary.com/dij2fdtw4/image/upload/v1769602073/give_a_rosebud_favicon_in_red_please_xqnp4v.jpg" alt="Heart & Petal Rose Icon" class="h-12"></a>

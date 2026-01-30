@@ -35,6 +35,13 @@
         <a href="shop.html" class="hover:text-deep-red transition">Shop</a>
         <a href="wishlist.html" class="font-bold text-deep-red">Wishlist</a>
         <a href="checkout.html" class="hover:text-deep-red transition">Cart</a>
+        <div class="relative group">
+          <button class="hover:text-champagne-gold transition focus:outline-none text-sm md:text-base">Login | Register</button>
+          <div class="absolute right-0 mt-2 w-48 bg-white border border-charcoal rounded shadow-lg opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition z-50">
+            <a href="admin.html" class="block px-4 py-2 hover:bg-blush-pink/40 text-sm">Admin</a>
+            <a href="customer-login.html" class="block px-4 py-2 hover:bg-blush-pink/40 text-sm">Customer</a>
+          </div>
+        </div>
       </nav>
       <!-- Mobile Menu Button -->
       <button id="mobile-menu-btn" class="lg:hidden text-deep-red focus:outline-none">
@@ -55,6 +62,27 @@
       <a href="customer-login.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Customer Login</a>
     </div>
   </header>
+
+  <!-- Auth Status Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const isAdminLoggedIn = localStorage.getItem('hp_crm_admin_logged_in') === 'true';
+      const btn = document.querySelector('.relative.group button');
+      const dropdown = document.querySelector('.relative.group > div');
+      
+      if (isAdminLoggedIn && btn && dropdown) {
+        btn.textContent = '👤 Logout Admin';
+        btn.style.color = '#388e3c';
+        btn.style.fontWeight = 'bold';
+        dropdown.innerHTML = '<button onclick="logoutAdmin()" class="block w-full text-left px-4 py-2 hover:bg-blush-pink/40 text-sm text-red-600 font-bold">Logout</button>';
+      }
+    });
+
+    function logoutAdmin() {
+      localStorage.removeItem('hp_crm_admin_logged_in');
+      window.location.reload();
+    }
+  </script>
 
   <!-- Main Content -->
   <main class="container mx-auto px-6 py-12 min-h-screen">
