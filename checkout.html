@@ -299,5 +299,92 @@
   </script>
 
   <script src="js/chatbot.js?v=2"></script>
+
+  <!-- Checkout Page Script - Display Cart Items and Totals -->
+  <script>
+    console.log('🛒 Checkout page script loading...');
+    
+    // Wait for DOM and cart.js to be fully loaded
+    function ensureCartLoaded() {
+      return new Promise((resolve) => {
+        if (typeof getCart === 'function' && typeof getCartTotal === 'function') {
+          resolve();
+        } else {
+          setTimeout(ensureCartLoaded, 100);
+        }
+      });
+    }
+
+    // Display cart items on checkout page
+    async function displayCheckoutCart() {
+      console.log('📦 displayCheckoutCart() running...');
+      
+      // Wait for cart functions to be available
+      await ensureCartLoaded();
+      
+      const cart = getCart();
+      const cartItemsContainer = document.getElementById('checkout-cart-items');
+      const subtotalEl = document.getElementById('cart-subtotal');
+      const totalEl = document.getElementById('cart-total');
+      
+      console.log('🔍 Found elements:', {
+        container: !!cartItemsContainer,
+        subtotal: !!subtotalEl,
+        total: !!totalEl,
+        cart: cart
+      });
+      
+      if (!cartItemsContainer || !subtotalEl || !totalEl) {
+        console.error('❌ Required DOM elements not found');
+        return;
+      }
+      
+      // Clear existing items
+      cartItemsContainer.innerHTML = '';
+      
+      if (!cart || cart.length === 0) {
+        console.warn('⚠️ Cart is empty');
+        cartItemsContainer.innerHTML = '<p class="text-gray-500 text-sm text-center py-4">Your cart is empty</p>';
+        subtotalEl.textContent = '$0.00';
+        totalEl.textContent = '$0.00';
+        return;
+      }
+      
+      console.log(`✅ Found ${cart.length} items in cart`);
+      
+      // Display each cart item
+      cart.forEach((item, idx) => {
+        console.log(`  Item ${idx + 1}: ${item.name} × ${item.quantity} @ $${item.price}`);
+        const itemTotal = (item.price * item.quantity).toFixed(2);
+        const itemEl = document.createElement('div');
+        itemEl.className = 'flex justify-between items-start text-sm bg-gray-50 p-3 rounded border border-gray-200';
+        itemEl.innerHTML = `
+          <div class="flex-1">
+            <p class="font-semibold text-gray-800">${item.name}</p>
+            <p class="text-gray-600">Qty: ${item.quantity}</p>
+            ${item.variant ? `<p class="text-gray-600 text-xs">${item.variant}</p>` : ''}
+          </div>
+          <p class="font-bold text-gray-900">$${itemTotal}</p>
+        `;
+        cartItemsContainer.appendChild(itemEl);
+      });
+      
+      // Update totals
+      const subtotal = getCartTotal();
+      console.log(`💰 Cart subtotal: $${subtotal.toFixed(2)}`);
+      subtotalEl.textContent = '$' + subtotal.toFixed(2);
+      totalEl.textContent = '$' + subtotal.toFixed(2);
+    }
+    
+    // Run when page loads
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', displayCheckoutCart);
+    } else {
+      displayCheckoutCart();
+    }
+    
+    // Also watch for cart updates (when user adds items from other tabs)
+    window.addEventListener('storage', displayCheckoutCart);
+  </script>
 </body>
 </html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Cart Debug Tool</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: monospace; background: #f5f5f5; padding: 20px; }
+    .container { background: white; padding: 20px; border-radius: 8px; max-width: 800px; margin: 0 auto; }
+    h1 { color: #C21807; }
+    button { background: #C21807; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #A10D05; }
+    .section { margin: 20px 0; padding: 15px; background: #f9f9f9; border-left: 3px solid #C21807; border-radius: 4px; }
+    pre { background: #f0f0f0; padding: 15px; border-radius: 4px; overflow-x: auto; }
+    .warning { color: #d32f2f; font-weight: bold; }
+    .success { color: #388e3c; font-weight: bold; }
+    .info { color: #1976d2; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🛒 Heart & Petal Cart Debug Tool</h1>
+    
+    <div class="section">
+      <h2>localStorage Contents</h2>
+      <button onclick="showLocalStorage()">Show localStorage</button>
+      <pre id="storage-output">Click button to show...</pre>
+    </div>
+
+    <div class="section">
+      <h2>Cart Data</h2>
+      <button onclick="showCart()">Show Cart</button>
+      <pre id="cart-output">Click button to show...</pre>
+    </div>
+
+    <div class="section">
+      <h2>Cart Summary</h2>
+      <div id="cart-summary">Click buttons above first...</div>
+    </div>
+
+    <div class="section">
+      <h2>Actions</h2>
+      <button onclick="clearCart()">Clear Cart</button>
+      <button onclick="clearAllStorage()">Clear ALL localStorage</button>
+      <button onclick="location.reload()">Refresh Page</button>
+    </div>
+  </div>
+
+  <script src="js/cart.js"></script>
+  <script>
+    function showLocalStorage() {
+      const output = {};
+      for (let key in localStorage) {
+        if (localStorage.hasOwnProperty(key)) {
+          try {
+            output[key] = JSON.parse(localStorage[key]);
+          } catch (e) {
+            output[key] = localStorage[key];
+          }
+        }
+      }
+      document.getElementById('storage-output').textContent = JSON.stringify(output, null, 2);
+    }
+
+    function showCart() {
+      const cart = getCart();
+      document.getElementById('cart-output').textContent = JSON.stringify(cart, null, 2);
+      updateCartSummary(cart);
+    }
+
+    function updateCartSummary(cart) {
+      const summary = document.getElementById('cart-summary');
+      
+      if (cart.length === 0) {
+        summary.innerHTML = '<p class="warning">⚠️ Cart is EMPTY</p>';
+        return;
+      }
+
+      let html = `<p class="info">📦 Cart has ${cart.length} item(s)</p>`;
+      let total = 0;
+
+      cart.forEach((item, idx) => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        html += `
+          <div style="background: white; padding: 10px; margin: 5px 0; border-left: 3px solid #C21807;">
+            <strong>${idx + 1}. ${item.name}</strong><br>
+            Price: $${item.price.toFixed(2)} × Qty: ${item.quantity} = $${itemTotal.toFixed(2)}<br>
+            ${item.variant ? `Variant: ${item.variant}<br>` : ''}
+            ${item.adminOnly ? '<span style="color: red;">🔒 ADMIN ONLY</span>' : ''}
+          </div>
+        `;
+      });
+
+      html += `<hr><p class="success">💰 Total: $${total.toFixed(2)}</p>`;
+      summary.innerHTML = html;
+    }
+
+    function clearCart() {
+      if (confirm('Are you sure you want to clear the cart?')) {
+        localStorage.removeItem('heartAndPetalCart');
+        alert('✅ Cart cleared');
+        location.reload();
+      }
+    }
+
+    function clearAllStorage() {
+      if (confirm('⚠️ This will clear ALL localStorage. Are you sure?')) {
+        localStorage.clear();
+        alert('✅ All localStorage cleared');
+        location.reload();
+      }
+    }
+  </script>
+</body>
+</html>
