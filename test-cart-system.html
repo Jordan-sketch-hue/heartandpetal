@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Cart System Test - Heart & Petal</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: 'Montserrat', sans-serif; 
+      background: linear-gradient(135deg, #FFD1DC 0%, #FFF8F0 100%);
+      padding: 20px;
+      min-height: 100vh;
+    }
+    .container { 
+      max-width: 900px; 
+      margin: 0 auto; 
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(194, 24, 7, 0.15);
+      overflow: hidden;
+    }
+    header {
+      background: linear-gradient(135deg, #C21807 0%, #FFD1DC 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+    h1 { 
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    .content {
+      padding: 30px;
+    }
+    .section {
+      margin-bottom: 25px;
+      padding: 20px;
+      background: #f9f9f9;
+      border-left: 4px solid #C21807;
+      border-radius: 8px;
+    }
+    .section h2 {
+      color: #C21807;
+      margin-bottom: 15px;
+      font-size: 1.3em;
+    }
+    button {
+      background: #C21807;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      margin: 5px;
+      transition: all 0.3s;
+    }
+    button:hover {
+      background: #A10D05;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(194, 24, 7, 0.3);
+    }
+    button.secondary {
+      background: #ECD9B0;
+      color: #333;
+    }
+    button.secondary:hover {
+      background: #d4bf94;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+    .card {
+      background: white;
+      border: 2px solid #FFD1DC;
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+    }
+    .card h3 {
+      color: #C21807;
+      margin-bottom: 10px;
+    }
+    .card input {
+      width: 100%;
+      padding: 8px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .status {
+      padding: 15px;
+      border-radius: 6px;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    .success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    .info {
+      background: #d1ecf1;
+      color: #0c5460;
+      border: 1px solid #bee5eb;
+    }
+    .output {
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 6px;
+      margin-top: 10px;
+      max-height: 300px;
+      overflow-y: auto;
+      font-family: monospace;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    .warning {
+      background: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffeeba;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🛒 Cart System Test</h1>
+      <p>Complete ecosystem validation for Heart & Petal</p>
+    </header>
+
+    <div class="content">
+      <!-- Test 1: Add Test Product -->
+      <div class="section">
+        <h2>🧪 Test 1: Add $1 Rose Test Product</h2>
+        <p>Adds the admin-only $1 test rose product to your cart</p>
+        <div class="grid">
+          <div class="card">
+            <h3>$1 Test Rose</h3>
+            <input type="number" id="qty1" value="1" min="1" max="10">
+            <button onclick="addTestProduct()">Add to Cart</button>
+          </div>
+        </div>
+        <div id="test1-output"></div>
+      </div>
+
+      <!-- Test 2: Add Regular Product -->
+      <div class="section">
+        <h2>🌹 Test 2: Add Regular Product</h2>
+        <p>Test adding a regular (non-admin) product to cart</p>
+        <div class="grid">
+          <div class="card">
+            <h3>Classic Red Roses</h3>
+            <p>$49.99</p>
+            <input type="number" id="qty2" value="1" min="1" max="10">
+            <button onclick="addRegularProduct()">Add to Cart</button>
+          </div>
+        </div>
+        <div id="test2-output"></div>
+      </div>
+
+      <!-- Test 3: View Cart -->
+      <div class="section">
+        <h2>📋 Test 3: View Cart Contents</h2>
+        <p>Display everything currently in your cart</p>
+        <button onclick="viewCart()">Show Cart</button>
+        <div id="test3-output"></div>
+      </div>
+
+      <!-- Test 4: Calculate Total -->
+      <div class="section">
+        <h2>💰 Test 4: Calculate Total</h2>
+        <p>Calculate the cart total (should include both products if added)</p>
+        <button onclick="calculateTotal()">Calculate Total</button>
+        <div id="test4-output"></div>
+      </div>
+
+      <!-- Test 5: localStorage Verification -->
+      <div class="section">
+        <h2>💾 Test 5: localStorage Verification</h2>
+        <p>Check what's actually stored in browser localStorage</p>
+        <button onclick="checkStorage()">Check Storage</button>
+        <div id="test5-output"></div>
+      </div>
+
+      <!-- Test 6: Cleanup -->
+      <div class="section">
+        <h2>🧹 Test 6: Cleanup & Reset</h2>
+        <p>Clear cart for fresh testing</p>
+        <button class="secondary" onclick="clearCartAndReload()">Clear Cart & Reload</button>
+        <button class="secondary" onclick="clearAllAndReload()">Clear ALL Storage & Reload</button>
+      </div>
+
+      <!-- Integration Status -->
+      <div class="section">
+        <h2>✅ System Status</h2>
+        <div id="status-output"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load cart.js -->
+  <script src="js/cart.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/error-handler.js"></script>
+
+  <script>
+    // Check if all functions are available
+    function checkSystemStatus() {
+      const status = {
+        getCart: typeof getCart === 'function',
+        addToCart: typeof addToCart === 'function',
+        removeFromCart: typeof removeFromCart === 'function',
+        updateQuantity: typeof updateQuantity === 'function',
+        getCartTotal: typeof getCartTotal === 'function',
+        localStorage: typeof localStorage !== 'undefined'
+      };
+      
+      const all_working = Object.values(status).every(v => v);
+      
+      let html = '<div class="status ' + (all_working ? 'success' : 'error') + '">';
+      html += all_working ? '✅ All systems operational!' : '❌ Some systems offline!';
+      html += '</div>';
+      html += '<div class="output">' + JSON.stringify(status, null, 2) + '</div>';
+      
+      document.getElementById('status-output').innerHTML = html;
+      return all_working;
+    }
+
+    // Test 1: Add $1 test product
+    function addTestProduct() {
+      const qty = parseInt(document.getElementById('qty1').value) || 1;
+      const result = addToCart({
+        id: 'admin-test-rose',
+        name: 'Rose Test Product - $1 (Admin Only)',
+        price: 1.00,
+        quantity: qty,
+        variant: 'Test',
+        img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/v1769602073/give_a_rosebud_favicon_in_red_please_xqnp4v.jpg',
+        adminOnly: true
+      });
+      
+      let html = '<div class="status ' + (result ? 'success' : 'error') + '">';
+      html += result ? '✅ Successfully added to cart!' : '❌ Failed to add (admin login required?)';
+      html += '</div>';
+      html += '<div class="output">Result: ' + result + '\nQty: ' + qty + '\nPrice: $1.00 × ' + qty + ' = $' + (1.00 * qty).toFixed(2);
+      html += '</div>';
+      
+      document.getElementById('test1-output').innerHTML = html;
+      checkSystemStatus();
+    }
+
+    // Test 2: Add regular product
+    function addRegularProduct() {
+      const qty = parseInt(document.getElementById('qty2').value) || 1;
+      const result = addToCart({
+        id: 'classic-red-roses',
+        name: 'Classic Red Roses (1 Dozen)',
+        price: 49.99,
+        quantity: qty,
+        variant: 'Red',
+        img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/samples/logo.png',
+        adminOnly: false
+      });
+      
+      let html = '<div class="status ' + (result ? 'success' : 'error') + '">';
+      html += result ? '✅ Successfully added to cart!' : '❌ Failed to add';
+      html += '</div>';
+      html += '<div class="output">Result: ' + result + '\nQty: ' + qty + '\nPrice: $49.99 × ' + qty + ' = $' + (49.99 * qty).toFixed(2);
+      html += '</div>';
+      
+      document.getElementById('test2-output').innerHTML = html;
+      checkSystemStatus();
+    }
+
+    // Test 3: View cart
+    function viewCart() {
+      const cart = getCart();
+      let html = '<div class="status info">📦 Current Cart Contents</div>';
+      
+      if (cart.length === 0) {
+        html += '<div class="status warning">⚠️ Cart is empty</div>';
+      } else {
+        let total = 0;
+        cart.forEach((item, idx) => {
+          const itemTotal = item.price * item.quantity;
+          total += itemTotal;
+          html += `<div style="background: white; padding: 10px; margin: 5px 0; border-left: 3px solid #C21807;">
+            <strong>${idx + 1}. ${item.name}</strong><br>
+            Price: $${item.price.toFixed(2)} × Qty: ${item.quantity} = <strong>$${itemTotal.toFixed(2)}</strong><br>
+            ${item.adminOnly ? '<span style="color: red;">🔒 ADMIN ONLY</span>' : ''}
+          </div>`;
+        });
+        html += `<div style="background: #C21807; color: white; padding: 10px; margin-top: 10px; font-weight: bold;">Total Items: ${cart.length} | Running Total: $${total.toFixed(2)}</div>`;
+      }
+      
+      document.getElementById('test3-output').innerHTML = html;
+      checkSystemStatus();
+    }
+
+    // Test 4: Calculate total
+    function calculateTotal() {
+      const total = getCartTotal();
+      let html = '<div class="status success">💰 Total Calculated</div>';
+      html += '<div class="output">getCartTotal() returned: $' + total.toFixed(2);
+      html += '\n\nThis is what PayPal will receive.</div>';
+      
+      document.getElementById('test4-output').innerHTML = html;
+      checkSystemStatus();
+    }
+
+    // Test 5: Check localStorage
+    function checkStorage() {
+      const storage = {};
+      for (let key in localStorage) {
+        if (localStorage.hasOwnProperty(key)) {
+          try {
+            storage[key] = JSON.parse(localStorage[key]);
+          } catch (e) {
+            storage[key] = localStorage[key];
+          }
+        }
+      }
+      
+      let html = '<div class="status info">💾 localStorage Contents</div>';
+      html += '<div class="output">' + JSON.stringify(storage, null, 2) + '</div>';
+      
+      document.getElementById('test5-output').innerHTML = html;
+      checkSystemStatus();
+    }
+
+    // Test 6: Clear cart
+    function clearCartAndReload() {
+      if (confirm('Clear cart and reload page?')) {
+        localStorage.removeItem('heartAndPetalCart');
+        location.reload();
+      }
+    }
+
+    function clearAllAndReload() {
+      if (confirm('⚠️ Clear ALL localStorage and reload?')) {
+        localStorage.clear();
+        location.reload();
+      }
+    }
+
+    // Initialize on page load
+    window.addEventListener('load', checkSystemStatus);
+  </script>
+</body>
+</html>
