@@ -99,6 +99,12 @@ function initPayPalButtons() {
         });
       }
       
+      // 🔥 Track Google Ads conversion
+      const orderTotal = typeof calculateTotal === 'function' ? calculateTotal() : 0;
+      if (typeof gtag_report_conversion === 'function') {
+        gtag_report_conversion(orderTotal, data.orderID);
+      }
+      
       // Clear cart
       localStorage.removeItem('heartAndPetalCart');
       
