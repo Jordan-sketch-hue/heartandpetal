@@ -59,6 +59,13 @@ function renderProfile() {
   document.getElementById('profile-name').value = customer.name;
   document.getElementById('profile-email').value = customer.email;
   document.getElementById('profile-address').value = customer.address || '';
+  
+  // Show admin dashboard link if admin is logged in
+  const isAdminLoggedIn = localStorage.getItem('hp_crm_admin_logged_in') === 'true';
+  const adminDashboardLink = document.getElementById('admin-dashboard-link');
+  if (adminDashboardLink && isAdminLoggedIn) {
+    adminDashboardLink.classList.remove('hidden');
+  }
 }
 
 function renderOrders() {
