@@ -483,7 +483,7 @@
 
       // Call the global addToCart function with proper parameters
       if (window.addToCart) {
-        window.addToCart({
+        const success = window.addToCart({
           id: product.id,
           name: `${product.name} - ${sizeLabel}`,
           price: price,
@@ -492,6 +492,15 @@
           img: product.img,
           baseProduct: product
         });
+        
+        // If successfully added, show "Go to Cart" option
+        if (success) {
+          setTimeout(() => {
+            if (confirm('✅ Added to cart! Go to checkout?')) {
+              window.location.href = 'checkout.html';
+            }
+          }, 800);
+        }
       } else {
         showSuccess(`Added ${quantity}x ${product.name} to cart!`, product.img);
       }

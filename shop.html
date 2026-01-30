@@ -635,7 +635,7 @@ function renderProducts(list) {
         }
         
         if (window.addToCart) {
-          window.addToCart({ 
+          const success = window.addToCart({ 
             id, 
             name, 
             price: finalPrice, 
@@ -643,6 +643,15 @@ function renderProducts(list) {
             quantity,
             variant: variantLabel
           });
+          
+          // If successfully added and NOT Buy Now, ask to go to cart
+          if (success && !isCheckout) {
+            setTimeout(() => {
+              if (confirm('✅ Added to cart! Go to checkout?')) {
+                window.location.href = 'checkout.html';
+              }
+            }, 800);
+          }
         }
         
         // Close modal

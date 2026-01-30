@@ -296,10 +296,13 @@
         cart.forEach((item, idx) => {
           const itemTotal = item.price * item.quantity;
           total += itemTotal;
-          html += `<div style="background: white; padding: 10px; margin: 5px 0; border-left: 3px solid #C21807;">
-            <strong>${idx + 1}. ${item.name}</strong><br>
-            Price: $${item.price.toFixed(2)} × Qty: ${item.quantity} = <strong>$${itemTotal.toFixed(2)}</strong><br>
-            ${item.adminOnly ? '<span style="color: red;">🔒 ADMIN ONLY</span>' : ''}
+          html += `<div style="background: white; padding: 10px; margin: 5px 0; border-left: 3px solid #C21807; display: flex; justify-content: space-between; align-items: center;">
+            <div style="flex: 1;">
+              <strong>${idx + 1}. ${item.name}</strong><br>
+              Price: $${item.price.toFixed(2)} × Qty: ${item.quantity} = <strong>$${itemTotal.toFixed(2)}</strong><br>
+              ${item.adminOnly ? '<span style="color: red;">🔒 ADMIN ONLY</span>' : ''}
+            </div>
+            <button onclick="removeItemAndRefresh('${item.id}')" style="background: #d32f2f; margin: 0; white-space: nowrap;">Remove ×</button>
           </div>`;
         });
         html += `<div style="background: #C21807; color: white; padding: 10px; margin-top: 10px; font-weight: bold;">Total Items: ${cart.length} | Running Total: $${total.toFixed(2)}</div>`;
@@ -307,6 +310,15 @@
       
       document.getElementById('test3-output').innerHTML = html;
       checkSystemStatus();
+    }
+
+    // Remove item from cart
+    function removeItemAndRefresh(itemId) {
+      if (confirm('Remove this item from cart?')) {
+        removeFromCart(itemId);
+        viewCart();
+        checkSystemStatus();
+      }
     }
 
     // Test 4: Calculate total
