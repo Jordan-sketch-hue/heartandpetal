@@ -148,39 +148,41 @@
     </section>
 
     <!-- Product Details -->
-    <section>
-      <h1 id="product-name" class="text-3xl font-playfair font-bold mb-4">Red Roses Bouquet</h1>
-      <p id="product-description" class="text-lg mb-4">Classic, elegant roses hand-selected for freshness and beauty. Perfect for Valentine's Day or any romantic occasion.</p>
+    <section class="bg-white/50 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-blush-pink/30">
+      <h1 id="product-name" class="text-4xl font-playfair font-bold mb-6 text-deep-red bg-gradient-to-r from-deep-red to-red-700 bg-clip-text text-transparent">Red Roses Bouquet</h1>
+      <p id="product-description" class="text-lg mb-6 text-charcoal leading-relaxed">Classic, elegant roses hand-selected for freshness and beauty. Perfect for Valentine's Day or any romantic occasion.</p>
       
       <!-- Star Rating -->
-      <div id="star-rating" class="flex items-center gap-1 text-champagne-gold text-xl mb-2"></div>
-      <p id="review-count" class="text-sm text-charcoal/80 mb-4">(0 reviews)</p>
+      <div class="bg-blush-pink/20 rounded-lg p-4 mb-6 border border-champagne-gold/30">
+        <div id="star-rating" class="flex items-center gap-2 text-champagne-gold text-2xl mb-2 drop-shadow-sm"></div>
+        <p id="review-count" class="text-sm text-charcoal/70 font-semibold">(0 reviews)</p>
+      </div>
       
       <!-- Price Display -->
-      <p id="product-price" class="text-2xl text-deep-red font-bold mb-2">$49.99</p>
+      <p id="product-price" class="text-4xl text-deep-red font-bold mb-4 drop-shadow-lg">$49.99</p>
 
       <!-- Urgency Badge for Low Stock -->
       <div id="product-urgency-badge" class="mb-4" style="display: none;">
       </div>
 
       <!-- Size/Variant Selector -->
-      <div id="variant-selector" class="mb-6 p-4 bg-blush-pink/10 rounded-lg">
-        <label class="block font-bold mb-2">Select Size/Option:</label>
-        <select id="size-select" class="w-full border-2 border-deep-red rounded px-3 py-2 font-semibold">
+      <div id="variant-selector" class="mb-8 p-6 bg-gradient-to-br from-blush-pink/20 to-champagne-gold/10 rounded-2xl shadow-lg border-2 border-champagne-gold/30 backdrop-blur-sm">
+        <label class="block font-bold mb-3 text-charcoal text-lg">Select Size/Option:</label>
+        <select id="size-select" class="w-full border-2 border-deep-red rounded-xl px-4 py-3 font-semibold shadow-md hover:shadow-lg transition-all duration-300 focus:ring-4 focus:ring-champagne-gold/30 focus:border-champagne-gold bg-white">
           <option value="">-- Choose an option --</option>
         </select>
-        <p id="variant-price" class="text-lg text-deep-red font-bold mt-2">Price: $49.99</p>
+        <p id="variant-price" class="text-xl text-deep-red font-bold mt-4 drop-shadow-sm">Price: $49.99</p>
       </div>
 
       <!-- Quantity and Add to Cart -->
-      <div class="flex gap-2 mb-4">
-        <div class="flex items-center border-2 border-deep-red rounded-lg">
-          <button id="qty-minus" class="px-4 py-2 text-deep-red hover:bg-blush-pink">−</button>
-          <input id="qty-input" type="number" value="1" min="1" class="w-16 text-center border-l border-r border-deep-red py-2" readonly>
-          <button id="qty-plus" class="px-4 py-2 text-deep-red hover:bg-blush-pink">+</button>
+      <div class="flex gap-3 mb-6">
+        <div class="flex items-center border-2 border-deep-red rounded-xl shadow-md hover:shadow-lg transition-all duration-300 bg-white">
+          <button id="qty-minus" class="px-5 py-3 text-deep-red hover:bg-blush-pink/50 transition-all duration-200 font-bold text-xl">−</button>
+          <input id="qty-input" type="number" value="1" min="1" class="w-16 text-center border-l border-r border-deep-red py-3 font-bold text-lg" readonly>
+          <button id="qty-plus" class="px-5 py-3 text-deep-red hover:bg-blush-pink/50 transition-all duration-200 font-bold text-xl">+</button>
         </div>
-        <button id="add-to-cart" class="flex-1 bg-deep-red text-ivory px-8 py-2 rounded-lg font-bold text-lg hover:bg-red-700 transition">Add to Cart</button>
-        <button id="wishlist-btn" onclick="toggleWishlistFromProduct()" class="bg-white border-2 border-deep-red text-deep-red px-6 py-2 rounded-lg font-bold text-lg hover:bg-blush-pink transition flex items-center gap-2">
+        <button id="add-to-cart" class="flex-1 bg-gradient-to-r from-deep-red to-red-700 text-ivory px-8 py-3 rounded-xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 shadow-lg">Add to Cart</button>
+        <button id="wishlist-btn" onclick="toggleWishlistFromProduct()" class="bg-white border-2 border-deep-red text-deep-red px-6 py-3 rounded-xl font-bold text-lg hover:bg-blush-pink hover:scale-105 transition-all duration-300 flex items-center gap-2 shadow-md hover:shadow-lg">
           <span id="wishlist-heart">🤍</span>
         </button>
       </div>
@@ -194,15 +196,15 @@
 
   <!-- Reviews Section -->
   <section class="container mx-auto px-6 py-16 max-w-4xl">
-    <h2 class="font-playfair text-3xl font-bold mb-8 text-deep-red">Customer Reviews</h2>
+    <h2 class="font-playfair text-4xl font-bold mb-12 text-deep-red bg-gradient-to-r from-deep-red to-red-700 bg-clip-text text-transparent drop-shadow-sm">Customer Reviews</h2>
 
     <!-- Review Submission Form -->
-    <div class="bg-blush-pink/20 rounded-lg p-8 mb-12">
+    <div class="bg-gradient-to-br from-blush-pink/30 to-champagne-gold/20 rounded-2xl p-10 mb-12 shadow-xl border border-champagne-gold/40 backdrop-blur-sm">
       <h3 class="text-xl font-bold mb-6">Share Your Review</h3>
       <form id="review-form" class="space-y-4">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input type="text" id="review-name" placeholder="Your Name" class="border-2 border-deep-red rounded px-4 py-2" required>
-          <input type="email" id="review-email" placeholder="Your Email" class="border-2 border-deep-red rounded px-4 py-2" required>
+          <input type="text" id="review-name" placeholder="Your Name" class="border-2 border-deep-red rounded-xl px-4 py-3 shadow-md focus:ring-4 focus:ring-champagne-gold/30 focus:border-champagne-gold transition-all duration-300" required>
+          <input type="email" id="review-email" placeholder="Your Email" class="border-2 border-deep-red rounded-xl px-4 py-3 shadow-md focus:ring-4 focus:ring-champagne-gold/30 focus:border-champagne-gold transition-all duration-300" required>
         </div>
         
         <div>
@@ -221,11 +223,11 @@
 
         <div>
           <label class="block font-bold mb-2">Your Review</label>
-          <textarea id="review-text" placeholder="Share your thoughts about this product..." class="w-full border-2 border-deep-red rounded px-4 py-2 h-24" required></textarea>
+          <textarea id="review-text" placeholder="Share your thoughts about this product..." class="w-full border-2 border-deep-red rounded-xl px-4 py-3 h-32 shadow-md focus:ring-4 focus:ring-champagne-gold/30 focus:border-champagne-gold transition-all duration-300" required></textarea>
           <p class="text-xs text-charcoal/60 mt-1">Max 500 characters. Review will be moderated before posting.</p>
         </div>
 
-        <button type="submit" class="bg-deep-red text-ivory px-8 py-3 rounded-lg font-bold hover:bg-red-700 transition">Submit Review for Approval</button>
+        <button type="submit" class="bg-gradient-to-r from-deep-red to-red-700 text-ivory px-10 py-4 rounded-xl font-bold hover:shadow-2xl hover:scale-105 transition-all duration-300 shadow-lg">Submit Review for Approval</button>
         <p id="review-status" class="text-sm text-champagne-gold hidden mt-2"></p>
       </form>
     </div>
@@ -236,11 +238,11 @@
     </div>
     
     <!-- Show More Reviews Button -->
-    <div id="show-more-container" class="text-center mt-8 mb-12 hidden">
-      <button id="show-more-reviews-btn" class="bg-deep-red text-ivory px-8 py-3 rounded-lg font-bold hover:bg-red-700 transition shadow-lg">
+    <div id="show-more-container" class="text-center mt-10 mb-16 hidden">
+      <button id="show-more-reviews-btn" class="bg-gradient-to-r from-deep-red to-red-700 text-ivory px-10 py-4 rounded-xl font-bold hover:shadow-2xl hover:scale-105 transition-all duration-300 shadow-xl">
         Show More Reviews (<span id="remaining-count">0</span> remaining)
       </button>
-      <button id="show-less-reviews-btn" class="hidden bg-charcoal text-ivory px-8 py-3 rounded-lg font-bold hover:bg-gray-700 transition shadow-lg ml-4">
+      <button id="show-less-reviews-btn" class="hidden bg-gradient-to-r from-charcoal to-gray-700 text-ivory px-10 py-4 rounded-xl font-bold hover:shadow-2xl hover:scale-105 transition-all duration-300 shadow-xl ml-4">
         Show Less
       </button>
     </div>
