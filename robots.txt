@@ -1,6 +1,16 @@
 # Heart & Petal - Robots.txt
 # Prevent search engines from indexing code files
 
+# ✅ GOOGLE ADS CRAWLER - FULL ACCESS
+# This bot needs to crawl your site to verify ad placement
+User-agent: Mediapartners-Google
+Allow: /
+
+# ✅ GOOGLE ADSENSE CRAWLER - FULL ACCESS
+User-agent: AdsBot-Google
+Allow: /
+
+# All other search engines
 User-agent: *
 
 # Allow main pages
