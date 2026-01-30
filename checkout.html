@@ -15,7 +15,7 @@
   <script>
     function gtag_report_conversion(transaction_value, transaction_id) {
       gtag('event', 'conversion', {
-        'send_to': 'AW-11161550773/uCMaCM7A584YELX_nsop',
+        'send_to': 'AW-11161550773/w6gbCNj03e8bELX_nsop',
         'value': transaction_value,
         'currency': 'USD',
         'transaction_id': transaction_id
@@ -136,9 +136,16 @@
     
     function logoutAdmin() {
       localStorage.removeItem('hp_crm_admin_logged_in');
-      alert('✅ Logged out');
-      updateAuthButton();
-      location.reload();
+      if (typeof showBrandedAlert === 'function') {
+        showBrandedAlert('Admin logged out', 'Logged Out', 'info', () => {
+          updateAuthButton();
+          location.reload();
+        });
+      } else {
+        alert('✅ Logged out');
+        updateAuthButton();
+        location.reload();
+      }
     }
     
     function logoutCustomer() {
@@ -330,6 +337,36 @@
     </div>
   </main>
 
+  <!-- Branded Alert Modal -->
+  <div id="branded-modal-alert" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-bold text-deep-red" id="branded-modal-title">Alert</h2>
+        <button id="branded-modal-close" class="text-gray-500 hover:text-charcoal text-2xl font-bold">&times;</button>
+      </div>
+      <div class="flex items-start gap-4 mb-6">
+        <div id="branded-modal-icon" class="flex-shrink-0"></div>
+        <p class="text-gray-700" id="branded-modal-message">Message goes here</p>
+      </div>
+      <button id="branded-modal-ok" class="w-full bg-deep-red text-white px-6 py-3 rounded-lg font-bold hover:bg-red-700 transition">OK</button>
+    </div>
+  </div>
+
+  <!-- Branded Confirm Modal -->
+  <div id="branded-modal-confirm" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-bold text-deep-red" id="branded-confirm-title">Confirm</h2>
+        <button id="branded-confirm-close" class="text-gray-500 hover:text-charcoal text-2xl font-bold">&times;</button>
+      </div>
+      <p class="text-gray-700 mb-6" id="branded-confirm-message">Are you sure?</p>
+      <div class="flex gap-3">
+        <button id="branded-confirm-yes" class="flex-1 bg-deep-red text-white px-6 py-3 rounded-lg font-bold hover:bg-red-700 transition">Yes</button>
+        <button id="branded-confirm-no" class="flex-1 px-6 py-3 rounded-lg border-2 border-charcoal font-bold hover:bg-gray-100 transition">No</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="bg-deep-red text-white py-8 mt-12">
     <div class="container mx-auto px-6 text-center">
@@ -468,7 +505,12 @@
 
     // Helper function to remove item and refresh display
     function removeFromCartAndRefresh(productId) {
-      if (confirm('Remove this item from your cart?')) {
+      if (typeof showBrandedConfirm === 'function') {
+        showBrandedConfirm('Remove this item from your cart?', 'Remove Item', () => {
+          removeFromCart(productId);
+          displayCheckoutCart();
+        }, null);
+      } else if (confirm('Remove this item from your cart?')) {
         removeFromCart(productId);
         displayCheckoutCart();
       }

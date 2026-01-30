@@ -174,7 +174,14 @@ function setupLogout() {
   const logoutBtn = document.getElementById('logout-btn');
   if (logoutBtn) {
     logoutBtn.addEventListener('click', function() {
-      if (confirm('Are you sure you want to logout?')) {
+      if (typeof showBrandedConfirm === 'function') {
+        showBrandedConfirm('Are you sure you want to logout?', 'Confirm Logout', () => {
+          localStorage.removeItem('hp_last_login');
+          localStorage.removeItem('hp_customer_name');
+          localStorage.removeItem('hp_session');
+          window.location.href = 'customer-login.html';
+        }, null);
+      } else if (confirm('Are you sure you want to logout?')) {
         localStorage.removeItem('hp_last_login');
         localStorage.removeItem('hp_customer_name');
         localStorage.removeItem('hp_session');
@@ -269,6 +276,8 @@ function copyCouponCode(code) {
   navigator.clipboard.writeText(code).then(() => {
     if (window.showNotification && typeof window.showNotification === 'function') {
       window.showNotification(`Coupon code "${code}" copied! Redirecting to shop...`, 'success');
+    } else if (typeof showBrandedAlert === 'function') {
+      showBrandedAlert(`Coupon code "${code}" copied! Redirecting to shop...`, 'Copied', 'success');
     } else {
       alert(`Coupon code "${code}" copied to clipboard!`);
     }
@@ -278,7 +287,11 @@ function copyCouponCode(code) {
       window.location.href = 'shop.html';
     }, 1500);
   }).catch(err => {
-    alert(`Coupon code: ${code}\n\nPlease copy this code manually.`);
+    if (typeof showBrandedAlert === 'function') {
+      showBrandedAlert(`Coupon code: ${code}\n\nPlease copy this code manually.`, 'Copy Code', 'info');
+    } else {
+      alert(`Coupon code: ${code}\n\nPlease copy this code manually.`);
+    }
   });
 }
 

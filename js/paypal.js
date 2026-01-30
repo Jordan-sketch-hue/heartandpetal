@@ -39,7 +39,11 @@ function initPayPalButtons() {
     const cart = getCartSafely();
     
     if (!cart || cart.length === 0) {
-      alert('Your cart is empty! Please add items before checkout.');
+      if (typeof showBrandedAlert === 'function') {
+        showBrandedAlert('Please add items to your cart before checking out.', 'Empty Cart', 'error');
+      } else {
+        alert('Your cart is empty! Please add items before checkout.');
+      }
       return Promise.reject(new Error('Empty cart'));
     }
     
@@ -108,9 +112,15 @@ function initPayPalButtons() {
       // Clear cart
       localStorage.removeItem('heartAndPetalCart');
       
-      // Show success message
-      alert('✅ Payment successful! Order confirmation sent to your email.');
-      window.location.href = 'tracking.html';
+      // Show branded success message
+      if (typeof showBrandedAlert === 'function') {
+        showBrandedAlert('Payment successful! Order confirmation sent to your email.', 'Payment Confirmed', 'success', () => {
+          window.location.href = 'tracking.html';
+        });
+      } else {
+        alert('✅ Payment successful! Order confirmation sent to your email.');
+        window.location.href = 'tracking.html';
+      }
     });
   },
   
@@ -123,7 +133,11 @@ function initPayPalButtons() {
   // Handle cancellation
   onCancel: function(data) {
     console.log("Payment cancelled:", data);
-    alert('Payment cancelled. You can try again when ready.');
+    if (typeof showBrandedAlert === 'function') {
+      showBrandedAlert('Payment cancelled. You can try again when ready.', 'Payment Cancelled', 'warning');
+    } else {
+      alert('Payment cancelled. You can try again when ready.');
+    }
   }
   }).render('#paypal-button-container')
     .then(function() {

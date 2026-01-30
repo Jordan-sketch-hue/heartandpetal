@@ -47,9 +47,97 @@ function showNotification(message, type = 'info', imageUrl = null) {
   }, 2500);
 }
 
+// Branded Modal Alert (with OK button)
+function showBrandedAlert(message, title = 'Alert', type = 'info', onClose = null) {
+  const modal = document.getElementById('branded-modal-alert');
+  if (!modal) {
+    console.error('Branded alert modal not found on page');
+    alert(message); // Fallback
+    return;
+  }
+  
+  const titleEl = modal.querySelector('#branded-modal-title');
+  const msgEl = modal.querySelector('#branded-modal-message');
+  const iconEl = modal.querySelector('#branded-modal-icon');
+  const okBtn = modal.querySelector('#branded-modal-ok');
+  const closeBtn = modal.querySelector('#branded-modal-close');
+  
+  if (titleEl) titleEl.textContent = title;
+  if (msgEl) msgEl.innerHTML = message;
+  
+  // Set icon based on type
+  const icons = {
+    success: '<svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',
+    error: '<svg class="w-10 h-10 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l-2-2m0 0l-2-2m2 2l2-2m-2 2l-2 2m8-8l-2 2m0 0l-2-2m2 2l2-2m-2 2l-2 2M9 12a9 9 0 1118 0 9 9 0 01-18 0z"/></svg>',
+    warning: '<svg class="w-10 h-10 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',
+    info: '<svg class="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>'
+  };
+  
+  if (iconEl) iconEl.innerHTML = icons[type] || icons.info;
+  
+  const close = () => {
+    modal.classList.add('hidden');
+    if (onClose) onClose();
+  };
+  
+  if (okBtn) okBtn.onclick = close;
+  if (closeBtn) closeBtn.onclick = close;
+  
+  modal.classList.remove('hidden');
+}
+
+// Branded Modal Confirm (with Yes/No buttons)
+function showBrandedConfirm(message, title = 'Confirm', onConfirm = null, onCancel = null) {
+  const modal = document.getElementById('branded-modal-confirm');
+  if (!modal) {
+    console.error('Branded confirm modal not found on page');
+    if (confirm(message)) {
+      if (onConfirm) onConfirm();
+    } else {
+      if (onCancel) onCancel();
+    }
+    return;
+  }
+  
+  const titleEl = modal.querySelector('#branded-confirm-title');
+  const msgEl = modal.querySelector('#branded-confirm-message');
+  const yesBtn = modal.querySelector('#branded-confirm-yes');
+  const noBtn = modal.querySelector('#branded-confirm-no');
+  const closeBtn = modal.querySelector('#branded-confirm-close');
+  
+  if (titleEl) titleEl.textContent = title;
+  if (msgEl) msgEl.textContent = message;
+  
+  const close = () => modal.classList.add('hidden');
+  
+  if (yesBtn) {
+    yesBtn.onclick = () => {
+      close();
+      if (onConfirm) onConfirm();
+    };
+  }
+  
+  if (noBtn) {
+    noBtn.onclick = () => {
+      close();
+      if (onCancel) onCancel();
+    };
+  }
+  
+  if (closeBtn) closeBtn.onclick = () => {
+    close();
+    if (onCancel) onCancel();
+  };
+  
+  modal.classList.remove('hidden');
+}
+
 // Convenience functions - Export all to window for global access
 window.showNotification = showNotification;
 window.showError = (message, imageUrl = null) => showNotification(message, 'error', imageUrl);
 window.showSuccess = (message, imageUrl = null) => showNotification(message, 'success', imageUrl);
 window.showInfo = (message, imageUrl = null) => showNotification(message, 'info', imageUrl);
 window.showWarning = (message, imageUrl = null) => showNotification(message, 'warning', imageUrl);
+window.showBrandedAlert = showBrandedAlert;
+window.showBrandedConfirm = showBrandedConfirm;
+
