@@ -837,17 +837,22 @@ function filterByCategory(category) {
 }
 
 const categoryFromURL = getQueryParam('category');
-if (categoryFromURL) {
-  setTimeout(() => {
-    filterByCategory(categoryFromURL);
-  }, 200);
-} else {
-  renderProducts(products);
-}
 
-if (filterForm) {
-  filterForm.onchange = filterProducts;
-}
+// Initialize products when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+  // Render initial products or filtered by category from URL
+  if (categoryFromURL) {
+    setTimeout(() => {
+      filterByCategory(categoryFromURL);
+    }, 200);
+  } else {
+    renderProducts(products);
+  }
+  
+  if (filterForm) {
+    filterForm.onchange = filterProducts;
+  }
+});
 
 // Wishlist reminder - show after 5 minutes if user has wishlist items
 setTimeout(() => {
