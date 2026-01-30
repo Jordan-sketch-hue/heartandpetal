@@ -823,12 +823,12 @@
     }
 
     // Related products (same category or random) - Filter out admin-only products
-    const isAdminLoggedIn = localStorage.getItem('hp_crm_admin_logged_in') === 'true';
+    let adminLoggedIn = localStorage.getItem('hp_crm_admin_logged_in') === 'true';
     const availableProducts = products.filter(p => {
       // Exclude current product
       if (p.id === product.id) return false;
       // If product is admin-only, only show when admin is logged in
-      if (p.adminOnly && !isAdminLoggedIn) return false;
+      if (p.adminOnly && !adminLoggedIn) return false;
       return true;
     });
     
