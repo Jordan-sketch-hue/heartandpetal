@@ -234,6 +234,16 @@
     <div id="reviews-container" class="space-y-6">
       <!-- Reviews will be populated by JavaScript -->
     </div>
+    
+    <!-- Show More Reviews Button -->
+    <div id="show-more-container" class="text-center mt-8 mb-12 hidden">
+      <button id="show-more-reviews-btn" class="bg-deep-red text-ivory px-8 py-3 rounded-lg font-bold hover:bg-red-700 transition shadow-lg">
+        Show More Reviews (<span id="remaining-count">0</span> remaining)
+      </button>
+      <button id="show-less-reviews-btn" class="hidden bg-charcoal text-ivory px-8 py-3 rounded-lg font-bold hover:bg-gray-700 transition shadow-lg ml-4">
+        Show Less
+      </button>
+    </div>
 
     <!-- Related Products -->
     <h3 class="font-playfair text-2xl font-bold mt-16 mb-8 text-deep-red">Related Products</h3>
@@ -763,45 +773,19 @@
     // Update review count display
     document.getElementById('review-count').textContent = `(${reviewsForProduct.length} reviews)`;
 
-    // Display reviews
-    if (reviewsContainer) {
-      reviewsForProduct.forEach(review => {
-        const reviewCard = document.createElement('div');
-        reviewCard.className = 'bg-white p-6 rounded-lg shadow-md';
-        
-        const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
-        
-        reviewCard.innerHTML = `
-          <div class="flex items-center gap-4 mb-3">
-            <div class="w-12 h-12 bg-blush-pink rounded-full flex items-center justify-center font-bold text-deep-red">
-              ${review.name.charAt(0)}
-            </div>
-            <div>
-              <p class="font-bold">${review.name}</p>
-              <p class="text-champagne-gold">${stars}</p>
-            </div>
-          </div>
-          ${review.text ? `<p class="text-charcoal/80">${review.text}</p>` : '<p class="text-charcoal/60 text-sm italic">Rating only</p>'}
-        `;
-        reviewsContainer.appendChild(reviewCard);
-      });
-    }
-
-    // Display approved customer reviews (for this product)
-    const approvedReviews = getApprovedReviews().filter(r => r.productId === product.id);
-    if (approvedReviews.length > 0) {
-      const divider = document.createElement('div');
-      divider.className = 'my-8 border-t-2 border-charcoal/20';
-      divider.innerHTML = '<p class="text-center text-charcoal/60 font-bold mt-4">Verified Customer Reviews</p>';
-      reviewsContainer.appendChild(divider);
-
-      approvedReviews.forEach(review => {
-        const reviewCard = document.createElement('div');
-        reviewCard.className = 'bg-green-50 p-6 rounded-lg shadow-md border-2 border-green-200';
-        
-        const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+    // Display reviews with pagination
+    let displayedReviewsCount = 0;
+    const initialReviewsToShow = 10;
+    const reviewsPerLoad = 20;
+    
+    function renderReview(review, isVerified = false) {
+      const reviewCard = document.createElement('div');
+      reviewCard.className = isVerified ? 'review-card bg-green-50 p-6 rounded-lg shadow-md border-2 border-green-200' : 'review-card bg-white p-6 rounded-lg shadow-md';
+      
+      const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+      
+      if (isVerified) {
         const dateStr = new Date(review.submitted).toLocaleDateString();
-        
         reviewCard.innerHTML = `
           <div class="flex items-center justify-between mb-3">
             <div class="flex items-center gap-4">
@@ -820,7 +804,91 @@
           <p class="text-champagne-gold mb-3">${stars}</p>
           <p class="text-charcoal/80">${review.text}</p>
         `;
-        reviewsContainer.appendChild(reviewCard);
+      } else {
+        reviewCard.innerHTML = `
+          <div class="flex items-center gap-4 mb-3">
+            <div class="w-12 h-12 bg-blush-pink rounded-full flex items-center justify-center font-bold text-deep-red">
+              ${review.name.charAt(0)}
+            </div>
+            <div>
+              <p class="font-bold">${review.name}</p>
+              <p class="text-champagne-gold">${stars}</p>
+            </div>
+          </div>
+          ${review.text ? `<p class="text-charcoal/80">${review.text}</p>` : '<p class="text-charcoal/60 text-sm italic">Rating only</p>'}
+        `;
+      }
+      return reviewCard;
+    }
+    
+    function showMoreReviews(count) {
+      const startIndex = displayedReviewsCount;
+      const endIndex = Math.min(startIndex + count, reviewsForProduct.length);
+      
+      for (let i = startIndex; i < endIndex; i++) {
+        reviewsContainer.appendChild(renderReview(reviewsForProduct[i]));
+      }
+      
+      displayedReviewsCount = endIndex;
+      updateShowMoreButton();
+    }
+    
+    function updateShowMoreButton() {
+      const remaining = reviewsForProduct.length - displayedReviewsCount;
+      const showMoreContainer = document.getElementById('show-more-container');
+      const showMoreBtn = document.getElementById('show-more-reviews-btn');
+      const showLessBtn = document.getElementById('show-less-reviews-btn');
+      const remainingCount = document.getElementById('remaining-count');
+      
+      if (remaining > 0) {
+        showMoreContainer.classList.remove('hidden');
+        showMoreBtn.classList.remove('hidden');
+        remainingCount.textContent = remaining;
+      } else {
+        showMoreBtn.classList.add('hidden');
+      }
+      
+      // Show "Show Less" button if more than initial reviews are displayed
+      if (displayedReviewsCount > initialReviewsToShow) {
+        showLessBtn.classList.remove('hidden');
+      }
+    }
+    
+    // Display initial reviews
+    if (reviewsContainer) {
+      showMoreReviews(initialReviewsToShow);
+      
+      // Show More button click handler
+      document.getElementById('show-more-reviews-btn')?.addEventListener('click', function() {
+        showMoreReviews(reviewsPerLoad);
+      });
+      
+      // Show Less button click handler
+      document.getElementById('show-less-reviews-btn')?.addEventListener('click', function() {
+        // Remove reviews beyond initial count
+        const reviewCards = reviewsContainer.querySelectorAll('.review-card');
+        for (let i = reviewCards.length - 1; i >= initialReviewsToShow; i--) {
+          reviewCards[i].remove();
+        }
+        displayedReviewsCount = initialReviewsToShow;
+        updateShowMoreButton();
+        document.getElementById('show-less-reviews-btn').classList.add('hidden');
+        
+        // Scroll to reviews section
+        reviewsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+
+    // Display approved customer reviews (for this product)
+    const approvedReviews = getApprovedReviews().filter(r => r.productId === product.id);
+    if (approvedReviews.length > 0 && reviewsContainer) {
+      const divider = document.createElement('div');
+      divider.className = 'my-8 border-t-2 border-charcoal/20';
+      divider.innerHTML = '<p class="text-center text-charcoal/60 font-bold mt-4">Verified Customer Reviews</p>';
+      reviewsContainer.appendChild(divider);
+
+      approvedReviews.forEach(review => {
+        reviewsContainer.appendChild(renderReview(review, true));
       });
     }
 
