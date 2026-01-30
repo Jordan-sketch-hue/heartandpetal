@@ -176,19 +176,19 @@
   </section>
 
   <!-- Advanced Product Filters -->
-  <section class="sticky top-16 z-40 bg-white/95 shadow-sm py-2 px-2 md:px-8 w-full">
-    <form id="shop-filters" class="flex flex-wrap gap-2 md:gap-4 items-center justify-between">
+  <section class="hidden sm:block sticky top-16 z-40 bg-white/95 shadow-sm py-2 px-2 md:px-8 w-full">
+    <form id="shop-filters" class="flex flex-wrap gap-2 md:gap-3 items-center justify-between text-xs md:text-sm">
       <div class="flex flex-col">
-        <label class="text-xs font-bold mb-1">Delivery</label>
-        <select class="border border-charcoal rounded px-2 py-1 text-xs md:text-sm">
+        <label class="text-xs font-bold mb-0.5">Delivery</label>
+        <select class="border border-charcoal rounded px-1.5 py-0.5 text-xs">
           <option>All</option>
           <option>Shipped in a Gift Box</option>
           <option>Local Shop Delivery</option>
         </select>
       </div>
       <div class="flex flex-col">
-        <label class="text-xs font-bold mb-1">Price</label>
-        <select class="border border-charcoal rounded px-2 py-1 text-xs md:text-sm">
+        <label class="text-xs font-bold mb-0.5">Price</label>
+        <select class="border border-charcoal rounded px-1.5 py-0.5 text-xs">
           <option>All</option>
           <option>Under $75</option>
           <option>$75 to $100</option>
@@ -197,8 +197,8 @@
         </select>
       </div>
       <div class="flex flex-col">
-        <label class="text-xs font-bold mb-1">Type</label>
-        <select class="border border-charcoal rounded px-2 py-1 text-xs md:text-sm">
+        <label class="text-xs font-bold mb-0.5">Type</label>
+        <select class="border border-charcoal rounded px-1.5 py-0.5 text-xs">
           <option>All</option>
           <option>Rose</option>
           <option>Tulip</option>
@@ -208,8 +208,8 @@
         </select>
       </div>
       <div class="flex flex-col">
-        <label class="text-xs font-bold mb-1">Color</label>
-        <select class="border border-charcoal rounded px-2 py-1 text-xs md:text-sm">
+        <label class="text-xs font-bold mb-0.5">Color</label>
+        <select class="border border-charcoal rounded px-1.5 py-0.5 text-xs">
           <option>All</option>
           <option>Red</option>
           <option>Pink</option>
@@ -219,8 +219,8 @@
         </select>
       </div>
       <div class="flex flex-col">
-        <label class="text-xs font-bold mb-1">Assortment</label>
-        <select class="border border-charcoal rounded px-2 py-1 text-xs md:text-sm">
+        <label class="text-xs font-bold mb-0.5">Assortment</label>
+        <select class="border border-charcoal rounded px-1.5 py-0.5 text-xs">
           <option>All</option>
           <option>Flowers</option>
           <option>Plants</option>
@@ -234,8 +234,8 @@
         </select>
       </div>
       <div class="flex flex-col">
-        <label class="text-xs font-bold mb-1">Sort By</label>
-        <select id="sort-products" onchange="sortProducts(this.value)" class="border border-charcoal rounded px-2 py-1 text-xs md:text-sm">
+        <label class="text-xs font-bold mb-0.5">Sort By</label>
+        <select id="sort-products" onchange="sortProducts(this.value)" class="border border-charcoal rounded px-1.5 py-0.5 text-xs">
           <option value="default">Default</option>
           <option value="price-low">Price: Low to High</option>
           <option value="price-high">Price: High to Low</option>
@@ -253,8 +253,8 @@
   </section>
 
   <!-- Product Grid: 50 Products (10 per category) -->
-  <section class="py-12 px-8 container mx-auto" id="product-grid">
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
+  <section class="py-6 md:py-12 px-3 md:px-8 container mx-auto" id="product-grid">
+    <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-6 lg:gap-8">
       <!-- This grid will be populated by JavaScript -->
       <!-- See script at bottom for product data -->
     </div>
