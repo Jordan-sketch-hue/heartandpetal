@@ -24,6 +24,9 @@ if (loginForm) {
         loginDiv.classList.add('hidden');
         dashDiv.classList.remove('hidden');
         
+        // Set admin session flag for cart access to admin-only products
+        localStorage.setItem('hp_crm_admin_logged_in', 'true');
+        
         // Log successful login
         if (window.logSuccess) {
           window.logSuccess('crm', 'Admin login successful');
@@ -32,6 +35,7 @@ if (loginForm) {
         
       } else {
         loginError.classList.remove('hidden');
+        localStorage.removeItem('hp_crm_admin_logged_in');
         
         // Log failed login attempt
         if (window.logError) {

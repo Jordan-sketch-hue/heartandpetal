@@ -75,7 +75,8 @@ function addToCart(product) {
 				quantity: parseInt(product.quantity) || 1,
 				img: product.img || '',
 				variant: product.variant || null,
-				giftNote: product.giftNote || ''
+				giftNote: product.giftNote || '',
+				adminOnly: product.adminOnly || false
 			};
 		} else {
 			// Legacy support: old function signature
@@ -86,8 +87,19 @@ function addToCart(product) {
 				img: arguments[3] || '',
 				quantity: parseInt(arguments[4]) || 1,
 				variant: null,
-				giftNote: ''
+				giftNote: '',
+				adminOnly: false
 			};
+		}
+		
+		// CHECK: Admin-only products require admin login
+		if (cartItem.adminOnly) {
+			const isAdminLoggedIn = localStorage.getItem('hp_crm_admin_logged_in') === 'true';
+			if (!isAdminLoggedIn) {
+				console.warn('⚠️ Admin-only product requires admin login');
+				if (window.showError) window.showError('⚠️ This product is only available through admin login. Please log in as admin to access.');
+				return false;
+			}
 		}
 		
 		// Validate cart item

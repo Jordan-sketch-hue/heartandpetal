@@ -456,6 +456,9 @@ function getRandomReviews(productId) {
 
 // --- 50 Products: 10 per category (Roses, Chocolates, Teddy, Combo, Flowers) ---
 const products = [
+  // === ADMIN TEST PRODUCT ===
+  { id: 'admin-test-rose', name: 'Rose Test Product - $1 Admin Only', price: 1.00, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/v1769602073/give_a_rosebud_favicon_in_red_please_xqnp4v.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/v1769602073/give_a_rosebud_favicon_in_red_please_xqnp4v.jpg'], desc: 'TEST PRODUCT FOR ADMIN USE ONLY - This $1 rose test product is exclusively for testing PayPal checkout functionality. Not available for public purchase. Use admin login to access. Price is exactly $1.00 for testing purposes.', category: 'roses', color: 'Red', type: 'Rose', assortment: 'Flowers', adminOnly: true, sizes: [{ size: 'Test (Admin Only)', price: 1.00 }] },
+
   // === ROSES (10 products) ===
   { id: 'roses1', name: 'Red Roses Bouquet', price: 49.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/red_roses_bouquet_gxs5w7.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/red_roses_bouquet_gxs5w7.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/red_roses_bouquet_1_z4ne0k.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/red_roses_bouquet_product_image_vu5uq2.jpg'], desc: 'Classic, elegant roses hand-selected for freshness and beauty. Each long-stemmed rose is carefully chosen to ensure peak bloom and lasting quality. Perfect for expressing timeless love and romance.', category: 'roses', color: 'Red', type: 'Rose', assortment: 'Flowers', sizes: [{ size: 'Small (6 stems) - Wrapped', price: 39.99 }, { size: 'Small (6 stems) + VASE', price: 44.99 }, { size: 'Medium (12 stems) - Wrapped', price: 49.99 }, { size: 'Medium (12 stems) + VASE', price: 54.99 }, { size: 'Large (18 stems) - Wrapped', price: 64.99 }, { size: 'Large (18 stems) + VASE', price: 69.99 }, { size: 'Deluxe (24 stems) - Wrapped', price: 89.99 }, { size: 'Deluxe (24 stems) + VASE', price: 94.99 }] },
   { id: 'roses2', name: 'Pink Roses Arrangement', price: 54.99, img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/pink_rose_arrangement_lvk1ve.jpg', images: ['https://res.cloudinary.com/dij2fdtw4/image/upload/pink_rose_arrangement_lvk1ve.jpg', 'https://res.cloudinary.com/dij2fdtw4/image/upload/pink_rose_arrnagemnt_product_image_qlqvu9.jpg'], desc: 'Soft pink roses for a romantic touch. Delicate and graceful, these premium roses symbolize admiration and appreciation. Beautifully arranged with lush greenery and tied with satin ribbon.', category: 'roses', color: 'Pink', type: 'Rose', assortment: 'Flowers', sizes: [{ size: 'Small (6 stems) - Wrapped', price: 44.99 }, { size: 'Small (6 stems) + VASE', price: 49.99 }, { size: 'Medium (12 stems) - Wrapped', price: 54.99 }, { size: 'Medium (12 stems) + VASE', price: 59.99 }, { size: 'Large (18 stems) - Wrapped', price: 69.99 }, { size: 'Large (18 stems) + VASE', price: 74.99 }, { size: 'Deluxe (24 stems) - Wrapped', price: 94.99 }, { size: 'Deluxe (24 stems) + VASE', price: 99.99 }] },
@@ -522,7 +525,12 @@ const filterForm = document.getElementById('shop-filters');
 
 function renderProducts(list) {
   if (!grid) return;
-  grid.innerHTML = list.map(prod => {
+  
+  // Filter out admin-only products for non-admins
+  const isAdminLoggedIn = localStorage.getItem('hp_crm_admin_logged_in') === 'true';
+  const filteredList = list.filter(prod => !prod.adminOnly || isAdminLoggedIn);
+  
+  grid.innerHTML = filteredList.map(prod => {
     const reviews = getRandomReviews(prod.id);
     const avgRating = (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1);
     const stars = '★'.repeat(Math.round(avgRating)) + '☆'.repeat(5 - Math.round(avgRating));
