@@ -129,6 +129,37 @@
   </header>
 
 
+  <!-- Update login button to show logout when admin logged in -->
+  <script>
+    function updateAuthButton() {
+      const isAdminLoggedIn = localStorage.getItem('hp_crm_admin_logged_in') === 'true';
+      const btn = document.querySelector('.relative.group button');
+      const dropdown = document.querySelector('.relative.group > div');
+      
+      if (isAdminLoggedIn && btn && dropdown) {
+        btn.textContent = '👤 Logout Admin';
+        btn.style.color = '#388e3c';
+        btn.style.fontWeight = 'bold';
+        dropdown.innerHTML = '<button onclick="logoutAdmin()" class="block w-full text-left px-4 py-2 hover:bg-blush-pink/40 text-sm text-red-600 font-bold">Logout</button>';
+      }
+    }
+    
+    function logoutAdmin() {
+      localStorage.removeItem('hp_crm_admin_logged_in');
+      alert('✅ Logged out');
+      updateAuthButton();
+      location.reload();
+    }
+    
+    // Check on page load and when storage changes
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', updateAuthButton);
+    } else {
+      updateAuthButton();
+    }
+    window.addEventListener('storage', updateAuthButton);
+  </script>
+
   <!-- Hero / Page Banner -->
   <section class="relative bg-ivory h-64 flex items-center justify-center text-center">
     <img src="https://res.cloudinary.com/dij2fdtw4/image/upload/red_roses_bouquet_gxs5w7.jpg" alt="Shop Banner" class="absolute inset-0 w-full h-full object-cover opacity-70">
