@@ -175,17 +175,19 @@
       </div>
 
       <!-- Quantity and Add to Cart -->
-      <div class="flex gap-3 mb-6">
-        <div class="flex items-center border-2 border-deep-red rounded-xl shadow-md hover:shadow-lg transition-all duration-300 bg-white">
-          <button id="qty-minus" class="px-5 py-3 text-deep-red hover:bg-blush-pink/50 transition-all duration-200 font-bold text-xl">−</button>
-          <input id="qty-input" type="number" value="1" min="1" class="w-16 text-center border-l border-r border-deep-red py-3 font-bold text-lg" readonly>
-          <button id="qty-plus" class="px-5 py-3 text-deep-red hover:bg-blush-pink/50 transition-all duration-200 font-bold text-xl">+</button>
+      <div class="flex flex-col sm:flex-row gap-3 mb-6">
+        <button id="add-to-cart" class="w-full sm:flex-1 bg-deep-red text-white px-6 md:px-8 py-3 rounded-xl font-bold text-base md:text-lg hover:bg-red-700 hover:shadow-2xl transition-all duration-300 shadow-lg">Add to Cart</button>
+        <div class="flex items-center gap-3">
+          <div class="flex items-center border-2 border-deep-red rounded-xl shadow-md hover:shadow-lg transition-all duration-300 bg-white">
+            <button id="qty-minus" class="px-4 py-2 text-deep-red hover:bg-blush-pink/50 transition-all duration-200 font-bold text-lg">−</button>
+            <input id="qty-input" type="number" value="1" min="1" class="w-12 text-center border-l border-r border-deep-red py-2 font-bold text-base" readonly>
+            <button id="qty-plus" class="px-4 py-2 text-deep-red hover:bg-blush-pink/50 transition-all duration-200 font-bold text-lg">+</button>
+          </div>
+          <button id="wishlist-btn" onclick="toggleWishlistFromProduct()" class="bg-white border-2 border-deep-red text-deep-red px-3 md:px-6 py-2 md:py-3 rounded-xl font-bold text-sm md:text-lg hover:bg-blush-pink hover:scale-105 transition-all duration-300 flex items-center gap-2 shadow-md hover:shadow-lg flex-shrink-0">
+            <span id="wishlist-heart">🤍</span>
+            <span class="hidden sm:inline">Wishlist</span>
+          </button>
         </div>
-        <button id="add-to-cart" class="flex-1 bg-gradient-to-r from-deep-red to-red-700 text-ivory px-8 py-3 rounded-xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 shadow-lg">Add to Cart</button>
-        <button id="wishlist-btn" onclick="toggleWishlistFromProduct()" class="bg-white border-2 border-deep-red text-deep-red px-3 md:px-6 py-3 rounded-xl font-bold text-sm md:text-lg hover:bg-blush-pink hover:scale-105 transition-all duration-300 flex items-center gap-2 shadow-md hover:shadow-lg">
-          <span id="wishlist-heart">🤍</span>
-          <span class="hidden sm:inline">Wishlist</span>
-        </button>
       </div>
 
       <!-- Product Features -->
