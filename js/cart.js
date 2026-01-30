@@ -325,4 +325,9 @@ function updateCartDisplay() {
 
 // Export for shop.html dynamic use
 window.addToCart = addToCart;
+window.removeFromCart = removeFromCart;
+window.updateQuantity = updateQuantity;
+window.getCart = getCart;
+window.getCartTotal = getCartTotal;
 window.updateCartDisplay = updateCartDisplay;
+
