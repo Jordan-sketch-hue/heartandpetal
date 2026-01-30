@@ -747,43 +747,45 @@
     // Calculate average rating
     const avgRating = (reviewsForProduct.reduce((sum, r) => sum + r.rating, 0) / reviewsForProduct.length).toFixed(1);
     
-    // Update review count display
-    document.getElementById('review-count').textContent = `(${reviewsForProduct.length} reviews)`;
-    
     // Display star rating
     const starRatingContainer = document.getElementById('star-rating');
     const fullStars = Math.floor(avgRating);
     const hasHalfStar = avgRating % 1 >= 0.5;
+    let starsHTML = '';
     for (let i = 0; i < fullStars; i++) {
-      starRatingContainer.innerHTML += '★';
+      starsHTML += '★';
     }
-    if (hasHalfStar) starRatingContainer.innerHTML += '☆';
-    starRatingContainer.innerHTML += ` <span class="text-charcoal/80">${avgRating}</span>`;
+    if (hasHalfStar) starsHTML += '☆';
+    starsHTML += ` <span class="text-charcoal/80">${avgRating}</span>`;
+    starRatingContainer.innerHTML = starsHTML;
     starRatingContainer.className = 'flex items-center gap-1 text-champagne-gold text-xl';
 
-    document.getElementById('review-count').textContent = `(${numReviews} reviews)`;
+    // Update review count display
+    document.getElementById('review-count').textContent = `(${reviewsForProduct.length} reviews)`;
 
     // Display reviews
-    reviewsForProduct.forEach(review => {
-      const reviewCard = document.createElement('div');
-      reviewCard.className = 'bg-white p-6 rounded-lg shadow-md';
-      
-      const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
-      
-      reviewCard.innerHTML = `
-        <div class="flex items-center gap-4 mb-3">
-          <div class="w-12 h-12 bg-blush-pink rounded-full flex items-center justify-center font-bold text-deep-red">
-            ${review.name.charAt(0)}
+    if (reviewsContainer) {
+      reviewsForProduct.forEach(review => {
+        const reviewCard = document.createElement('div');
+        reviewCard.className = 'bg-white p-6 rounded-lg shadow-md';
+        
+        const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+        
+        reviewCard.innerHTML = `
+          <div class="flex items-center gap-4 mb-3">
+            <div class="w-12 h-12 bg-blush-pink rounded-full flex items-center justify-center font-bold text-deep-red">
+              ${review.name.charAt(0)}
+            </div>
+            <div>
+              <p class="font-bold">${review.name}</p>
+              <p class="text-champagne-gold">${stars}</p>
+            </div>
           </div>
-          <div>
-            <p class="font-bold">${review.name}</p>
-            <p class="text-champagne-gold">${stars}</p>
-          </div>
-        </div>
-        ${review.text ? `<p class="text-charcoal/80">${review.text}</p>` : '<p class="text-charcoal/60 text-sm italic">Rating only</p>'}
-      `;
-      reviewsContainer.appendChild(reviewCard);
-    });
+          ${review.text ? `<p class="text-charcoal/80">${review.text}</p>` : '<p class="text-charcoal/60 text-sm italic">Rating only</p>'}
+        `;
+        reviewsContainer.appendChild(reviewCard);
+      });
+    }
 
     // Display approved customer reviews (for this product)
     const approvedReviews = getApprovedReviews().filter(r => r.productId === product.id);
