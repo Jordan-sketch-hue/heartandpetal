@@ -133,6 +133,7 @@
   <script>
     function updateAuthButton() {
       const isAdminLoggedIn = localStorage.getItem('hp_crm_admin_logged_in') === 'true';
+      const customerName = localStorage.getItem('hp_customer_name');
       const btn = document.querySelector('.relative.group button');
       const dropdown = document.querySelector('.relative.group > div');
       
@@ -141,14 +142,24 @@
         btn.style.color = '#388e3c';
         btn.style.fontWeight = 'bold';
         dropdown.innerHTML = '<button onclick="logoutAdmin()" class="block w-full text-left px-4 py-2 hover:bg-blush-pink/40 text-sm text-red-600 font-bold">Logout</button>';
+      } else if (customerName && btn && dropdown) {
+        btn.textContent = '👤 ' + customerName;
+        btn.style.color = '#8B0000';
+        btn.style.fontWeight = 'bold';
+        dropdown.innerHTML = '<a href="profile.html" class="block px-4 py-2 hover:bg-blush-pink/40 text-sm">My Profile</a><button onclick="logoutCustomer()" class="block w-full text-left px-4 py-2 hover:bg-blush-pink/40 text-sm text-red-600 font-bold">Logout</button>';
       }
     }
     
     function logoutAdmin() {
       localStorage.removeItem('hp_crm_admin_logged_in');
-      alert('✅ Logged out');
-      updateAuthButton();
-      location.reload();
+      alert('✅ Admin logged out - Admin-only products will be hidden');
+      location.reload(); // Reload to re-filter products
+    }
+    
+    function logoutCustomer() {
+      localStorage.removeItem('hp_customer_name');
+      localStorage.removeItem('hp_last_login');
+      window.location.href = 'customer-login.html';
     }
     
     // Check on page load and when storage changes
@@ -556,9 +567,21 @@ const filterForm = document.getElementById('shop-filters');
 function renderProducts(list) {
   if (!grid) return;
   
-  // Filter out admin-only products for non-admins
+  // CRITICAL: Filter out admin-only products for non-admins
+  // This check runs EVERY TIME products are rendered to ensure admin-only items never appear to customers
   const isAdminLoggedIn = localStorage.getItem('hp_crm_admin_logged_in') === 'true';
-  const filteredList = list.filter(prod => !prod.adminOnly || isAdminLoggedIn);
+  console.log('🔒 Admin Status Check:', isAdminLoggedIn ? 'ADMIN LOGGED IN' : 'PUBLIC/CUSTOMER');
+  
+  const filteredList = list.filter(prod => {
+    // If product is marked adminOnly, ONLY show it when admin is logged in
+    if (prod.adminOnly) {
+      console.log(`🔒 Admin-only product "${prod.name}":`, isAdminLoggedIn ? '✅ SHOWING' : '❌ HIDDEN');
+      return isAdminLoggedIn;
+    }
+    return true; // Show all other products
+  });
+  
+  console.log(`📦 Rendering ${filteredList.length} products (filtered from ${list.length})`);
   
   grid.innerHTML = filteredList.map(prod => {
     const reviews = getRandomReviews(prod.id);
