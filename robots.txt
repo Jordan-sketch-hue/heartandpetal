@@ -1,0 +1,58 @@
+# Heart & Petal - Robots.txt
+# Prevent search engines from indexing code files
+
+User-agent: *
+
+# Allow main pages
+Allow: /index.html
+Allow: /shop.html
+Allow: /about.html
+Allow: /faq.html
+Allow: /legal.html
+Allow: /checkout.html
+Allow: /product.html
+Allow: /wishlist.html
+Allow: /tracking.html
+Allow: /profile.html
+
+# Block JavaScript files from being indexed
+Disallow: /js/
+Disallow: *.js
+
+# Block CSS files
+Disallow: /css/
+Disallow: *.css
+
+# Block admin and test pages
+Disallow: /admin.html
+Disallow: /customer-login.html
+Disallow: /test-*.html
+Disallow: /debug-*.html
+Disallow: /*-backup.html
+
+# Block documentation files
+Disallow: /*.md
+Disallow: /ADMIN_CREDENTIALS.md
+Disallow: /EMAILJS_TEMPLATE_SETUP.md
+Disallow: /PAYPAL_*.md
+Disallow: /CRM_*.md
+Disallow: /SYSTEM_*.md
+Disallow: /TESTING_*.md
+Disallow: /UI_UX_*.md
+
+# Block configuration files
+Disallow: /package.json
+Disallow: /tailwind.config.js
+Disallow: /render.yaml
+Disallow: /.git/
+
+# Allow images
+Allow: /assets/
+Allow: /*.jpg
+Allow: /*.png
+Allow: /*.jpeg
+Allow: /*.gif
+Allow: /*.svg
+
+# Sitemap location (create this later)
+Sitemap: https://heartandpetal.cloud/sitemap.xml
