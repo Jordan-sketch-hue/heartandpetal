@@ -405,6 +405,10 @@
     document.getElementById('product-price').textContent = `$${product.price.toFixed(2)}`;
     document.title = `${product.name} - Heart & Petal`;
 
+    // Track product view in analytics
+    if (window.heartAndPetalAnalytics) {
+      window.heartAndPetalAnalytics.trackProductView(product.id, product.name, product.price);
+    }
 
     // Display urgency badge for low-stock items
     const urgencyContainer = document.getElementById('product-urgency-badge');

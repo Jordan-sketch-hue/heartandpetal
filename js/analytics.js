@@ -27,6 +27,8 @@ class AnalyticsSystem {
       uniqueVisitors: new Set(),
       pageViews: {},
       locations: {},
+      productViews: {},
+      cartActivity: [],
       totalVisits: 0,
       lastUpdated: Date.now()
     };
@@ -216,12 +218,173 @@ class AnalyticsSystem {
   clearOldData(daysToKeep = 30) {
     const cutoffDate = Date.now() - (daysToKeep * 24 * 60 * 60 * 1000);
     this.data.visits = this.data.visits.filter(v => v.timestamp > cutoffDate);
+    this.data.cartActivity = this.data.cartActivity.filter(v => v.timestamp > cutoffDate);
     this.saveData();
+  }
+
+  // Track product views
+  trackProductView(productId, productName, price) {
+    if (!this.data.productViews) this.data.productViews = {};
+    
+    if (!this.data.productViews[productId]) {
+      this.data.productViews[productId] = {
+        id: productId,
+        name: productName,
+        price: price,
+        views: 0,
+        lastViewed: Date.now()
+      };
+    }
+    
+    this.data.productViews[productId].views++;
+    this.data.productViews[productId].lastViewed = Date.now();
+    this.saveData();
+  }
+
+  // Track cart activity
+  trackCartActivity(action, productId, productName, price, quantity = 1) {
+    if (!this.data.cartActivity) this.data.cartActivity = [];
+    
+    const activity = {
+      action: action, // 'add', 'remove', 'update'
+      productId: productId,
+      productName: productName,
+      price: price,
+      quantity: quantity,
+      timestamp: Date.now(),
+      sessionId: this.sessionId
+    };
+    
+    this.data.cartActivity.push(activity);
+    
+    // Keep only last 500 cart activities
+    if (this.data.cartActivity.length > 500) {
+      this.data.cartActivity = this.data.cartActivity.slice(-500);
+    }
+    
+    this.saveData();
+  }
+
+  // Get cart insights
+  getCartInsights() {
+    if (!this.data.cartActivity) return { activeCartsCount: 0, topCartProducts: [], totalCartValue: 0 };
+    
+    const oneHourAgo = Date.now() - (60 * 60 * 1000);
+    const recentActivity = this.data.cartActivity.filter(a => a.timestamp > oneHourAgo);
+    
+    // Count unique sessions with items in cart
+    const activeSessions = new Set();
+    const cartProducts = {};
+    
+    recentActivity.forEach(activity => {
+      if (activity.action === 'add') {
+        activeSessions.add(activity.sessionId);
+        
+        if (!cartProducts[activity.productId]) {
+          cartProducts[activity.productId] = {
+            id: activity.productId,
+            name: activity.productName,
+            price: activity.price,
+            timesAdded: 0,
+            totalQuantity: 0,
+            totalValue: 0
+          };
+        }
+        
+        cartProducts[activity.productId].timesAdded++;
+        cartProducts[activity.productId].totalQuantity += activity.quantity;
+        cartProducts[activity.productId].totalValue += (activity.price * activity.quantity);
+      }
+    });
+    
+    const topCartProducts = Object.values(cartProducts)
+      .sort((a, b) => b.timesAdded - a.timesAdded)
+      .slice(0, 10);
+    
+    const totalCartValue = topCartProducts.reduce((sum, p) => sum + p.totalValue, 0);
+    
+    return {
+      activeCartsCount: activeSessions.size,
+      topCartProducts,
+      totalCartValue,
+      recentActivity: recentActivity.slice(-20)
+    };
+  }
+
+  // Get product insights
+  getProductInsights() {
+    if (!this.data.productViews) return { topProducts: [], avgPrice: 0 };
+    
+    const products = Object.values(this.data.productViews)
+      .sort((a, b) => b.views - a.views);
+    
+    const avgPrice = products.length > 0 
+      ? products.reduce((sum, p) => sum + p.price, 0) / products.length 
+      : 0;
+    
+    return {
+      topProducts: products.slice(0, 10),
+      totalProducts: products.length,
+      avgPrice: avgPrice
+    };
+  }
+
+  // Get pricing suggestions
+  getPricingSuggestions() {
+    const insights = this.getProductInsights();
+    const cartInsights = this.getCartInsights();
+    const suggestions = [];
+    
+    // Analyze products with high views but low cart additions
+    if (this.data.productViews && this.data.cartActivity) {
+      insights.topProducts.forEach(product => {
+        const cartAdds = cartInsights.topCartProducts.find(p => p.id === product.id);
+        const conversionRate = cartAdds ? (cartAdds.timesAdded / product.views) * 100 : 0;
+        
+        if (conversionRate < 5 && product.views > 10) {
+          suggestions.push({
+            productId: product.id,
+            productName: product.name,
+            currentPrice: product.price,
+            suggestion: 'decrease',
+            reason: `Low conversion rate (${conversionRate.toFixed(1)}%)`,
+            recommendedChange: Math.round(product.price * 0.9 * 100) / 100, // 10% decrease
+            views: product.views,
+            cartAdds: cartAdds ? cartAdds.timesAdded : 0
+          });
+        } else if (conversionRate > 20 && product.views > 10) {
+          suggestions.push({
+            productId: product.id,
+            productName: product.name,
+            currentPrice: product.price,
+            suggestion: 'increase',
+            reason: `High conversion rate (${conversionRate.toFixed(1)}%)`,
+            recommendedChange: Math.round(product.price * 1.1 * 100) / 100, // 10% increase
+            views: product.views,
+            cartAdds: cartAdds ? cartAdds.timesAdded : 0
+          });
+        }
+      });
+    }
+    
+    return suggestions;
   }
 }
 
 // Initialize analytics
 const analytics = new AnalyticsSystem();
+
+// Enhance window.addToCart to track cart activity
+if (typeof window.addToCart === 'function') {
+  const originalAddToCart = window.addToCart;
+  window.addToCart = function(item) {
+    const result = originalAddToCart.call(this, item);
+    if (result && analytics) {
+      analytics.trackCartActivity('add', item.id, item.name, item.price, item.quantity || 1);
+    }
+    return result;
+  };
+}
 
 // Auto-track page view on load (only if not admin page)
 if (document.readyState === 'loading') {

@@ -287,6 +287,68 @@
         </div>
       </div>
 
+      <!-- Shopping Cart Analytics -->
+      <div class="mt-8 bg-gradient-to-br from-blue-50 to-indigo-100 border-2 border-blue-400 rounded-lg p-6 mb-8">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-xl font-bold text-blue-900">🛒 Shopping Cart Analytics</h3>
+        </div>
+
+        <!-- Cart Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div class="bg-white rounded-lg p-4 shadow border-l-4 border-indigo-500">
+            <p class="text-sm font-semibold text-gray-600">Active Carts</p>
+            <p class="text-3xl font-bold text-indigo-600" id="active-carts">0</p>
+            <p class="text-xs text-gray-500 mt-1">Last hour</p>
+          </div>
+          <div class="bg-white rounded-lg p-4 shadow border-l-4 border-green-500">
+            <p class="text-sm font-semibold text-gray-600">Cart Value</p>
+            <p class="text-2xl font-bold text-green-600" id="cart-value">$0</p>
+            <p class="text-xs text-gray-500 mt-1">Total in carts</p>
+          </div>
+          <div class="bg-white rounded-lg p-4 shadow border-l-4 border-purple-500">
+            <p class="text-sm font-semibold text-gray-600">Most Added</p>
+            <p class="text-base font-bold text-purple-600" id="top-cart-product">None</p>
+            <p class="text-xs text-gray-500 mt-1" id="top-cart-count">0 times</p>
+          </div>
+        </div>
+
+        <!-- Top Products in Carts -->
+        <div class="bg-white rounded-lg p-4 shadow mb-6">
+          <h4 class="font-bold text-gray-800 mb-3">🔥 Hot Items in Carts</h4>
+          <div id="top-cart-products" class="space-y-3">
+            <p class="text-gray-500 text-sm">Loading...</p>
+          </div>
+        </div>
+
+        <!-- Product Views vs Cart Adds -->
+        <div class="bg-white rounded-lg p-4 shadow">
+          <h4 class="font-bold text-gray-800 mb-3">👁️ Most Viewed Products</h4>
+          <div id="product-views" class="space-y-3">
+            <p class="text-gray-500 text-sm">Loading...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pricing Recommendations -->
+      <div class="mt-8 bg-gradient-to-br from-green-50 to-emerald-100 border-2 border-green-400 rounded-lg p-6 mb-8">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-xl font-bold text-green-900">💡 Smart Pricing Suggestions</h3>
+          <span class="text-sm text-gray-600">AI-Powered Analysis</span>
+        </div>
+
+        <div class="bg-white rounded-lg p-4 shadow">
+          <div id="pricing-suggestions" class="space-y-4">
+            <p class="text-gray-500 text-sm">Analyzing data...</p>
+          </div>
+        </div>
+
+        <div class="mt-4 bg-blue-50 border border-blue-300 rounded-lg p-4">
+          <p class="text-sm text-blue-800">
+            <strong>📊 How it works:</strong> We analyze product views vs. cart additions. Low conversion = consider lowering price. High conversion = demand is strong, consider increasing price.
+          </p>
+        </div>
+      </div>
+
       <!-- Data Tables -->
       <div class="mt-10">
         <h3 class="text-lg font-bold mb-2">Registered Customers</h3>
@@ -513,6 +575,104 @@
         `).join('');
       } else {
         recentVisitorsBody.innerHTML = '<tr><td colspan="4" class="px-3 py-4 text-gray-500 text-center">No visitors yet</td></tr>';
+      }
+
+      // Update cart analytics
+      const cartInsights = window.heartAndPetalAnalytics.getCartInsights();
+      document.getElementById('active-carts').textContent = cartInsights.activeCartsCount;
+      document.getElementById('cart-value').textContent = '$' + cartInsights.totalCartValue.toFixed(2);
+      
+      if (cartInsights.topCartProducts && cartInsights.topCartProducts.length > 0) {
+        const topProduct = cartInsights.topCartProducts[0];
+        document.getElementById('top-cart-product').textContent = topProduct.name.substring(0, 30) + (topProduct.name.length > 30 ? '...' : '');
+        document.getElementById('top-cart-count').textContent = `${topProduct.timesAdded} times added`;
+
+        // Update top cart products list
+        const topCartProductsDiv = document.getElementById('top-cart-products');
+        topCartProductsDiv.innerHTML = cartInsights.topCartProducts.map(product => `
+          <div class="flex items-center justify-between py-3 border-b border-gray-200">
+            <div class="flex-1">
+              <p class="text-sm font-semibold text-gray-800">${product.name}</p>
+              <p class="text-xs text-gray-600">$${product.price.toFixed(2)} × ${product.totalQuantity} = $${product.totalValue.toFixed(2)}</p>
+            </div>
+            <div class="text-right">
+              <p class="text-lg font-bold text-indigo-600">${product.timesAdded}</p>
+              <p class="text-xs text-gray-500">adds</p>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        document.getElementById('top-cart-product').textContent = 'None';
+        document.getElementById('top-cart-count').textContent = '0 times';
+        document.getElementById('top-cart-products').innerHTML = '<p class="text-gray-500 text-sm">No cart activity yet</p>';
+      }
+
+      // Update product views
+      const productInsights = window.heartAndPetalAnalytics.getProductInsights();
+      const productViewsDiv = document.getElementById('product-views');
+      if (productInsights.topProducts && productInsights.topProducts.length > 0) {
+        productViewsDiv.innerHTML = productInsights.topProducts.map(product => {
+          const cartProduct = cartInsights.topCartProducts.find(p => p.id === product.id);
+          const cartAdds = cartProduct ? cartProduct.timesAdded : 0;
+          const conversionRate = product.views > 0 ? ((cartAdds / product.views) * 100).toFixed(1) : 0;
+          
+          return `
+            <div class="flex items-center justify-between py-3 border-b border-gray-200">
+              <div class="flex-1">
+                <p class="text-sm font-semibold text-gray-800">${product.name}</p>
+                <p class="text-xs text-gray-600">$${product.price.toFixed(2)} • Conversion: ${conversionRate}%</p>
+              </div>
+              <div class="flex gap-6 text-center">
+                <div>
+                  <p class="text-lg font-bold text-blue-600">${product.views}</p>
+                  <p class="text-xs text-gray-500">views</p>
+                </div>
+                <div>
+                  <p class="text-lg font-bold text-green-600">${cartAdds}</p>
+                  <p class="text-xs text-gray-500">adds</p>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } else {
+        productViewsDiv.innerHTML = '<p class="text-gray-500 text-sm">No product views yet</p>';
+      }
+
+      // Update pricing suggestions
+      const suggestions = window.heartAndPetalAnalytics.getPricingSuggestions();
+      const suggestionsDiv = document.getElementById('pricing-suggestions');
+      if (suggestions && suggestions.length > 0) {
+        suggestionsDiv.innerHTML = suggestions.map(s => {
+          const isIncrease = s.suggestion === 'increase';
+          const iconColor = isIncrease ? 'text-green-600' : 'text-orange-600';
+          const bgColor = isIncrease ? 'bg-green-50 border-green-200' : 'bg-orange-50 border-orange-200';
+          const arrow = isIncrease ? '↑' : '↓';
+          
+          return `
+            <div class="${bgColor} border rounded-lg p-4">
+              <div class="flex items-start justify-between">
+                <div class="flex-1">
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="text-2xl ${iconColor}">${arrow}</span>
+                    <h5 class="font-bold text-gray-800">${s.productName}</h5>
+                  </div>
+                  <p class="text-sm text-gray-700 mb-2">${s.reason}</p>
+                  <div class="flex items-center gap-4 text-sm">
+                    <span class="text-gray-600">Current: <strong>$${s.currentPrice.toFixed(2)}</strong></span>
+                    <span class="${iconColor} font-bold">${arrow} Suggested: $${s.recommendedChange.toFixed(2)}</span>
+                  </div>
+                  <div class="flex gap-4 mt-2 text-xs text-gray-600">
+                    <span>👁️ ${s.views} views</span>
+                    <span>🛒 ${s.cartAdds} cart adds</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } else {
+        suggestionsDiv.innerHTML = '<p class="text-gray-500 text-sm">Not enough data yet for pricing suggestions. Need at least 10 views per product.</p>';
       }
     }
 
