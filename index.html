@@ -64,7 +64,9 @@
         <a href="about.html" class="hover:text-deep-red transition">About</a>
         <a href="faq.html" class="hover:text-deep-red transition">FAQ</a>
         <a href="checkout.html" class="hover:text-deep-red transition">Checkout</a>
-        <a href="legal.html" class="hover:text-deep-red transition">Legal</a>        <a id="crm-link" href="admin.html" class="hover:text-deep-red transition hidden">CRM</a>        <div class="relative group">
+        <a href="legal.html" class="hover:text-deep-red transition">Legal</a>
+        <a id="crm-link" href="admin.html" class="hover:text-deep-red transition hidden">CRM</a>
+        <div class="relative group">
           <button class="hover:text-champagne-gold transition focus:outline-none text-sm md:text-base">Login | Register</button>
           <div class="absolute right-0 mt-2 w-48 bg-white border border-charcoal rounded shadow-lg opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition z-50">
             <a href="admin.html" class="block px-4 py-2 hover:bg-blush-pink/40 text-sm">Admin</a>
@@ -94,6 +96,7 @@
       <a href="faq.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">FAQ</a>
       <a href="checkout.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Checkout</a>
       <a href="legal.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Legal</a>
+      <a id="crm-link-mobile" href="admin.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40 hidden">CRM Dashboard</a>
       <a href="admin.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Admin Login</a>
       <a href="customer-login.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Customer Login</a>
     </div>
@@ -113,6 +116,8 @@
         btn.style.color = '#388e3c';
         btn.style.fontWeight = 'bold';
         dropdown.innerHTML = '<button onclick="logoutAdmin()" class="block w-full text-left px-4 py-2 hover:bg-blush-pink/40 text-sm text-red-600 font-bold">Logout</button>';
+        document.getElementById('crm-link')?.classList.remove('hidden');
+        document.getElementById('crm-link-mobile')?.classList.remove('hidden');
       } else if (customerName && btn && dropdown) {
         // Customer logged in
         btn.textContent = '👤 ' + customerName;
