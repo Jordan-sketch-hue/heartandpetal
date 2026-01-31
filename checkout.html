@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google Shopping App Begin Checkout conversion event -->
+  <script>
+    function fireGoogleBeginCheckoutConversion() {
+      if (typeof gtag === 'function') {
+        gtag('event', 'conversion', {
+          'send_to': 'AW-11161550773/yvKSCN3A584YELX_nsop'
+        });
+      }
+    }
+  </script>
   <!-- Google Shopping App Purchase conversion event -->
   <script>
     function fireGooglePurchaseConversion() {
