@@ -177,9 +177,25 @@
       </div>
 
       <!-- Quantity and Add to Cart -->
-      <div class="flex flex-col sm:flex-row gap-3 mb-6">
-        <button id="add-to-cart" class="w-full sm:flex-1 bg-deep-red text-white px-6 md:px-8 py-3 rounded-xl font-bold text-base md:text-lg hover:bg-red-700 hover:shadow-2xl transition-all duration-300 shadow-lg">Add to Cart</button>
-        <div class="flex items-center gap-3">
+      <div class="flex flex-col gap-3 mb-6">
+        <!-- Main Action Buttons Row -->
+        <div class="flex flex-col sm:flex-row gap-3">
+          <button id="add-to-cart" class="flex-1 bg-deep-red text-white px-6 py-3 rounded-xl font-bold text-base md:text-lg hover:bg-red-700 hover:shadow-2xl transition-all duration-300 shadow-lg flex items-center justify-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to Cart
+          </button>
+          <button id="buy-now-btn" class="flex-1 bg-gradient-to-r from-champagne-gold to-yellow-500 text-charcoal px-6 py-3 rounded-xl font-bold text-base md:text-lg hover:from-yellow-500 hover:to-champagne-gold hover:shadow-2xl transition-all duration-300 shadow-lg flex items-center justify-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            Buy Now
+          </button>
+        </div>
+        
+        <!-- Quantity and Wishlist Row -->
+        <div class="flex items-center gap-3 justify-center sm:justify-start">
           <div class="flex items-center border-2 border-deep-red rounded-xl shadow-md hover:shadow-lg transition-all duration-300 bg-white">
             <button id="qty-minus" class="px-4 py-2 text-deep-red hover:bg-blush-pink/50 transition-all duration-200 font-bold text-lg">−</button>
             <input id="qty-input" type="number" value="1" min="1" class="w-12 text-center border-l border-r border-deep-red py-2 font-bold text-base" readonly>
@@ -577,6 +593,48 @@
       
       // Reset quantity
       document.getElementById('qty-input').value = 1;
+    };
+
+    // Buy Now - Add to cart and redirect to checkout
+    document.getElementById('buy-now-btn').onclick = () => {
+      const quantity = parseInt(document.getElementById('qty-input').value) || 1;
+      const sizeSelect = document.getElementById('size-select');
+      const selectedOption = sizeSelect.value;
+
+      if (!selectedOption) {
+        showError('Please select a size or option before checkout');
+        return;
+      }
+
+      // Get the selected size/variant details
+      const [sizeLabel, sizePrice] = selectedOption.split('|');
+      const price = parseFloat(sizePrice);
+
+      // Add to cart
+      if (window.addToCart) {
+        const success = window.addToCart({
+          id: product.id,
+          name: `${product.name} - ${sizeLabel}`,
+          price: price,
+          quantity: quantity,
+          variant: sizeLabel,
+          img: product.img,
+          baseProduct: product
+        });
+        
+        // If successfully added, redirect to checkout
+        if (success) {
+          // Small delay to ensure cart is saved
+          setTimeout(() => {
+            window.location.href = 'checkout.html';
+          }, 100);
+        }
+      } else {
+        // Fallback if addToCart not available - just go to checkout
+        setTimeout(() => {
+          window.location.href = 'checkout.html';
+        }, 100);
+      }
     };
 
     // Load and display reviews (from shop.html review pool)
