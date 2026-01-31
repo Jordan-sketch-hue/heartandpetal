@@ -2,13 +2,24 @@
 <html lang="en">
 <head>
   <link rel="icon" type="image/jpeg" href="https://res.cloudinary.com/dij2fdtw4/image/upload/v1769602073/give_a_rosebud_favicon_in_red_please_xqnp4v.jpg">
-  <!-- Google tag (gtag.js) - Conversion Tracking -->
+  <!-- Google tag (gtag.js) - Google Ads & Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11161550773"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-P9YY23KJV6"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'AW-11161550773');
+    // Google Ads
+    gtag('config', 'AW-11161550773', { 'allow_enhanced_conversions': true });
+    // Google Analytics
+    gtag('config', 'G-P9YY23KJV6');
+    // Fire standard events for both tags
+    gtag('event', 'page_view', {
+      'send_to': ['AW-11161550773', 'G-P9YY23KJV6']
+    });
+    gtag('event', 'user_engagement', {
+      'send_to': ['AW-11161550773', 'G-P9YY23KJV6']
+    });
   </script>
   
   <!-- Google Ads Conversion Tracking for Purchases -->
