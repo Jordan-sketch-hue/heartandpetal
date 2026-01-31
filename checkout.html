@@ -300,6 +300,14 @@
                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deep-red focus:border-transparent"
                 placeholder="Any special delivery instructions..."></textarea>
             </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1">Gift Message (Optional)</label>
+              <textarea id="checkout-gift-message" rows="3"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deep-red focus:border-transparent"
+                placeholder="Write a short gift note to include with the delivery..."></textarea>
+              <p class="text-xs text-gray-500 mt-1">Keep it short and sweet (recommended max 250 characters).</p>
+            </div>
           </form>
         </div>
 
@@ -332,6 +340,28 @@
               <input type="date" id="checkout-delivery-date" 
                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deep-red focus:border-transparent"
                 placeholder="Select delivery date">
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Preferred Delivery Time Window (Optional)</label>
+              <select id="checkout-delivery-time" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deep-red focus:border-transparent bg-white">
+                <option value="">No preference</option>
+                <option value="Morning (8 AM - 11 AM)">Morning (8 AM - 11 AM)</option>
+                <option value="Afternoon (12 PM - 4 PM)">Afternoon (12 PM - 4 PM)</option>
+                <option value="Evening (5 PM - 8 PM)">Evening (5 PM - 8 PM)</option>
+              </select>
+            </div>
+
+            <div class="bg-blush-pink/20 border border-blush-pink/40 rounded-lg p-4">
+              <p class="text-sm font-semibold text-gray-800 mb-3">Order Updates</p>
+              <label class="flex items-center gap-2 text-sm text-gray-700">
+                <input id="checkout-updates-email" type="checkbox" class="accent-deep-red" checked>
+                Email updates (recommended)
+              </label>
+              <label class="flex items-center gap-2 text-sm text-gray-700 mt-2">
+                <input id="checkout-updates-sms" type="checkbox" class="accent-deep-red">
+                SMS updates (sent to the phone number above)
+              </label>
             </div>
           </div>
         </div>

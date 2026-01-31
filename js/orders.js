@@ -4,6 +4,63 @@
 const ORDERS_KEY = 'hp_crm_orders';
 const SENT_EMAILS_KEY = 'hp_sent_emails';
 
+function normalizeUpdatesOptIn(orderData) {
+  return {
+    email: orderData.updatesEmail === true,
+    sms: orderData.updatesSms === true
+  };
+}
+
+function calculateEtaTimestamp(orderData) {
+  const baseDate = orderData.deliveryDate ? new Date(orderData.deliveryDate) : new Date();
+  if (!orderData.deliveryDate) {
+    const shipping = (orderData.shipping || '').toLowerCase();
+    const daysToAdd = shipping.includes('express') ? 2 : shipping.includes('valentine') ? 1 : 5;
+    baseDate.setDate(baseDate.getDate() + daysToAdd);
+  }
+  const timeWindow = (orderData.deliveryTime || '').toLowerCase();
+  if (timeWindow.includes('morning')) baseDate.setHours(10, 0, 0, 0);
+  else if (timeWindow.includes('afternoon')) baseDate.setHours(15, 0, 0, 0);
+  else if (timeWindow.includes('evening')) baseDate.setHours(19, 0, 0, 0);
+  else baseDate.setHours(17, 0, 0, 0);
+  return baseDate.getTime();
+}
+
+function buildInitialUpdateLog(orderData, updatesOptIn, etaTimestamp) {
+  const updates = [];
+  updates.push({
+    id: Math.random().toString(36).substring(2),
+    message: 'Order placed successfully.',
+    channel: 'system',
+    timestamp: new Date().toISOString()
+  });
+  if (updatesOptIn.email) {
+    updates.push({
+      id: Math.random().toString(36).substring(2),
+      message: 'Email updates enabled for this order.',
+      channel: 'email',
+      timestamp: new Date().toISOString()
+    });
+  }
+  if (updatesOptIn.sms) {
+    updates.push({
+      id: Math.random().toString(36).substring(2),
+      message: 'SMS updates enabled for this order.',
+      channel: 'sms',
+      timestamp: new Date().toISOString()
+    });
+  }
+  if (etaTimestamp) {
+    updates.push({
+      id: Math.random().toString(36).substring(2),
+      message: 'Estimated delivery scheduled.',
+      channel: 'system',
+      timestamp: new Date().toISOString()
+    });
+  }
+  return updates;
+}
+
 function generateOrderId() {
   return 'ORD-' + Date.now() + '-' + Math.random().toString(36).substring(2, 9).toUpperCase();
 }
@@ -45,6 +102,10 @@ function createOrder(orderData) {
     if (!validateOrderData(orderData)) {
       return { success: false, error: 'Invalid order data' };
     }
+
+    const updatesOptIn = normalizeUpdatesOptIn(orderData);
+    const etaTimestamp = calculateEtaTimestamp(orderData);
+    const updateLog = buildInitialUpdateLog(orderData, updatesOptIn, etaTimestamp);
     
     const order = {
       id: generateOrderId(),
@@ -54,7 +115,11 @@ function createOrder(orderData) {
       address: orderData.address.trim(),
       shipping: orderData.shipping || 'Standard Delivery (3-5 days)',
       deliveryDate: orderData.deliveryDate || null,
+      deliveryTime: orderData.deliveryTime || null,
       giftNote: orderData.giftNote || '',
+      updatesOptIn,
+      etaTimestamp,
+      updateLog,
       discountCode: orderData.discountCode || null,
       discountAmount: orderData.discountAmount || 0,
       subtotal: orderData.subtotal || orderData.total + (orderData.discountAmount || 0),
@@ -77,6 +142,16 @@ function createOrder(orderData) {
     console.error('❌ Error creating order:', e);
     return { success: false, error: 'Failed to create order' };
   }
+}
+
+function saveOrder(orderData) {
+  const result = createOrder(orderData);
+  if (result.success && result.order) {
+    if (typeof simulateEmailConfirmation === 'function') {
+      simulateEmailConfirmation(result.order);
+    }
+  }
+  return result;
 }
 
 function simulateEmailConfirmation(order) {
@@ -171,6 +246,7 @@ Order Date: ${new Date(order.created).toLocaleDateString()}
 DELIVERY DETAILS
 Shipping Method: ${order.shipping}
 Delivery Date: ${order.deliveryDate || 'To be confirmed'}
+${order.deliveryTime ? `Delivery Window: ${order.deliveryTime}\n` : ''}Shipping Address: ${order.address}
 Shipping Address: ${order.address}
 
 ORDER SUMMARY
@@ -212,12 +288,75 @@ function getOrderHistory(email) {
 function getOrderById(orderId) {
   try {
     const orders = JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]');
-    return orders.find(order => order.id === orderId) || null;
+    const match = orders.find(order => order.id === orderId);
+    if (match) return match;
+
+    const legacyOrders = JSON.parse(localStorage.getItem('hp_orders') || '[]');
+    const legacyMatch = legacyOrders.find(order => order.orderId === orderId || order.id === orderId);
+    if (!legacyMatch) return null;
+
+    return {
+      id: legacyMatch.orderId || legacyMatch.id,
+      name: legacyMatch.name || legacyMatch.customerName || 'Customer',
+      email: legacyMatch.email || legacyMatch.customerEmail || '',
+      phone: legacyMatch.phone || '',
+      address: legacyMatch.address || legacyMatch.shippingAddress || '',
+      shipping: legacyMatch.shipping || legacyMatch.deliveryService || 'Standard Delivery (3-5 days)',
+      deliveryDate: legacyMatch.deliveryDate || null,
+      deliveryTime: legacyMatch.deliveryTime || null,
+      giftNote: legacyMatch.giftNote || '',
+      items: legacyMatch.items || [],
+      total: legacyMatch.total || 0,
+      status: legacyMatch.status || legacyMatch.paymentStatus || 'Processing',
+      created: legacyMatch.timestamp || new Date().toISOString(),
+      updatesOptIn: legacyMatch.updatesOptIn || { email: false, sms: false },
+      updateLog: legacyMatch.updateLog || []
+    };
   } catch (e) {
     console.error('❌ Error fetching order:', e);
     return null;
   }
 }
+
+function updateOrderPreferences(orderId, updatesOptIn) {
+  try {
+    const orders = JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]');
+    const idx = orders.findIndex(o => o.id === orderId);
+    if (idx === -1) return { success: false, error: 'Order not found' };
+    orders[idx].updatesOptIn = updatesOptIn;
+    localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
+    return { success: true, order: orders[idx] };
+  } catch (e) {
+    console.error('❌ Error updating order preferences:', e);
+    return { success: false, error: 'Failed to update preferences' };
+  }
+}
+
+function appendOrderUpdate(orderId, message, channel = 'system') {
+  try {
+    const orders = JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]');
+    const idx = orders.findIndex(o => o.id === orderId);
+    if (idx === -1) return { success: false, error: 'Order not found' };
+    const entry = {
+      id: Math.random().toString(36).substring(2),
+      message,
+      channel,
+      timestamp: new Date().toISOString()
+    };
+    orders[idx].updateLog = Array.isArray(orders[idx].updateLog) ? orders[idx].updateLog : [];
+    orders[idx].updateLog.push(entry);
+    localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
+    return { success: true, order: orders[idx] };
+  } catch (e) {
+    console.error('❌ Error appending order update:', e);
+    return { success: false, error: 'Failed to append update' };
+  }
+}
+
+// Export helpers
+window.saveOrder = saveOrder;
+window.updateOrderPreferences = updateOrderPreferences;
+window.appendOrderUpdate = appendOrderUpdate;
 
 function updateOrderStatus(orderId, newStatus) {
   try {

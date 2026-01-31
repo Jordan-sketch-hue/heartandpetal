@@ -33,13 +33,14 @@
     // Determine current navigation state
     updateNavigationState() {
       const session = this.getActiveSession();
+      const crmAdminLoggedIn = localStorage.getItem('hp_crm_admin_logged_in') === 'true';
       
-      if (!session) {
+      if (!session && !crmAdminLoggedIn) {
         this.currentState = NavState.GUEST;
         this.currentUser = null;
       } else {
-        this.currentUser = this.getUserFromSession(session);
-        this.currentState = this.isAdminSession(session) ? NavState.ADMIN : NavState.AUTHENTICATED;
+        this.currentUser = session ? this.getUserFromSession(session) : null;
+        this.currentState = crmAdminLoggedIn || this.isAdminSession(session) ? NavState.ADMIN : NavState.AUTHENTICATED;
       }
       
       this.renderNavigation();

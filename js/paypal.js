@@ -89,18 +89,32 @@ function initPayPalButtons() {
         address: document.getElementById('checkout-address')?.value || '',
         notes: document.getElementById('checkout-notes')?.value || '',
         shipping: document.getElementById('checkout-shipping')?.value || 'Standard',
-        deliveryDate: document.getElementById('checkout-delivery-date')?.value || ''
+        deliveryDate: document.getElementById('checkout-delivery-date')?.value || '',
+        deliveryTime: document.getElementById('checkout-delivery-time')?.value || '',
+        giftNote: document.getElementById('checkout-gift-message')?.value || '',
+        updatesEmail: document.getElementById('checkout-updates-email')?.checked || false,
+        updatesSms: document.getElementById('checkout-updates-sms')?.checked || false
       };
-      
+
+      const orderPayload = {
+        ...customerData,
+        items: getCartSafely(),
+        total: typeof calculateTotal === 'function' ? calculateTotal() : 0,
+        paymentId: data.orderID,
+        paymentStatus: 'Completed',
+        timestamp: new Date().toISOString()
+      };
+
+      let savedOrderId = null;
       if (typeof saveOrder === 'function') {
-        saveOrder({
-          ...customerData,
-          items: getCartSafely(),
-          total: typeof calculateTotal === 'function' ? calculateTotal() : 0,
-          paymentId: data.orderID,
-          paymentStatus: 'Completed',
-          timestamp: new Date().toISOString()
-        });
+        const result = saveOrder(orderPayload);
+        savedOrderId = result?.order?.id || null;
+      } else if (typeof createOrder === 'function') {
+        const result = createOrder(orderPayload);
+        savedOrderId = result?.order?.id || null;
+        if (result?.order && typeof simulateEmailConfirmation === 'function') {
+          simulateEmailConfirmation(result.order);
+        }
       }
       
       // 🔥 Track Google Ads conversion with complete data
@@ -124,11 +138,11 @@ function initPayPalButtons() {
       // Show branded success message
       if (typeof showBrandedAlert === 'function') {
         showBrandedAlert('Payment successful! Order confirmation sent to your email.', 'Payment Confirmed', 'success', () => {
-          window.location.href = 'tracking.html';
+          window.location.href = `tracking.html${savedOrderId ? `?orderId=${encodeURIComponent(savedOrderId)}` : ''}`;
         });
       } else {
         alert('✅ Payment successful! Order confirmation sent to your email.');
-        window.location.href = 'tracking.html';
+        window.location.href = `tracking.html${savedOrderId ? `?orderId=${encodeURIComponent(savedOrderId)}` : ''}`;
       }
     });
   },

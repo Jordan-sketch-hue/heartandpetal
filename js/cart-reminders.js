@@ -33,7 +33,7 @@ class CartReminderSystem {
   trackCartActivity() {
     // Listen for cart updates via storage event or direct tracking
     window.addEventListener('storage', (e) => {
-      if (e.key === 'cart') {
+      if (e.key === 'heartAndPetalCart') {
         this.onItemAddedToCart();
       }
     });
@@ -98,7 +98,7 @@ class CartReminderSystem {
   }
 
   checkCartReminder() {
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const cart = JSON.parse(localStorage.getItem('heartAndPetalCart') || '[]');
     const lastCartAddTime = parseInt(localStorage.getItem('lastCartAddTime') || '0');
     const now = Date.now();
 
@@ -118,7 +118,7 @@ class CartReminderSystem {
     
     if (lastViewedProduct && !this.hasShownProductReminder) {
       const timeSinceView = Date.now() - lastViewedProduct.timestamp;
-      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const cart = JSON.parse(localStorage.getItem('heartAndPetalCart') || '[]');
       const inCart = cart.some(item => item.id === lastViewedProduct.id);
       
       // If user viewed product for 30+ seconds but didn't add to cart

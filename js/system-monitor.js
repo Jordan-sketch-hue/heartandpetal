@@ -275,7 +275,7 @@
 
       // Test Cart System
       try {
-        const cart = JSON.parse(localStorage.getItem('hp_cart') || '[]');
+        const cart = JSON.parse(localStorage.getItem('heartAndPetalCart') || '[]');
         if (Array.isArray(cart)) {
           results.tests.cart = 'PASS';
           this.logSuccess('cart', 'Cart system operational');

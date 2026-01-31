@@ -79,6 +79,8 @@ function renderOrders() {
   const allOrders = [...checkoutOrders, ...crmOrders];
   
   const myOrders = allOrders.filter(o => o.customerEmail === customer.email || o.email === customer.email);
+
+  window.__profileOrders = myOrders;
   
   if (myOrders.length === 0) {
     ordersDiv.innerHTML = '<div class="text-center text-gray-500 py-8">No orders found. Start shopping in our <a href="shop.html" class="text-deep-red font-semibold underline">shop</a>!</div>';
@@ -106,13 +108,25 @@ function renderOrders() {
             ${order.items.map(item => `<li class="text-gray-700">• ${item.name} (x${item.quantity}) - $${(item.price * item.quantity).toFixed(2)}</li>`).join('')}
           </ul>
         </div>` : ''}
+        <div class="flex flex-wrap gap-2 pt-2">
+          <a href="tracking.html?orderId=${encodeURIComponent(order.orderId || order.id)}" class="bg-white border border-deep-red text-deep-red px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blush-pink transition">Track Order</a>
+          <button class="reorder-btn bg-deep-red text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-red-700 transition" data-reorder-id="${order.orderId || order.id}">Reorder</button>
+        </div>
       </div>
     </div>
   `).join('');
+
+  const reorderButtons = ordersDiv.querySelectorAll('.reorder-btn');
+  reorderButtons.forEach(btn => {
+    btn.addEventListener('click', () => reorderOrder(btn.dataset.reorderId));
+  });
 }
 
 function loadWishlist() {
-  const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+  let wishlist = JSON.parse(localStorage.getItem('hp_wishlist') || '[]');
+  if (!Array.isArray(wishlist) || wishlist.length === 0) {
+    wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+  }
   const wishlistDiv = document.getElementById('wishlist-items');
   
   if (wishlist.length === 0) {
@@ -127,9 +141,49 @@ function loadWishlist() {
         <h3 class="font-semibold">${item.name}</h3>
         <p class="text-deep-red font-bold">$${item.price}</p>
       </div>
-      <a href="shop.html" class="bg-deep-red text-white px-4 py-2 rounded-lg hover:bg-red-700 transition">View</a>
+      <div class="flex gap-2">
+        <button class="bg-white border border-deep-red text-deep-red px-4 py-2 rounded-lg hover:bg-blush-pink transition" onclick="addWishlistItemToCart('${item.id}')">Add to Cart</button>
+        <a href="shop.html" class="bg-deep-red text-white px-4 py-2 rounded-lg hover:bg-red-700 transition">View</a>
+      </div>
     </div>
   `).join('');
+}
+
+function reorderOrder(orderId) {
+  const orders = window.__profileOrders || [];
+  const order = orders.find(o => (o.orderId || o.id) === orderId);
+  if (!order || !Array.isArray(order.items)) {
+    showError('Order not found or has no items');
+    return;
+  }
+  order.items.forEach(item => {
+    if (typeof addToCart === 'function') {
+      addToCart({
+        id: item.id,
+        name: item.name,
+        price: parseFloat(item.price) || 0,
+        quantity: parseInt(item.quantity) || 1,
+        img: item.img || '',
+        variant: item.variant || null
+      });
+    }
+  });
+  window.location.href = 'checkout.html';
+}
+
+function addWishlistItemToCart(productId) {
+  const wishlist = JSON.parse(localStorage.getItem('hp_wishlist') || '[]');
+  const item = wishlist.find(w => w.id === productId);
+  if (!item) return;
+  if (typeof addToCart === 'function') {
+    addToCart({
+      id: item.id,
+      name: item.name,
+      price: parseFloat(item.price) || 0,
+      quantity: 1,
+      img: item.img || ''
+    });
+  }
 }
 
 function setupTracking() {
@@ -190,7 +244,7 @@ function setupTracking() {
             <div class="bg-white rounded p-4 border border-green-200">
               <p class="font-bold text-gray-800 mb-2">🚚 Shipping Information</p>
               <div class="space-y-2 text-sm">
-                <div><span class="font-semibold">Delivery Service:</span> ${order.deliveryService || 'Standard Delivery (3-5 business days)'}</div>
+                <div><span class="font-semibold">Delivery Service:</span> ${order.deliveryService || order.shipping || 'Standard Delivery (3-5 business days)'}</div>
                 <div><span class="font-semibold">Tracking Number:</span> ${order.trackingNumber || 'Will be provided once shipped'}</div>
                 ${order.deliveryDate ? `<div><span class="font-semibold">Expected Delivery:</span> ${new Date(order.deliveryDate).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}</div>` : '<div><span class="font-semibold">Expected Delivery:</span> To be determined</div>'}
               </div>

@@ -181,6 +181,32 @@
       <section class="bg-gradient-to-r from-blush-pink/30 to-champagne-gold/30 rounded-lg p-6 text-center">
         <p class="text-lg mb-2">Estimated Delivery</p>
         <p id="estimated-delivery" class="text-2xl font-bold text-deep-red"></p>
+        <p id="delivery-window" class="text-sm text-gray-700 mt-2"></p>
+        <p id="eta-countdown" class="text-sm text-gray-700 mt-1"></p>
+      </section>
+
+      <!-- Update Preferences + Live Updates -->
+      <section class="bg-white rounded-lg shadow-lg p-6 mt-6">
+        <h3 class="text-xl font-bold mb-4">Live Updates</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+            <p class="text-sm font-semibold text-gray-800 mb-3">Update Preferences</p>
+            <label class="flex items-center gap-2 text-sm text-gray-700">
+              <input id="tracking-updates-email" type="checkbox" class="accent-deep-red">
+              Email updates
+            </label>
+            <label class="flex items-center gap-2 text-sm text-gray-700 mt-2">
+              <input id="tracking-updates-sms" type="checkbox" class="accent-deep-red">
+              SMS updates
+            </label>
+            <button id="save-update-preferences" class="mt-4 w-full bg-deep-red text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-700 transition">Save Preferences</button>
+            <p id="update-pref-status" class="text-xs text-green-700 mt-2 hidden"></p>
+          </div>
+          <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+            <p class="text-sm font-semibold text-gray-800 mb-3">Latest Updates</p>
+            <div id="update-log" class="space-y-2 text-sm text-gray-700"></div>
+          </div>
+        </div>
       </section>
     </div>
 
@@ -254,14 +280,20 @@
       document.getElementById('order-total').textContent = '$' + order.total;
       
       // Estimated delivery
-      const deliveryDate = order.deliveryDate || calculateDeliveryDate(order.created, order.shipping);
+      const deliveryDate = order.deliveryDate || calculateDeliveryDate(order.created, order.shipping, true);
       document.getElementById('estimated-delivery').textContent = deliveryDate;
+      document.getElementById('delivery-window').textContent = order.deliveryTime ? `Preferred window: ${order.deliveryTime}` : '';
+      startEtaCountdown(order);
       
       // Tracking timeline
       displayTrackingTimeline(order);
       
       // Order items
       displayOrderItems(order.items);
+
+      // Update preferences + log
+      initUpdatePreferences(order);
+      renderUpdateLog(order);
     }
     
     function displayTrackingTimeline(order) {
@@ -311,15 +343,97 @@
       `).join('');
     }
     
-    function calculateDeliveryDate(orderDate, shipping) {
+    function calculateDeliveryDate(orderDate, shipping, formatted = false) {
       const date = new Date(orderDate);
       const daysToAdd = shipping.includes('Express') ? 2 : shipping.includes('Next') ? 1 : 5;
       date.setDate(date.getDate() + daysToAdd);
-      return date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      return formatted
+        ? date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+        : date;
+    }
+
+    function getEtaTimestamp(order) {
+      if (order.etaTimestamp) return order.etaTimestamp;
+      const baseDate = order.deliveryDate ? new Date(order.deliveryDate) : calculateDeliveryDate(order.created, order.shipping, false);
+      const timeWindow = (order.deliveryTime || '').toLowerCase();
+      if (timeWindow.includes('morning')) baseDate.setHours(10, 0, 0, 0);
+      else if (timeWindow.includes('afternoon')) baseDate.setHours(15, 0, 0, 0);
+      else if (timeWindow.includes('evening')) baseDate.setHours(19, 0, 0, 0);
+      else baseDate.setHours(17, 0, 0, 0);
+      return baseDate.getTime();
+    }
+
+    function startEtaCountdown(order) {
+      const etaEl = document.getElementById('eta-countdown');
+      if (!etaEl) return;
+      const etaTimestamp = getEtaTimestamp(order);
+      if (!etaTimestamp) {
+        etaEl.textContent = '';
+        return;
+      }
+      const update = () => {
+        const now = Date.now();
+        const diff = etaTimestamp - now;
+        if (diff <= 0) {
+          etaEl.textContent = 'Estimated delivery: arriving soon.';
+          return;
+        }
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        etaEl.textContent = `ETA: ${hours}h ${minutes}m remaining`;
+      };
+      update();
+      if (window.__etaInterval) clearInterval(window.__etaInterval);
+      window.__etaInterval = setInterval(update, 60000);
+    }
+
+    function initUpdatePreferences(order) {
+      const emailCheckbox = document.getElementById('tracking-updates-email');
+      const smsCheckbox = document.getElementById('tracking-updates-sms');
+      const saveBtn = document.getElementById('save-update-preferences');
+      const statusEl = document.getElementById('update-pref-status');
+
+      if (!emailCheckbox || !smsCheckbox || !saveBtn) return;
+      emailCheckbox.checked = !!order.updatesOptIn?.email;
+      smsCheckbox.checked = !!order.updatesOptIn?.sms;
+
+      saveBtn.onclick = () => {
+        const updatesOptIn = {
+          email: emailCheckbox.checked,
+          sms: smsCheckbox.checked
+        };
+        if (typeof updateOrderPreferences === 'function') {
+          const result = updateOrderPreferences(order.id, updatesOptIn);
+          if (result?.success && statusEl) {
+            statusEl.textContent = '✅ Preferences saved';
+            statusEl.classList.remove('hidden');
+            setTimeout(() => statusEl.classList.add('hidden'), 3000);
+          }
+        }
+      };
+    }
+
+    function renderUpdateLog(order) {
+      const logContainer = document.getElementById('update-log');
+      if (!logContainer) return;
+      const updates = Array.isArray(order.updateLog) ? order.updateLog.slice().reverse() : [];
+      if (updates.length === 0) {
+        logContainer.innerHTML = '<p class="text-gray-500">No updates yet.</p>';
+        return;
+      }
+      logContainer.innerHTML = updates.map(update => {
+        const time = new Date(update.timestamp).toLocaleString();
+        return `<div class="border-b border-gray-200 pb-2">
+          <p class="font-semibold text-gray-800">${update.message}</p>
+          <p class="text-xs text-gray-500">${time} • ${update.channel}</p>
+        </div>`;
+      }).join('');
     }
     
     function loadRecentOrders() {
-      const orders = JSON.parse(localStorage.getItem('hp_crm_orders') || '[]');
+      const crmOrders = JSON.parse(localStorage.getItem('hp_crm_orders') || '[]');
+      const legacyOrders = JSON.parse(localStorage.getItem('hp_orders') || '[]');
+      const orders = [...crmOrders, ...legacyOrders];
       const recentOrders = orders.slice(-5).reverse();
       
       const container = document.getElementById('recent-orders');
@@ -330,21 +444,29 @@
       }
       
       container.innerHTML = recentOrders.map(order => `
-        <div class="bg-white rounded-lg shadow p-4 hover:shadow-lg transition cursor-pointer" onclick="document.getElementById('order-id-input').value='${order.id}'; searchOrder();">
+        <div class="bg-white rounded-lg shadow p-4 hover:shadow-lg transition cursor-pointer" onclick="document.getElementById('order-id-input').value='${order.id || order.orderId}'; searchOrder();">
           <div class="flex justify-between items-start">
             <div>
-              <p class="font-bold text-deep-red">${order.id}</p>
-              <p class="text-sm text-gray-600">${new Date(order.created).toLocaleDateString()}</p>
+              <p class="font-bold text-deep-red">${order.id || order.orderId}</p>
+              <p class="text-sm text-gray-600">${new Date(order.created || order.timestamp || Date.now()).toLocaleDateString()}</p>
             </div>
-            <span class="px-3 py-1 rounded-full text-xs font-semibold ${order.status === 'Delivered' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}">${order.status}</span>
+            <span class="px-3 py-1 rounded-full text-xs font-semibold ${(order.status || order.paymentStatus) === 'Delivered' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}">${order.status || order.paymentStatus || 'Processing'}</span>
           </div>
-          <p class="mt-2 text-gray-700">${order.items.length} item(s) • $${order.total}</p>
+          <p class="mt-2 text-gray-700">${(order.items || []).length} item(s) • $${order.total}</p>
         </div>
       `).join('');
     }
     
     // Load recent orders on page load
     loadRecentOrders();
+
+    // Auto-search order from query param
+    const params = new URLSearchParams(window.location.search);
+    const orderIdParam = params.get('orderId');
+    if (orderIdParam) {
+      document.getElementById('order-id-input').value = orderIdParam;
+      searchOrder();
+    }
   </script>
   <script src="js/free-delivery-popup.js"></script>
 </body>

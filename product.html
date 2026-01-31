@@ -255,6 +255,15 @@
           <p class="text-xs text-charcoal/60 mt-1">Max 500 characters. Review will be moderated before posting.</p>
         </div>
 
+        <div>
+          <label class="block font-bold mb-2">Add a Photo (Optional)</label>
+          <input type="file" id="review-photo" accept="image/*" class="block w-full text-sm text-charcoal file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-deep-red file:text-white hover:file:bg-red-700">
+          <div id="review-photo-preview" class="mt-3 hidden">
+            <img id="review-photo-preview-img" src="" alt="Review photo preview" class="w-32 h-32 object-cover rounded-lg border border-gray-200">
+          </div>
+          <p class="text-xs text-charcoal/60 mt-1">JPG/PNG up to 2MB. Photos appear after approval.</p>
+        </div>
+
         <button type="submit" class="w-full bg-deep-red text-white px-6 md:px-10 py-4 rounded-xl font-bold text-base md:text-lg hover:bg-red-700 hover:shadow-2xl transition-all duration-300 shadow-lg">Submit Review</button>
         <p id="review-status" class="text-sm text-champagne-gold hidden mt-2"></p>
       </form>
@@ -274,6 +283,23 @@
         Show Less
       </button>
     </div>
+
+    <!-- Q&A Section -->
+    <section id="qa-section" class="bg-white/60 border border-blush-pink/40 rounded-2xl p-8 shadow-lg mb-16">
+      <h3 class="font-playfair text-2xl font-bold mb-6 text-deep-red">Questions & Answers</h3>
+      <form id="qa-form" class="space-y-4 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input type="text" id="qa-name" placeholder="Your Name" class="border-2 border-deep-red rounded-xl px-4 py-3 shadow-md focus:ring-4 focus:ring-champagne-gold/30 focus:border-champagne-gold transition-all duration-300" required>
+          <input type="email" id="qa-email" placeholder="Your Email (optional)" class="border-2 border-deep-red rounded-xl px-4 py-3 shadow-md focus:ring-4 focus:ring-champagne-gold/30 focus:border-champagne-gold transition-all duration-300">
+        </div>
+        <textarea id="qa-question" placeholder="Ask a question about this product..." class="w-full border-2 border-deep-red rounded-xl px-4 py-3 h-28 shadow-md focus:ring-4 focus:ring-champagne-gold/30 focus:border-champagne-gold transition-all duration-300" required></textarea>
+        <button type="submit" class="bg-deep-red text-white px-6 md:px-10 py-3 rounded-xl font-bold hover:bg-red-700 transition">Submit Question</button>
+        <p id="qa-status" class="text-sm text-champagne-gold hidden"></p>
+      </form>
+      <div id="qa-list" class="space-y-6">
+        <p class="text-charcoal/70">No questions yet. Be the first to ask!</p>
+      </div>
+    </section>
 
     <!-- Related Products -->
     <h3 class="font-playfair text-2xl font-bold mt-16 mb-8 text-deep-red">Related Products</h3>
@@ -688,6 +714,9 @@
     // ===== REVIEW FORM SUBMISSION HANDLER =====
     const reviewForm = document.getElementById('review-form');
     const reviewStatus = document.getElementById('review-status');
+    const reviewPhotoInput = document.getElementById('review-photo');
+    const reviewPhotoPreview = document.getElementById('review-photo-preview');
+    const reviewPhotoPreviewImg = document.getElementById('review-photo-preview-img');
     
     // Load pending reviews from localStorage
     function getPendingReviews() {
@@ -708,14 +737,44 @@
       localStorage.setItem('approvedReviews', JSON.stringify(reviews));
     }
     
+    function readReviewPhoto(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(new Error('Failed to read image'));
+        reader.readAsDataURL(file);
+      });
+    }
+
+    if (reviewPhotoInput) {
+      reviewPhotoInput.addEventListener('change', async () => {
+        const file = reviewPhotoInput.files?.[0];
+        if (!file) {
+          if (reviewPhotoPreview) reviewPhotoPreview.classList.add('hidden');
+          return;
+        }
+        if (file.size > 2 * 1024 * 1024) {
+          reviewStatus.textContent = '❌ Photo must be under 2MB';
+          reviewStatus.classList.remove('hidden');
+          reviewPhotoInput.value = '';
+          if (reviewPhotoPreview) reviewPhotoPreview.classList.add('hidden');
+          return;
+        }
+        const dataUrl = await readReviewPhoto(file);
+        if (reviewPhotoPreviewImg) reviewPhotoPreviewImg.src = dataUrl;
+        if (reviewPhotoPreview) reviewPhotoPreview.classList.remove('hidden');
+      });
+    }
+
     // Handle review form submission
-    reviewForm.addEventListener('submit', (e) => {
+    reviewForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       
       const name = document.getElementById('review-name').value.trim();
       const email = document.getElementById('review-email').value.trim();
       const rating = parseInt(document.getElementById('review-rating').value);
       const text = document.getElementById('review-text').value.trim();
+      const photoFile = reviewPhotoInput?.files?.[0] || null;
       
       if (!name || !email || !rating || !text) {
         reviewStatus.textContent = '❌ Please fill in all fields';
@@ -728,6 +787,18 @@
         reviewStatus.classList.remove('hidden');
         return;
       }
+
+      let photoData = '';
+      let photoName = '';
+      if (photoFile) {
+        if (photoFile.size > 2 * 1024 * 1024) {
+          reviewStatus.textContent = '❌ Photo must be under 2MB';
+          reviewStatus.classList.remove('hidden');
+          return;
+        }
+        photoData = await readReviewPhoto(photoFile);
+        photoName = photoFile.name || 'review-photo';
+      }
       
       // Create review object
       const newReview = {
@@ -737,6 +808,8 @@
         email,
         rating,
         text,
+        photoData,
+        photoName,
         submitted: new Date().toISOString(),
         approved: false,
         status: 'pending'
@@ -749,6 +822,7 @@
       
       // Clear form and show success message
       reviewForm.reset();
+      if (reviewPhotoPreview) reviewPhotoPreview.classList.add('hidden');
       reviewStatus.textContent = '✅ Thank you! Your review will appear after admin approval.';
       reviewStatus.classList.remove('hidden');
       
@@ -871,6 +945,7 @@
           </div>
           <p class="text-deep-red mb-3 font-bold text-lg">${stars}</p>
           <p class="text-charcoal font-medium leading-relaxed">${review.text}</p>
+          ${review.photoData ? `<img src="${review.photoData}" alt="Review photo" class="mt-4 w-40 h-40 object-cover rounded-lg border border-gray-200">` : ''}
         `;
       } else {
         reviewCard.innerHTML = `
@@ -884,6 +959,7 @@
             </div>
           </div>
           ${review.text ? `<p class="text-charcoal font-medium leading-relaxed">${review.text}</p>` : '<p class="text-charcoal/70 text-sm italic">Rating only</p>'}
+          ${review.photoData ? `<img src="${review.photoData}" alt="Review photo" class="mt-4 w-40 h-40 object-cover rounded-lg border border-gray-200">` : ''}
         `;
       }
       return reviewCard;
@@ -959,6 +1035,115 @@
         reviewsContainer.appendChild(renderReview(review, true));
       });
     }
+
+    // ===== Q&A SECTION =====
+    const QA_KEY = 'hp_product_qa';
+    const qaForm = document.getElementById('qa-form');
+    const qaStatus = document.getElementById('qa-status');
+    const qaList = document.getElementById('qa-list');
+
+    function getQaData() {
+      const stored = localStorage.getItem(QA_KEY);
+      return stored ? JSON.parse(stored) : {};
+    }
+
+    function saveQaData(data) {
+      localStorage.setItem(QA_KEY, JSON.stringify(data));
+    }
+
+    function renderQa() {
+      if (!qaList) return;
+      const allQa = getQaData();
+      const questions = allQa[product.id] || [];
+      if (questions.length === 0) {
+        qaList.innerHTML = '<p class="text-charcoal/70">No questions yet. Be the first to ask!</p>';
+        return;
+      }
+      const isAdmin = localStorage.getItem('hp_crm_admin_logged_in') === 'true';
+      qaList.innerHTML = questions.map(q => {
+        const answersHtml = (q.answers || []).map(a => `
+          <div class="ml-6 mt-2 p-3 bg-green-50 border border-green-200 rounded-lg">
+            <p class="text-sm font-semibold text-green-800">Answer from Heart & Petal</p>
+            <p class="text-sm text-gray-700">${a.text}</p>
+            <p class="text-xs text-gray-500 mt-1">${new Date(a.date).toLocaleString()}</p>
+          </div>
+        `).join('');
+
+        const answerForm = isAdmin ? `
+          <div class="mt-3">
+            <textarea data-answer-text="${q.id}" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" rows="2" placeholder="Write an answer..."></textarea>
+            <button data-answer-btn="${q.id}" class="mt-2 bg-deep-red text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-red-700 transition">Post Answer</button>
+          </div>
+        ` : '';
+
+        return `
+          <div class="border border-gray-200 rounded-lg p-4 bg-white">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="font-semibold text-gray-800">Q: ${q.text}</p>
+                <p class="text-xs text-gray-500 mt-1">Asked by ${q.name} • ${new Date(q.date).toLocaleDateString()}</p>
+              </div>
+              <span class="text-xs px-2 py-1 rounded-full ${q.answers && q.answers.length ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">
+                ${q.answers && q.answers.length ? 'Answered' : 'Awaiting reply'}
+              </span>
+            </div>
+            ${answersHtml}
+            ${answerForm}
+          </div>
+        `;
+      }).join('');
+    }
+
+    if (qaForm) {
+      qaForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('qa-name').value.trim();
+        const email = document.getElementById('qa-email').value.trim();
+        const question = document.getElementById('qa-question').value.trim();
+        if (!name || !question) {
+          qaStatus.textContent = '❌ Please add your name and question.';
+          qaStatus.classList.remove('hidden');
+          return;
+        }
+        const allQa = getQaData();
+        allQa[product.id] = allQa[product.id] || [];
+        allQa[product.id].push({
+          id: Math.random().toString(36).substring(2),
+          name,
+          email,
+          text: question,
+          date: new Date().toISOString(),
+          answers: []
+        });
+        saveQaData(allQa);
+        qaForm.reset();
+        qaStatus.textContent = '✅ Question submitted! We will reply soon.';
+        qaStatus.classList.remove('hidden');
+        setTimeout(() => qaStatus.classList.add('hidden'), 4000);
+        renderQa();
+      });
+    }
+
+    if (qaList) {
+      qaList.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-answer-btn]');
+        if (!btn) return;
+        const qId = btn.getAttribute('data-answer-btn');
+        const textarea = qaList.querySelector(`[data-answer-text="${qId}"]`);
+        const answerText = textarea?.value.trim();
+        if (!answerText) return;
+        const allQa = getQaData();
+        const questions = allQa[product.id] || [];
+        const q = questions.find(item => item.id === qId);
+        if (!q) return;
+        q.answers = q.answers || [];
+        q.answers.push({ text: answerText, date: new Date().toISOString() });
+        saveQaData(allQa);
+        renderQa();
+      });
+    }
+
+    renderQa();
 
     // Related products (same category or random) - Filter out admin-only products
     let adminLoggedIn = localStorage.getItem('hp_crm_admin_logged_in') === 'true';

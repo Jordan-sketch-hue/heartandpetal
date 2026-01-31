@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/jpeg" href="https://res.cloudinary.com/dij2fdtw4/image/upload/v1769602073/give_a_rosebud_favicon_in_red_please_xqnp4v.jpg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Build your own Heart & Petal bouquet. Choose flowers, wrap, add-ons, and delivery preferences.">
+  <title>Build Your Own Bouquet - Heart & Petal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/error-handler.js"></script>
+  <script src="js/system-monitor.js"></script>
+  <script src="js/mobile-menu.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/nav-manager.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/cart.js"></script>
+</head>
+<body class="bg-ivory font-montserrat min-h-screen flex flex-col">
+  <!-- Free Delivery Banner -->
+  <div class="bg-deep-red text-ivory text-center py-2 text-sm font-bold">
+    FREE DELIVERY ON ALL ORDERS ACROSS THE USA!
+  </div>
+
+  <!-- Header -->
+  <header class="bg-white/90 shadow sticky top-0 z-50">
+    <div class="container mx-auto flex items-center justify-between py-3 px-4 md:px-6">
+      <a href="index.html" class="flex items-center gap-2 md:gap-3 flex-shrink-0">
+        <img src="https://res.cloudinary.com/dij2fdtw4/image/upload/v1769602073/give_a_rosebud_favicon_in_red_please_xqnp4v.jpg" alt="Heart & Petal Rose Icon" class="h-9 md:h-10 w-9 md:w-10 object-contain">
+        <span class="font-playfair text-xl md:text-2xl text-deep-red tracking-wide hidden sm:inline">Heart & Petal</span>
+      </a>
+      <nav class="hidden lg:flex space-x-3 xl:space-x-6 text-sm md:text-lg items-center">
+        <a href="index.html" class="hover:text-deep-red transition">Home</a>
+        <a href="shop.html" class="hover:text-deep-red transition">Shop</a>
+        <a href="custom-bouquet.html" class="hover:text-deep-red transition font-bold text-deep-red">Custom Bouquet</a>
+        <a href="checkout.html" class="hover:text-deep-red transition">Checkout</a>
+        <a href="legal.html" class="hover:text-deep-red transition">Legal</a>
+        <div class="relative group">
+          <button class="hover:text-champagne-gold transition focus:outline-none text-sm md:text-base">Login | Register</button>
+          <div class="absolute right-0 mt-2 w-48 bg-white border border-charcoal rounded shadow-lg opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition z-50">
+            <a href="admin.html" class="block px-4 py-2 hover:bg-blush-pink/40 text-sm">Admin</a>
+            <a href="customer-login.html" class="block px-4 py-2 hover:bg-blush-pink/40 text-sm">Customer</a>
+          </div>
+        </div>
+      </nav>
+      <button id="mobile-menu-btn" class="lg:hidden text-deep-red focus:outline-none p-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+      <a href="checkout.html" class="ml-2 md:ml-3 lg:ml-4 bg-deep-red text-ivory px-3 md:px-4 py-2 md:py-2.5 rounded-lg font-great-vibes text-base md:text-xl shadow hover:bg-red-700 transition flex items-center gap-2 md:gap-2.5 flex-shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+        <span class="hidden sm:inline">Cart</span>
+      </a>
+    </div>
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-charcoal max-h-96 overflow-y-auto">
+      <a href="index.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Home</a>
+      <a href="shop.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Shop</a>
+      <a href="custom-bouquet.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40 font-bold">Custom Bouquet</a>
+      <a href="checkout.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Checkout</a>
+      <a href="legal.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Legal</a>
+      <a href="admin.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Admin</a>
+      <a href="customer-login.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">Customer</a>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 md:px-6 py-10 max-w-6xl flex-1">
+    <div class="text-center mb-10">
+      <h1 class="text-4xl md:text-5xl font-playfair text-deep-red font-bold">Build Your Own Bouquet</h1>
+      <p class="text-gray-700 mt-2">Customize flowers, wrap, and add-ons. See the price update instantly.</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="lg:col-span-2 space-y-6">
+        <section class="bg-white rounded-2xl shadow-lg p-6">
+          <h2 class="text-2xl font-bold text-gray-800 mb-4">1) Choose Size</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <label class="border-2 border-deep-red/30 rounded-xl p-4 cursor-pointer hover:border-deep-red transition">
+              <input type="radio" name="bouquet-size" value="Petite" data-price="39.99" class="accent-deep-red" checked>
+              <p class="font-bold">Petite</p>
+              <p class="text-sm text-gray-600">6–8 stems</p>
+              <p class="text-deep-red font-bold mt-2">$39.99</p>
+            </label>
+            <label class="border-2 border-deep-red/30 rounded-xl p-4 cursor-pointer hover:border-deep-red transition">
+              <input type="radio" name="bouquet-size" value="Classic" data-price="59.99" class="accent-deep-red">
+              <p class="font-bold">Classic</p>
+              <p class="text-sm text-gray-600">10–12 stems</p>
+              <p class="text-deep-red font-bold mt-2">$59.99</p>
+            </label>
+            <label class="border-2 border-deep-red/30 rounded-xl p-4 cursor-pointer hover:border-deep-red transition">
+              <input type="radio" name="bouquet-size" value="Luxe" data-price="89.99" class="accent-deep-red">
+              <p class="font-bold">Luxe</p>
+              <p class="text-sm text-gray-600">16–20 stems</p>
+              <p class="text-deep-red font-bold mt-2">$89.99</p>
+            </label>
+          </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-lg p-6">
+          <h2 class="text-2xl font-bold text-gray-800 mb-4">2) Flowers & Accents</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Primary Flower</label>
+              <select id="primary-flower" class="w-full border border-gray-300 rounded-lg px-4 py-3">
+                <option value="Red Roses">Red Roses</option>
+                <option value="Pink Roses">Pink Roses</option>
+                <option value="Tulips">Tulips</option>
+                <option value="Lilies">Lilies</option>
+                <option value="Seasonal Mix">Seasonal Mix</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Accent Greenery</label>
+              <select id="accent-flower" class="w-full border border-gray-300 rounded-lg px-4 py-3">
+                <option value="Baby's Breath">Baby's Breath</option>
+                <option value="Eucalyptus">Eucalyptus</option>
+                <option value="Leather Leaf">Leather Leaf</option>
+                <option value="Ruscus">Ruscus</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-lg p-6">
+          <h2 class="text-2xl font-bold text-gray-800 mb-4">3) Wrap & Add-ons</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Wrap Style</label>
+              <select id="wrap-style" class="w-full border border-gray-300 rounded-lg px-4 py-3">
+                <option value="Kraft Wrap">Kraft Wrap</option>
+                <option value="Satin Ribbon">Satin Ribbon</option>
+                <option value="Luxury Hatbox (+$15)" data-extra="15">Luxury Hatbox (+$15)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Add-ons</label>
+              <div class="space-y-2">
+                <label class="flex items-center gap-2 text-sm text-gray-700">
+                  <input type="checkbox" class="addon" data-name="Gourmet Chocolates" data-price="14.99">
+                  Gourmet Chocolates (+$14.99)
+                </label>
+                <label class="flex items-center gap-2 text-sm text-gray-700">
+                  <input type="checkbox" class="addon" data-name="Plush Teddy" data-price="19.99">
+                  Plush Teddy (+$19.99)
+                </label>
+                <label class="flex items-center gap-2 text-sm text-gray-700">
+                  <input type="checkbox" class="addon" data-name="Balloon" data-price="9.99">
+                  Celebration Balloon (+$9.99)
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-lg p-6">
+          <h2 class="text-2xl font-bold text-gray-800 mb-4">4) Quantity & Note</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Quantity</label>
+              <input id="custom-qty" type="number" min="1" value="1" class="w-full border border-gray-300 rounded-lg px-4 py-3">
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Bouquet Note (Optional)</label>
+              <input id="custom-note" type="text" placeholder="e.g., Happy Anniversary!" class="w-full border border-gray-300 rounded-lg px-4 py-3">
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <aside class="bg-white rounded-2xl shadow-lg p-6 h-fit">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Your Custom Bouquet</h2>
+        <div class="space-y-2 text-sm text-gray-700" id="custom-summary"></div>
+        <div class="mt-4 border-t pt-4 flex items-center justify-between text-lg font-bold">
+          <span>Total</span>
+          <span id="custom-total" class="text-deep-red">$0.00</span>
+        </div>
+        <button id="add-custom-to-cart" class="mt-6 w-full bg-deep-red text-white px-6 py-3 rounded-xl font-bold hover:bg-red-700 transition">Add Custom Bouquet to Cart</button>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="bg-charcoal text-ivory py-6 mt-12">
+    <div class="container mx-auto px-6 text-center text-sm">
+      <p class="font-playfair text-lg font-bold">Heart & Petal</p>
+      <p class="text-xs text-champagne-gold">Handcrafted with love • © 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const summaryEl = document.getElementById('custom-summary');
+    const totalEl = document.getElementById('custom-total');
+    const qtyInput = document.getElementById('custom-qty');
+
+    function getSelectedSize() {
+      return document.querySelector('input[name="bouquet-size"]:checked');
+    }
+
+    function calculateCustomTotal() {
+      const sizeInput = getSelectedSize();
+      const basePrice = parseFloat(sizeInput?.dataset.price || 0);
+      const wrapOption = document.getElementById('wrap-style');
+      const wrapExtra = parseFloat(wrapOption?.selectedOptions[0]?.dataset.extra || 0);
+      const addons = Array.from(document.querySelectorAll('.addon:checked'));
+      const addonsTotal = addons.reduce((sum, a) => sum + parseFloat(a.dataset.price || 0), 0);
+      const qty = Math.max(parseInt(qtyInput.value || 1), 1);
+      const total = (basePrice + wrapExtra + addonsTotal) * qty;
+      return { basePrice, wrapExtra, addons, qty, total };
+    }
+
+    function renderSummary() {
+      const primary = document.getElementById('primary-flower').value;
+      const accent = document.getElementById('accent-flower').value;
+      const wrap = document.getElementById('wrap-style').value;
+      const sizeInput = getSelectedSize();
+      const size = sizeInput?.value || 'Custom';
+      const { addons, qty, total } = calculateCustomTotal();
+      const addonNames = addons.map(a => a.dataset.name).join(', ') || 'None';
+
+      summaryEl.innerHTML = `
+        <p><span class="font-semibold">Size:</span> ${size}</p>
+        <p><span class="font-semibold">Primary:</span> ${primary}</p>
+        <p><span class="font-semibold">Accent:</span> ${accent}</p>
+        <p><span class="font-semibold">Wrap:</span> ${wrap}</p>
+        <p><span class="font-semibold">Add-ons:</span> ${addonNames}</p>
+        <p><span class="font-semibold">Qty:</span> ${qty}</p>
+      `;
+      totalEl.textContent = `$${total.toFixed(2)}`;
+    }
+
+    document.querySelectorAll('input[name="bouquet-size"], #primary-flower, #accent-flower, #wrap-style, .addon, #custom-qty')
+      .forEach(el => el.addEventListener('change', renderSummary));
+
+    document.getElementById('add-custom-to-cart').addEventListener('click', () => {
+      const { total, qty } = calculateCustomTotal();
+      const primary = document.getElementById('primary-flower').value;
+      const accent = document.getElementById('accent-flower').value;
+      const wrap = document.getElementById('wrap-style').value;
+      const size = getSelectedSize()?.value || 'Custom';
+      const note = document.getElementById('custom-note').value.trim();
+      const addons = Array.from(document.querySelectorAll('.addon:checked')).map(a => a.dataset.name);
+
+      const customItem = {
+        id: `custom-bouquet-${Date.now()}`,
+        name: `Custom Bouquet (${size})`,
+        price: parseFloat((total / qty).toFixed(2)),
+        quantity: qty,
+        img: 'https://res.cloudinary.com/dij2fdtw4/image/upload/red_roses_bouquet_gxs5w7.jpg',
+        variant: `${primary} + ${accent} • ${wrap}`,
+        giftNote: note,
+        customizations: {
+          size,
+          primary,
+          accent,
+          wrap,
+          addons
+        }
+      };
+
+      if (typeof addToCart === 'function') {
+        addToCart(customItem);
+        if (typeof showSuccess === 'function') {
+          showSuccess('Custom bouquet added to cart!', customItem.img);
+        }
+      }
+    });
+
+    renderSummary();
+  </script>
+</body>
+</html>

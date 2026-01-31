@@ -81,7 +81,7 @@
   <!-- Update login button to show logout when admin logged in -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const adminLoggedIn = localStorage.getItem('hp_admin_logged_in') === 'true';
+      const adminLoggedIn = localStorage.getItem('hp_crm_admin_logged_in') === 'true';
       const customerEmail = localStorage.getItem('hp_customer_email');
       const btn = document.querySelector('nav button');
       const dropdown = btn?.nextElementSibling;
@@ -98,8 +98,7 @@
     });
     
     function logoutAdmin() {
-      localStorage.removeItem('hp_admin_logged_in');
-      localStorage.removeItem('hp_admin_password');
+      localStorage.removeItem('hp_crm_admin_logged_in');
       window.location.href = 'admin.html';
     }
     
