@@ -229,6 +229,19 @@
     // Admin navigation
     renderAdminNav(desktopNav, mobileMenu) {
       if (desktopNav) {
+        const existingCrmLink = desktopNav.querySelector('a[href="admin.html"]');
+        if (!existingCrmLink) {
+          const crmLink = document.createElement('a');
+          crmLink.href = 'admin.html';
+          crmLink.className = 'hover:text-deep-red transition';
+          crmLink.textContent = 'CRM';
+          const authGroup = desktopNav.querySelector('.relative.group');
+          if (authGroup) {
+            desktopNav.insertBefore(crmLink, authGroup);
+          } else {
+            desktopNav.appendChild(crmLink);
+          }
+        }
         const authButton = desktopNav.querySelector('.relative.group');
         if (authButton) {
           authButton.innerHTML = `
@@ -248,6 +261,15 @@
           if (logoutBtn) {
             logoutBtn.addEventListener('click', () => this.handleLogout());
           }
+        }
+      }
+
+      if (mobileMenu) {
+        const existingMobileCrm = mobileMenu.querySelector('a[href="admin.html"]');
+        if (!existingMobileCrm) {
+          mobileMenu.innerHTML += `
+            <a href="admin.html" class="block px-4 py-2 text-sm hover:bg-blush-pink/40">CRM Dashboard</a>
+          `;
         }
       }
     }
