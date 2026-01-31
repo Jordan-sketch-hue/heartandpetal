@@ -67,6 +67,13 @@ function performSearch() {
   
   // Show/hide no results message
   updateSearchResults(visibleCount, query);
+
+  // Fire Google Shopping App Search conversion event
+  if (typeof gtag === 'function') {
+    gtag('event', 'conversion', {
+      'send_to': 'AW-11161550773/fdyvCNfA584YELX_nsop'
+    });
+  }
 }
 
 function updateSearchResults(count, query) {
