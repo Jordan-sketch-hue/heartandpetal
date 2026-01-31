@@ -31,16 +31,17 @@ class CartReminderSystem {
   }
 
   trackCartActivity() {
-    const originalAddToCart = window.addToCart;
-    if (typeof originalAddToCart === 'function') {
-      window.addToCart = (...args) => {
-        const result = originalAddToCart.apply(this, args);
-        if (result) {
-          this.onItemAddedToCart();
-        }
-        return result;
-      };
-    }
+    // Listen for cart updates via storage event or direct tracking
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'cart') {
+        this.onItemAddedToCart();
+      }
+    });
+    
+    // Also track via custom event
+    document.addEventListener('cartUpdated', () => {
+      this.onItemAddedToCart();
+    });
   }
 
   trackProductViewing() {
@@ -52,14 +53,22 @@ class CartReminderSystem {
       this.currentProductId = productId;
       this.productViewStartTime = Date.now();
       
-      // Store in localStorage
-      localStorage.setItem('lastViewedProduct', JSON.stringify({
-        id: productId,
-        timestamp: Date.now(),
-        name: document.getElementById('product-name')?.textContent || 'Product',
-        price: document.getElementById('product-price')?.textContent || '$0',
-        img: document.querySelector('#carousel-image')?.src || ''
-      }));
+      // Wait for product details to load before storing
+      setTimeout(() => {
+        const productName = document.getElementById('product-name')?.textContent;
+        const productPrice = document.getElementById('product-price')?.textContent;
+        const productImg = document.querySelector('#carousel-image')?.src;
+        
+        if (productName && productPrice) {
+          localStorage.setItem('lastViewedProduct', JSON.stringify({
+            id: productId,
+            timestamp: Date.now(),
+            name: productName,
+            price: productPrice,
+            img: productImg || ''
+          }));
+        }
+      }, 500);
     }
   }
 

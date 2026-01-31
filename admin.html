@@ -78,6 +78,38 @@
     </div>
   </header>
 
+  <!-- Update login button to show logout when admin logged in -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const adminLoggedIn = localStorage.getItem('hp_admin_logged_in') === 'true';
+      const customerEmail = localStorage.getItem('hp_customer_email');
+      const btn = document.querySelector('nav button');
+      const dropdown = btn?.nextElementSibling;
+
+      if (adminLoggedIn && btn && dropdown) {
+        btn.textContent = '👤 Logout Admin';
+        btn.classList.add('text-green-600', 'font-bold');
+        dropdown.innerHTML = '<a href="admin.html" class="block px-4 py-2 hover:bg-blush-pink/40 text-sm">CRM Dashboard</a><button onclick="logoutAdmin()" class="block w-full text-left px-4 py-2 hover:bg-blush-pink/40 text-sm text-red-600 font-bold">Logout</button>';
+      } else if (customerEmail && btn && dropdown) {
+        btn.textContent = `👤 ${customerEmail.split('@')[0]}`;
+        btn.classList.add('text-blue-600', 'font-bold');
+        dropdown.innerHTML = '<a href="profile.html" class="block px-4 py-2 hover:bg-blush-pink/40 text-sm">My Profile</a><button onclick="logoutCustomer()" class="block w-full text-left px-4 py-2 hover:bg-blush-pink/40 text-sm text-red-600 font-bold">Logout</button>';
+      }
+    });
+    
+    function logoutAdmin() {
+      localStorage.removeItem('hp_admin_logged_in');
+      localStorage.removeItem('hp_admin_password');
+      window.location.href = 'admin.html';
+    }
+    
+    function logoutCustomer() {
+      localStorage.removeItem('hp_customer_email');
+      localStorage.removeItem('hp_customer_name');
+      window.location.href = 'customer-login.html';
+    }
+  </script>
+
   <main class="container mx-auto px-6 py-12 max-w-4xl">
     <div id="crm-login" class="max-w-md mx-auto bg-white rounded-lg shadow-lg p-8 mt-12">
       <h1 class="text-3xl font-playfair font-bold mb-6 text-center">Admin Login</h1>
@@ -651,7 +683,7 @@
 
       // Update top pages
       const topPagesDiv = document.getElementById('top-pages');
-      if (stats.topPages && stats.topPages.length > 0) {
+      if (topPagesDiv && stats.topPages && stats.topPages.length > 0) {
         topPagesDiv.innerHTML = stats.topPages.map(([page, count]) => `
           <div class="flex items-center justify-between py-2 border-b border-gray-200">
             <span class="text-sm text-gray-700">${page}</span>
@@ -857,7 +889,15 @@
       if (dashboard && !dashboard.classList.contains('hidden')) {
         refreshAnalytics();
       }
-    }, 1000);
+    }, 1500);
+    
+    // Also refresh when window gains focus
+    window.addEventListener('focus', () => {
+      const dashboard = document.getElementById('crm-dashboard');
+      if (dashboard && !dashboard.classList.contains('hidden')) {
+        refreshAnalytics();
+      }
+    });
   </script>
 </body>
 </html>

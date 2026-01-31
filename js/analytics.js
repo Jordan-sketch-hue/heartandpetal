@@ -17,7 +17,17 @@ class AnalyticsSystem {
     const stored = localStorage.getItem(ANALYTICS_KEY);
     if (stored) {
       try {
-        return JSON.parse(stored);
+        const data = JSON.parse(stored);
+        // Convert uniqueVisitors array back to Set
+        if (Array.isArray(data.uniqueVisitors)) {
+          data.uniqueVisitors = new Set(data.uniqueVisitors);
+        } else if (!data.uniqueVisitors) {
+          data.uniqueVisitors = new Set();
+        }
+        // Ensure all required fields exist
+        data.productViews = data.productViews || {};
+        data.cartActivity = data.cartActivity || [];
+        return data;
       } catch (e) {
         console.error('Failed to parse analytics data:', e);
       }
@@ -381,6 +391,8 @@ if (typeof window.addToCart === 'function') {
     const result = originalAddToCart.call(this, item);
     if (result && analytics) {
       analytics.trackCartActivity('add', item.id, item.name, item.price, item.quantity || 1);
+      // Dispatch custom event for other systems
+      document.dispatchEvent(new CustomEvent('cartUpdated', { detail: { item, action: 'add' } }));
     }
     return result;
   };
